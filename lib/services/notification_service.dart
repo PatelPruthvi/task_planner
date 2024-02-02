@@ -4,8 +4,11 @@ import 'package:timezone/timezone.dart' as tz;
 class NotificationService {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
   Future<void> initNotifService() async {
+    notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()!
+        .requestNotificationsPermission();
     AndroidInitializationSettings androidInitializationSettings =
         const AndroidInitializationSettings('todo_notif_logo');
     var initializationSettingIos = DarwinInitializationSettings(

@@ -10,7 +10,7 @@ class Themes {
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: AppColors.mainColor),
       appBarTheme: AppBarTheme(
-          centerTitle: true,
+          centerTitle: false,
           backgroundColor: AppColors.mainColor,
           iconTheme: const IconThemeData(color: AppColors.whiteColor),
           elevation: 0.0,
@@ -25,7 +25,7 @@ class Themes {
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: AppColors.mainColor),
       appBarTheme: AppBarTheme(
-          centerTitle: true,
+          centerTitle: false,
           backgroundColor: AppColors.mainColor,
           iconTheme: const IconThemeData(color: AppColors.whiteColor),
           elevation: 0.0,

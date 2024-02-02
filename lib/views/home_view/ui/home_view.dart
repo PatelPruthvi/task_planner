@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_planner/resources/components/calendar/calendar_montly.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
+import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/task_plan_view/bloc/task_plan_bloc.dart';
 import 'package:task_planner/views/task_plan_view/ui/task_plan_view.dart';
@@ -31,6 +32,26 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text("Task Manager",
               style: Theme.of(context).appBarTheme.titleTextStyle),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: () async {
+                  DateTime? dateTime = await showDatePicker(
+                      context: context,
+                      firstDate: Dates.startDay,
+                      lastDate: Dates.endDay,
+                      initialDate: Dates.today);
+                  homeBloc.add(
+                      HomeCalendarDateTappedEvent(selectedDate: dateTime!));
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.calendar_month_outlined),
+                )),
+          )
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
