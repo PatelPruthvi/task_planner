@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:task_planner/models/enum_models.dart';
 import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/resources/algorithm/sort_algo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
-import 'package:task_planner/resources/components/main_cal.dart';
-
+import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
+import 'package:task_planner/services/notification_service.dart';
+import 'package:task_planner/utils/dates/date_time.dart';
 import '../../../database/SQL/sql_helper.dart';
 import '../../../resources/components/calendar/calendar_montly.dart';
 
@@ -45,15 +47,25 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   FutureOr<void> toDoAddTaskClickedEvent(
       ToDoAddTaskClickedEvent event, Emitter<ToDoState> emit) async {
-    DateTime dateTime = HomeCal.getSelectedDateTime();
+    DateTime dateTime = CalendarView.getSelectedDateTime();
     String date = dateTime.toString().substring(0, 10);
     ToDo todoItem = ToDo(
         title: event.title,
         date: date,
         isCompleted: false,
         completionTime: event.completionTime,
-        category: event.category);
-    await ToDoSQLhelper.createItem(todoItem);
+        category: event.category,
+        reminder: event.reminderTime);
+    DateTime notifDateTime =
+        Dates.getDateTimeFromDateAndTime(date, event.completionTime);
+
+    int id = await ToDoSQLhelper.createItem(todoItem);
+    await NotificationService().scheduleNotif(
+        id: id,
+        title: event.title,
+        body: "Did you complete your task?",
+        scheduledNotifDateTime:
+            Models.getExactDateTimeForNotif(notifDateTime, event.reminderTime));
     emit(ToDoCloseSheetActionState());
   }
 
@@ -78,6 +90,7 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
       ToDoIthItemDeletedButtonClickedEvent event,
       Emitter<ToDoState> emit) async {
     await ToDoSQLhelper.deleteItem(event.todoItem);
+    await NotificationService().cancelNotif(id: event.todoItem.id!);
     List<ToDo> todoItems = await fetchToDoList();
     List<ToDo> todoPending = [];
     List<ToDo> toDoCompleted = [];
@@ -98,13 +111,28 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   FutureOr<void> toDoIthItemUpdateClickedEvent(
       ToDoIthItemUpdateClickedEvent event, Emitter<ToDoState> emit) async {
+    String reminderVal = ReminderDropdown.getReminderVal();
     ToDo todoItem = ToDo(
-        id: event.todoItem.id,
-        title: event.title,
-        date: event.todoItem.date,
-        isCompleted: event.todoItem.isCompleted,
-        completionTime: event.time,
-        category: CategoryDropDownList.getCategoryDropDownVal());
+      id: event.todoItem.id,
+      title: event.title,
+      date: event.todoItem.date,
+      isCompleted: event.todoItem.isCompleted,
+      completionTime: event.time,
+      category: CategoryDropDownList.getCategoryDropDownVal(),
+      reminder: reminderVal,
+    );
+    if (todoItem != event.todoItem) {
+      await NotificationService().cancelNotif(id: todoItem.id!);
+      DateTime notifDateTime =
+          Dates.getDateTimeFromDateAndTime(event.todoItem.date!, event.time);
+
+      await NotificationService().scheduleNotif(
+          id: event.todoItem.id!,
+          title: event.title,
+          body: "Did you complete your task?",
+          scheduledNotifDateTime:
+              Models.getExactDateTimeForNotif(notifDateTime, reminderVal));
+    }
 
     await ToDoSQLhelper.updateItem(todoItem);
     emit(ToDoCloseSheetActionState());
@@ -112,7 +140,6 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   Future<List<ToDo>> fetchToDoList() async {
     List<ToDo> todoItems = [];
-    // String date = HomeCal.getSelectedDateTime().toString().substring(0, 10);
     String date =
         CalendarView.getSelectedDateTime().toString().substring(0, 10);
     var response = await ToDoSQLhelper.getListByDay(date);

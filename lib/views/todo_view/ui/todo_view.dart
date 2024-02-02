@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_planner/models/categories_list.dart';
+import 'package:task_planner/models/enum_models.dart';
 import 'package:task_planner/resources/button_demo.dart';
 import 'package:task_planner/resources/components/bottom_sheets/bottom_sheet_planner.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
+import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
 import 'package:task_planner/resources/components/to_do_list.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
@@ -32,6 +33,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
   @override
   void initState() {
     widget.toDoBloc.add(ToDoInitialEvent());
+
     super.initState();
   }
 
@@ -117,19 +119,22 @@ class _ToDoScreenState extends State<ToDoScreen> {
           child: const Icon(Icons.add_outlined, color: AppColors.whiteColor),
           onPressed: () {
             BottomSheets.getBottomSheetForToDoList(
-                context,
-                todoController,
-                timeC,
-                timeOfDay,
-                formKey,
-                widget.toDoBloc,
-                categories[0],
-                Buttons.getRectangleButton(context, () {
+                context: context,
+                controller: todoController,
+                timeC: timeC,
+                pickedTime: timeOfDay,
+                formKey: formKey,
+                toDoBloc: widget.toDoBloc,
+                initialDropdownVal: categories[0],
+                initialReminderValue: Models.getReminder(Reminder.sameTime),
+                elevatedButton: Buttons.getRectangleButton(context, () {
                   if (formKey.currentState?.validate() == true) {
                     widget.toDoBloc.add(ToDoAddTaskClickedEvent(
-                        todoController.text,
-                        CategoryDropDownList.getCategoryDropDownVal(),
-                        timeC.text));
+                      todoController.text,
+                      CategoryDropDownList.getCategoryDropDownVal(),
+                      timeC.text,
+                      ReminderDropdown.getReminderVal(),
+                    ));
                   }
                 }, "Done"));
           }),

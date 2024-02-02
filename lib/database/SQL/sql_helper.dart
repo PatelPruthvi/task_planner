@@ -31,16 +31,18 @@ class ToDoSQLhelper {
         date TEXT,
         isCompleted BOOL,
         completionTime TEXT,
-        category TEXT
+        category TEXT,
+        reminder TEXT
         )""");
   }
 
   // to add a new item to db, conflict algo -> if conflict arises what would be the reaction
-  static Future<void> createItem(ToDo todoItem) async {
+  static Future<int> createItem(ToDo todoItem) async {
     final db = await SQLHelper.db();
     final data = todoItem.toJson();
-    await db.insert(todoTableName, data,
+    int id = await db.insert(todoTableName, data,
         conflictAlgorithm: ConflictAlgorithm.replace);
+    return id;
   }
 
   // the listview will be decoded by this

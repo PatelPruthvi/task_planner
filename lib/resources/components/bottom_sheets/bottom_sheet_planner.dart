@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:task_planner/resources/button_demo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/color_drop_down.dart';
+import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
 import 'package:task_planner/views/task_plan_view/bloc/task_plan_bloc.dart';
 import 'package:task_planner/views/todo_view/bloc/to_do_bloc.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/fonts/font_size.dart';
 
 class BottomSheets {
-  static getBottomSheetForToDoList(
-      BuildContext context,
-      TextEditingController controller,
-      TextEditingController timeC,
-      TimeOfDay? pickedTime,
-      GlobalKey<FormState> formKey,
-      ToDoBloc toDoBloc,
-      String initialDropdownVal,
-      ElevatedButton elevatedButton) {
+  static getBottomSheetForToDoList({
+    required BuildContext context,
+    required TextEditingController controller,
+    required TextEditingController timeC,
+    required TimeOfDay? pickedTime,
+    required GlobalKey<FormState> formKey,
+    required ToDoBloc toDoBloc,
+    required String initialDropdownVal,
+    required String initialReminderValue,
+    required ElevatedButton elevatedButton,
+  }) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -52,6 +55,19 @@ class BottomSheets {
                                   categoryVal: initialDropdownVal),
                             ],
                           )),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Text("Reminder  ",
+                                style:
+                                    FontSize.getTextFieldTitleStyle(context)),
+                            const SizedBox(width: 20),
+                            ReminderDropdown(
+                                reminderValue: initialReminderValue)
+                          ],
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

@@ -52,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
                     Center(
                       child: Buttons.getRectangleButton(context, () async {
                         await authManager.signInAnonymously().then((value) {
-                          Navigator.pop(context);
+                          Navigator.popUntil(context, (route) => route.isFirst);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

@@ -6,6 +6,7 @@ class ToDo {
   bool? isCompleted;
   String? category;
   String? completionTime;
+  String? reminder;
 
   ToDo(
       {this.id,
@@ -13,7 +14,8 @@ class ToDo {
       this.date,
       this.isCompleted,
       this.category,
-      required this.completionTime});
+      this.completionTime,
+      this.reminder});
 
   ToDo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -22,6 +24,7 @@ class ToDo {
     isCompleted = json['isCompleted'] == 1 ? true : false;
     category = json['category'];
     completionTime = json['completionTime'];
+    reminder = json['reminder'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +35,7 @@ class ToDo {
     data['isCompleted'] = isCompleted == true ? 1 : 0;
     data['category'] = category;
     data['completionTime'] = completionTime;
+    data['reminder'] = reminder;
     return data;
   }
 }

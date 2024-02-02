@@ -62,14 +62,15 @@ class ToDoListView extends StatelessWidget {
                     nameC.text = todoItems[index].title!;
                     timeC.text = todoItems[index].completionTime!;
                     BottomSheets.getBottomSheetForToDoList(
-                        context,
-                        nameC,
-                        timeC,
-                        timeOfDay,
-                        formKey,
-                        toDoBloc,
-                        todoItems[index].category!,
-                        Buttons.getRectangleButton(context, () {
+                        context: context,
+                        controller: nameC,
+                        timeC: timeC,
+                        pickedTime: timeOfDay,
+                        formKey: formKey,
+                        toDoBloc: toDoBloc,
+                        initialDropdownVal: todoItems[index].category!,
+                        initialReminderValue: todoItems[index].reminder!,
+                        elevatedButton: Buttons.getRectangleButton(context, () {
                           if (formKey.currentState?.validate() == true) {
                             toDoBloc.add(ToDoIthItemUpdateClickedEvent(
                               title: nameC.text,

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:task_planner/resources/components/calendar/calendar_montly.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
-import 'package:task_planner/utils/dates/date_time.dart';
-import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/task_plan_view/bloc/task_plan_bloc.dart';
 import 'package:task_planner/views/task_plan_view/ui/task_plan_view.dart';
@@ -27,47 +24,55 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
+      appBar: AppBar(
+        toolbarHeight: Dimensions.getAppBarHeight(context),
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Task Manager",
+              style: Theme.of(context).appBarTheme.titleTextStyle),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            color: AppColors.mainColor,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(height: Dimensions.getSafeAreaHeight(context)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Task Manager",
-                        style: Theme.of(context).appBarTheme.titleTextStyle,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          if (CalendarView.getSelectedDateTime()
-                                  .compareTo(Dates.today) !=
-                              0) {
-                            Navigator.popUntil(
-                                context, (route) => route.isFirst);
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeScreen()));
-                          }
-                        },
-                        child: Text(DateFormat("d MMM").format(Dates.today),
-                            style: FontSize.getMediumWhiteFontStyle(context)),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   color: AppColors.mainColor,
+          //   child: const Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       // Container(height: Dimensions.getSafeAreaHeight(context)),
+          //       // Padding(
+          //       //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //       //   child: Row(
+          //       //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       //     children: [
+          //       //       Text(
+          //       //         "Task Manager",
+          //       //         style: Theme.of(context).appBarTheme.titleTextStyle,
+          //       //       ),
+          //       //       InkWell(
+          //       //         onTap: () {
+          //       //           if (CalendarView.getSelectedDateTime()
+          //       //                   .compareTo(Dates.today) !=
+          //       //               0) {
+          //       //             Navigator.popUntil(
+          //       //                 context, (route) => route.isFirst);
+          //       //             Navigator.pushReplacement(
+          //       //                 context,
+          //       //                 MaterialPageRoute(
+          //       //                     builder: (context) => const HomeScreen()));
+          //       //           }
+          //       //         },
+          //       //         child: Text(DateFormat("d MMM").format(Dates.today),
+          //       //             style: FontSize.getMediumWhiteFontStyle(context)),
+          //       //       )
+          //       //     ],
+          //       //   ),
+          //       // ),
+          //     ],
+          //   ),
+          // ),
           Container(
               color: AppColors.mainColor,
               child: CalendarView(

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:task_planner/resources/components/bottom_sheets/bottom_sheet_planner.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
@@ -214,9 +213,6 @@ class _TaskPlanViewState extends State<TaskPlanView> {
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            fontFamily: GoogleFonts
-                                                                    .varelaRound()
-                                                                .fontFamily,
                                                             fontSize: FontSize
                                                                 .getAppBarTitleFontSize(
                                                                     context)),
@@ -230,9 +226,6 @@ class _TaskPlanViewState extends State<TaskPlanView> {
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
-                                                            fontFamily: GoogleFonts
-                                                                    .varelaRound()
-                                                                .fontFamily,
                                                             fontSize: FontSize
                                                                 .getTaskPlannerDescriptionFontSize(
                                                                     context)),

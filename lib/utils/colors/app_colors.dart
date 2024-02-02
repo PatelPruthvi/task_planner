@@ -3,11 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const mainColor = Color(0xFF075e54);
+  static const mainColor = Color(0xFF7743db);
   static const calendarTileColor = Color.fromARGB(255, 1, 59, 52);
   static const screenColor = Color.fromARGB(255, 231, 236, 236);
   static const whiteColor = Colors.white;
   static Color redColor = Colors.red.shade600;
+  static Color greyTileColor = Colors.grey.withAlpha(200);
   static const blackColor = Colors.black;
   static Color getRandomColorForTaskPlanner() {
     var generatedColor = Random().nextInt(Colors.primaries.length);

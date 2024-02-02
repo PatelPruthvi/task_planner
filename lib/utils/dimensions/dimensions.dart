@@ -16,7 +16,9 @@ class Dimensions {
   static double getTabBarViewHeight(BuildContext context) =>
       MediaQuery.of(context).size.height * 0.65;
   static double getSafeAreaHeight(BuildContext context) =>
-      Dimensions.getScreenHeight(context) * 0.06;
+      Dimensions.getScreenHeight(context) * 0.05;
+  static double getAppBarHeight(BuildContext context) =>
+      Dimensions.getScreenHeight(context) * 0.05;
   static double getTaskPlannerTileWidth(BuildContext context) =>
       MediaQuery.of(context).size.width * 0.85;
   static double getToDoBottomSheetHeight(BuildContext context) =>

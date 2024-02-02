@@ -1,7 +1,6 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/task_plan_view/bloc/task_plan_bloc.dart';
 import '../../../utils/colors/app_colors.dart';
@@ -66,39 +65,33 @@ class _CalendarViewState extends State<CalendarView> {
                     width: Dimensions.getCalendarDayWidth(context),
                     dayStructure: DayStructure.dayStrDayNum,
                     todayStyle: DayStyle(
-                        dayStrStyle: TextStyle(
-                            fontFamily: GoogleFonts.varelaRound().fontFamily,
+                        dayStrStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.redColor),
+                            color: AppColors.mainColor),
                         dayNumStyle: TextStyle(
-                            fontFamily: GoogleFonts.varelaRound().fontFamily,
                             fontWeight: FontWeight.bold,
                             fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: AppColors.redColor),
+                            color: AppColors.mainColor),
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.redColor),
+                            border: Border.all(
+                                color: AppColors.blackColor, width: 2),
                             color: AppColors.whiteColor,
                             borderRadius: BorderRadius.circular(10))),
                     activeDayStyle: DayStyle(
-                        dayStrStyle: TextStyle(
-                            fontFamily: GoogleFonts.varelaRound().fontFamily,
+                        dayStrStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: AppColors.whiteColor),
                         dayNumStyle: TextStyle(
-                            fontFamily: GoogleFonts.varelaRound().fontFamily,
-                            fontWeight: FontWeight.bold,
                             fontSize: FontSize.getAppBarTitleFontSize(context),
                             color: AppColors.whiteColor),
                         decoration: BoxDecoration(
                             border: Border.all(color: AppColors.screenColor),
-                            color: AppColors.calendarTileColor,
+                            color: AppColors.greyTileColor,
                             borderRadius: BorderRadius.circular(10))),
                     inactiveDayStyle: DayStyle(
-                        dayStrStyle: TextStyle(
-                            fontFamily: GoogleFonts.varelaRound().fontFamily,
-                            fontWeight: FontWeight.bold),
+                        dayStrStyle:
+                            const TextStyle(fontWeight: FontWeight.bold),
                         dayNumStyle: TextStyle(
-                          fontFamily: GoogleFonts.varelaRound().fontFamily,
                           fontWeight: FontWeight.bold,
                           fontSize: FontSize.getAppBarTitleFontSize(context),
                         ),
