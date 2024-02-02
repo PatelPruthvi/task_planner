@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "151519546137",
+    "firebase_url": "https://task-planner-agevole-default-rtdb.firebaseio.com",
+    "project_id": "task-planner-agevole",
+    "storage_bucket": "task-planner-agevole.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151519546137:android:b04f5f0b243891295e1388",
+        "android_client_info": {
+          "package_name": "com.agevole.taskplanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWVwQjVVMMjV3Q0GeZgA0FYKa2whcQRqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

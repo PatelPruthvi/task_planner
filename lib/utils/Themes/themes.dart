@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../colors/app_colors.dart';
+import '../fonts/font_size.dart';
+
+class Themes {
+  static getLightModeTheme(BuildContext context) => ThemeData(
+      iconTheme: const IconThemeData(color: AppColors.whiteColor),
+      canvasColor: AppColors.screenColor,
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: AppColors.mainColor),
+      appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.mainColor,
+          iconTheme: const IconThemeData(color: AppColors.whiteColor),
+          elevation: 0.0,
+          titleSpacing: 1.3,
+          titleTextStyle: TextStyle(
+              fontFamily: GoogleFonts.varelaRound().fontFamily,
+              color: AppColors.whiteColor,
+              fontSize: FontSize.getAppBarTitleFontSize(context),
+              fontWeight: FontWeight.w500)));
+  static getDarkModeTheme(BuildContext context) => ThemeData(
+      iconTheme: const IconThemeData(color: AppColors.whiteColor),
+      canvasColor: AppColors.screenColor,
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: AppColors.mainColor),
+      appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.mainColor,
+          iconTheme: const IconThemeData(color: AppColors.whiteColor),
+          elevation: 0.0,
+          titleSpacing: 1.3,
+          titleTextStyle: TextStyle(
+              fontFamily: GoogleFonts.varelaRound().fontFamily,
+              color: AppColors.whiteColor,
+              fontSize: FontSize.getAppBarTitleFontSize(context),
+              fontWeight: FontWeight.w500)));
+}
