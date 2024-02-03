@@ -12,13 +12,13 @@ class FontSize {
   static getDescFontStyle(BuildContext context) =>
       TextStyle(fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));
   static getTextFieldTitleStyle(BuildContext context) => TextStyle(
-      color: AppColors.mainColor,
+      color: AppColors.kmainColor,
       fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));
   static getButtonTextStyle(BuildContext context) => TextStyle(
-      color: AppColors.whiteColor,
+      color: AppColors.kwhiteColor,
       fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));
   static getToDoItemTileTextStyle(BuildContext context) => TextStyle(
-      color: AppColors.blackColor,
+      color: AppColors.kblackColor,
       fontWeight: FontWeight.w500,
       fontSize: FontSize.getMediumFontSize(context));
   static getMEdiumBlackFontstyle(BuildContext context) =>
@@ -29,5 +29,5 @@ class FontSize {
   static TextStyle getMediumWhiteFontStyle(BuildContext context) => TextStyle(
       fontSize: FontSize.getMediumFontSize(context),
       fontWeight: FontWeight.w500,
-      color: AppColors.whiteColor);
+      color: AppColors.kwhiteColor);
 }

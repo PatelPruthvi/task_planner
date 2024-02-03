@@ -1,19 +1,20 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const mainColor = Color(0xFF7743db);
-  static const calendarTileColor = Color.fromARGB(255, 1, 59, 52);
-  static const screenColor = Color.fromARGB(255, 231, 236, 236);
-  static const whiteColor = Colors.white;
-  static Color redColor = Colors.red.shade600;
-  static Color greyTileColor = Colors.grey.withAlpha(200);
-  static const blackColor = Colors.black;
-  static Color getRandomColorForTaskPlanner() {
-    var generatedColor = Random().nextInt(Colors.primaries.length);
-    return Colors.primaries[generatedColor];
-  }
+  // static const mainColor = Color(0xFF7743db);
+
+  static const kcalendarTileColor = Color.fromARGB(255, 1, 59, 52);
+  static const kscreenColor = Color.fromRGBO(226, 227, 246, 1);
+  static const kmainColor = kblue600;
+  static const Color kblue600 = Color.fromRGBO(38, 44, 107, 1);
+  static const Color klightBlueColor = Color.fromRGBO(39, 161, 217, 1);
+  static const Color kmediumBlueColor = Color.fromRGBO(0, 122, 255, 1);
+  static const Color kredColor = Color.fromRGBO(255, 7, 7, 1);
+  static const Color kblackColor = Colors.black;
+  static const Color kwhiteColor = Colors.white;
+  static const Color kdarkBlue1 = Color.fromRGBO(32, 29, 65, .65);
+  static const Color kdarkBlue2 = Color.fromRGBO(32, 29, 65, 1);
+  static const Color korangeColor = Colors.orange;
 }
 
 List<int> appHexColorCodes = [

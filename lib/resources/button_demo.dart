@@ -9,7 +9,7 @@ class Buttons {
       ElevatedButton(
           style: ButtonStyle(
             backgroundColor:
-                const MaterialStatePropertyAll(AppColors.mainColor),
+                const MaterialStatePropertyAll(AppColors.kmainColor),
             shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
           ),

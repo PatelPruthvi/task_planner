@@ -7,7 +7,7 @@ import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/resources/algorithm/sort_algo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
-import 'package:task_planner/resources/components/main_cal.dart';
+import 'package:task_planner/resources/components/calendar/main_cal.dart';
 import 'package:task_planner/services/notification_service.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import '../../../database/SQL/sql_helper.dart';
@@ -81,6 +81,24 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
       ToDoIthItemCheckBoxClickedEvent event, Emitter<ToDoState> emit) async {
     event.todoItem.isCompleted = !event.todoItem.isCompleted!;
     await ToDoSQLhelper.updateItem(event.todoItem);
+    if (event.todoItem.isCompleted == true) {
+      await NotificationService().cancelNotif(id: event.todoItem.id!);
+    } else {
+      try {
+        DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
+            event.todoItem.date!, event.todoItem.completionTime!);
+        await NotificationService().scheduleNotif(
+            id: event.todoItem.id!,
+            title: event.todoItem.title,
+            body: "Did you complete your task?",
+            scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+                notifDateTime, event.todoItem.reminder!));
+      } catch (e) {
+        if (kDebugMode) {
+          print(e.toString());
+        }
+      }
+    }
     List<ToDo> todoItems = await fetchToDoList();
     List<ToDo> todoPending = [];
     List<ToDo> toDoCompleted = [];

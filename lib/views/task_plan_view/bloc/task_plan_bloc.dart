@@ -7,7 +7,7 @@ import 'package:task_planner/models/task_planner_model.dart';
 import 'package:task_planner/resources/algorithm/sort_algo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/color_drop_down.dart';
-import '../../../resources/components/main_cal.dart';
+import '../../../resources/components/calendar/main_cal.dart';
 part 'task_plan_event.dart';
 part 'task_plan_state.dart';
 

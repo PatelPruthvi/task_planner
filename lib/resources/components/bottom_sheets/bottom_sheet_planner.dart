@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:task_planner/resources/button_demo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/color_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
+import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/views/task_plan_view/bloc/task_plan_bloc.dart';
 import 'package:task_planner/views/todo_view/bloc/to_do_bloc.dart';
 import '../../../utils/colors/app_colors.dart';
@@ -36,13 +39,10 @@ class BottomSheets {
                       Text("To Do Task",
                           style: FontSize.getMEdiumBlackFontstyle(context)),
                       getTextField(context, () => null, controller, "Add Task"),
-                      getTextField(context, () async {
-                        pickedTime = await showTimePicker(
-                            context: context, initialTime: TimeOfDay.now());
-                        setState(() {
-                          timeC.text = pickedTime!.format(context);
-                        });
-                      }, timeC, "Start Time"),
+                      getTimeRetrieverTextField(
+                          context: context,
+                          controller: timeC,
+                          labelText: "Completion Time"),
                       Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Row(
@@ -87,19 +87,19 @@ class BottomSheets {
   }
 
   static getBottomSheetForPlanner(
-          BuildContext context,
-          TextEditingController nameC,
-          TextEditingController startTimeC,
-          TextEditingController endTimeC,
-          TextEditingController descC,
-          GlobalKey<FormState> formKey,
-          TimeOfDay? pickedStartTime,
-          TimeOfDay? pickedEndTime,
-          TaskPlanBloc taskPlanBloc,
-          ElevatedButton bottomSheetButton,
-          String bottomSheetTitle,
-          String initialDropdownValue,
-          int hexColorCode) =>
+          {required BuildContext context,
+          required TextEditingController nameC,
+          required TextEditingController startTimeC,
+          required TextEditingController endTimeC,
+          required TextEditingController descC,
+          required GlobalKey<FormState> formKey,
+          required TimeOfDay? pickedStartTime,
+          required TimeOfDay? pickedEndTime,
+          required TaskPlanBloc taskPlanBloc,
+          required ElevatedButton bottomSheetButton,
+          required String bottomSheetTitle,
+          required String initialDropdownValue,
+          required int hexColorCode}) =>
       showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -121,30 +121,22 @@ class BottomSheets {
                                 .appBarTheme
                                 .titleTextStyle!
                                 .copyWith(
-                                    color: AppColors.mainColor,
+                                    color: AppColors.kmainColor,
                                     fontWeight: FontWeight.w600)),
                       ),
                       getTextField(context, () {}, nameC, "Task Name"),
                       Row(
                         children: [
                           Expanded(
-                              child: getTextField(context, () async {
-                            pickedStartTime = await showTimePicker(
-                                context: context, initialTime: TimeOfDay.now());
-                            setState(() {
-                              startTimeC.text =
-                                  pickedStartTime!.format(context);
-                            });
-                          }, startTimeC, "Start Time")),
+                              child: getTimeRetrieverTextField(
+                                  context: context,
+                                  controller: startTimeC,
+                                  labelText: "Start Time")),
                           Expanded(
-                              child: getTextField(context, () async {
-                            pickedEndTime = await showTimePicker(
-                                context: context, initialTime: TimeOfDay.now());
-
-                            setState(() {
-                              endTimeC.text = pickedEndTime!.format(context);
-                            });
-                          }, endTimeC, "End Time")),
+                              child: getTimeRetrieverTextField(
+                                  context: context,
+                                  controller: endTimeC,
+                                  labelText: "End Time"))
                         ],
                       ),
                       getTextField(context, () {}, descC, "Description"),
@@ -188,28 +180,77 @@ class BottomSheets {
         endTimeC.clear();
         descC.clear();
       });
-}
 
-Widget getTextField(BuildContext context, Function() onTap,
-        TextEditingController controller, String labelText) =>
-    Padding(
+  static Widget getTextField(BuildContext context, Function() onTap,
+          TextEditingController controller, String labelText) =>
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+            validator: (value) {
+              if (value == "" || value == "null" || value!.isEmpty) {
+                return "$labelText can not be empty";
+              }
+              return null;
+            },
+            controller: controller,
+            autocorrect: false,
+            onTap: onTap,
+            cursorColor: AppColors.kmainColor,
+            style: FontSize.getTextFieldTitleStyle(context),
+            decoration: InputDecoration(
+                labelText: labelText,
+                labelStyle: FontSize.getTextFieldTitleStyle(context),
+                border: const OutlineInputBorder(),
+                focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.kmainColor)))),
+      );
+
+  static Widget getTimeRetrieverTextField(
+      {required BuildContext context,
+      required TextEditingController controller,
+      required String labelText}) {
+    return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+          controller: controller,
+          autocorrect: false,
+          readOnly: true,
+          cursorColor: AppColors.kmainColor,
+          style: FontSize.getTextFieldTitleStyle(context),
+          onTap: () async {
+            TimeOfDay? pickedStartTime = await showTimePicker(
+                context: context,
+                initialTime: controller.text == ""
+                    ? TimeOfDay.now()
+                    : Dates.getTimeInTimeOfDayFormat(controller.text));
+            if (pickedStartTime != null) {
+              controller.text = pickedStartTime.format(context);
+            }
+          },
           validator: (value) {
             if (value == "" || value == "null" || value!.isEmpty) {
               return "$labelText can not be empty";
             }
             return null;
           },
-          controller: controller,
-          autocorrect: false,
-          onTap: onTap,
-          cursorColor: AppColors.mainColor,
-          style: FontSize.getTextFieldTitleStyle(context),
           decoration: InputDecoration(
               labelText: labelText,
               labelStyle: FontSize.getTextFieldTitleStyle(context),
+              disabledBorder: const OutlineInputBorder(),
               border: const OutlineInputBorder(),
               focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.mainColor)))),
+                  borderSide: BorderSide(color: AppColors.kmainColor)))),
     );
+  }
+}
+
+
+
+// , () async {
+//                             pickedStartTime = await showTimePicker(
+//                                 context: context, initialTime: TimeOfDay.now());
+//                             setState(() {
+//                               startTimeC.text =
+//                                   pickedStartTime!.format(context);
+//                             });
+//                           },

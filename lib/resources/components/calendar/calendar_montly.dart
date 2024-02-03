@@ -52,7 +52,7 @@ class _CalendarViewState extends State<CalendarView> {
                   // widget.homeBloc.add(
                   //     HomeCalendarDateTappedEvent(selectedDate: selectedDate));
                 },
-                activeColor: AppColors.mainColor,
+                activeColor: AppColors.kmainColor,
                 initialDate: Dates.today,
                 headerProps: EasyHeaderProps(
                     monthPickerType: MonthPickerType.switcher,
@@ -67,26 +67,26 @@ class _CalendarViewState extends State<CalendarView> {
                     todayStyle: DayStyle(
                         dayStrStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.mainColor),
+                            color: AppColors.kmainColor),
                         dayNumStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: AppColors.mainColor),
+                            color: AppColors.kmainColor),
                         decoration: BoxDecoration(
                             border: Border.all(
-                                color: AppColors.blackColor, width: 2),
-                            color: AppColors.whiteColor,
+                                color: AppColors.kblackColor, width: 2),
+                            color: AppColors.kwhiteColor,
                             borderRadius: BorderRadius.circular(10))),
                     activeDayStyle: DayStyle(
                         dayStrStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.whiteColor),
+                            color: AppColors.kwhiteColor),
                         dayNumStyle: TextStyle(
                             fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: AppColors.whiteColor),
+                            color: AppColors.kwhiteColor),
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.screenColor),
-                            color: AppColors.greyTileColor,
+                            border: Border.all(color: AppColors.kscreenColor),
+                            color: AppColors.kdarkBlue2,
                             borderRadius: BorderRadius.circular(10))),
                     inactiveDayStyle: DayStyle(
                         dayStrStyle:
@@ -96,8 +96,8 @@ class _CalendarViewState extends State<CalendarView> {
                           fontSize: FontSize.getAppBarTitleFontSize(context),
                         ),
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.mainColor),
-                            color: AppColors.whiteColor,
+                            border: Border.all(color: AppColors.kmainColor),
+                            color: AppColors.kwhiteColor,
                             borderRadius: BorderRadius.circular(10)))),
               );
 

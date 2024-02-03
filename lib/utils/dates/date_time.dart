@@ -25,6 +25,42 @@ class Dates {
     return val;
   }
 
+  static TimeOfDay getTimeInTimeOfDayFormat(String time) {
+    TimeOfDay timeOfDay;
+    if (time.length == 5 && time.contains(":")) {
+      timeOfDay = TimeOfDay(
+          hour: int.parse(time.substring(0, 2)),
+          minute: int.parse(time.substring(3, 5)));
+      return timeOfDay;
+    } else {
+      int i = 0;
+      int hr = 0;
+      int min = 0;
+
+      while (time[i] != ':') {
+        hr = hr * 10 + int.parse(time[i]);
+        i++;
+      }
+      i++;
+      while (time[i] != ' ') {
+        min = min * 10 + int.parse(time[i]);
+        i++;
+      }
+      i++;
+      if (time[i] == 'P') {
+        if (hr != 12) {
+          hr = hr + 12;
+        }
+      } else {
+        if (hr == 12) {
+          hr = 0;
+        }
+      }
+      timeOfDay = TimeOfDay(hour: hr, minute: min);
+      return timeOfDay;
+    }
+  }
+
   static String getconvertedTimeIn24hrFormat(String time) {
     if (time.length == 5 && time.contains(":")) {
       time += ":00";

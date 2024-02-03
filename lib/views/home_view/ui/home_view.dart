@@ -1,6 +1,6 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:task_planner/resources/components/main_cal.dart';
+import 'package:task_planner/resources/components/calendar/main_cal.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
@@ -46,9 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       firstDate: Dates.startDay,
                       lastDate: Dates.endDay,
                       initialDate: HomeCal.getSelectedDateTime());
-                  _dateTimelineController.animateToDate(dateTime!);
-                  homeBloc
-                      .add(HomeCalendarDateTappedEvent(selectedDate: dateTime));
+                  if (dateTime != null) {
+                    _dateTimelineController.animateToDate(dateTime);
+                    homeBloc.add(
+                        HomeCalendarDateTappedEvent(selectedDate: dateTime));
+                  }
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-              color: AppColors.mainColor,
+              color: AppColors.kmainColor,
               child: HomeCal(
                 homeBloc: homeBloc,
                 toDoBloc: toDoBloc,
@@ -76,9 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  color: AppColors.mainColor,
+                  color: AppColors.kmainColor,
                   child: TabBar(
-                      indicatorColor: AppColors.whiteColor,
+                      indicatorColor: AppColors.kwhiteColor,
                       dividerHeight: 0,
                       padding: const EdgeInsets.only(bottom: 5),
                       tabs: [

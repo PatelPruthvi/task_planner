@@ -52,8 +52,8 @@ class ToDoListView extends StatelessWidget {
                           toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
                               todoItem: todoItems[index]));
                         },
-                        backgroundColor: AppColors.redColor,
-                        foregroundColor: AppColors.whiteColor,
+                        backgroundColor: AppColors.kredColor,
+                        foregroundColor: AppColors.kwhiteColor,
                         icon: Icons.delete,
                       )
                     ]),
@@ -83,8 +83,8 @@ class ToDoListView extends StatelessWidget {
                   child: ListTile(
                     leading: Checkbox(
                       value: todoItems[index].isCompleted,
-                      checkColor: AppColors.whiteColor,
-                      activeColor: AppColors.mainColor,
+                      checkColor: AppColors.kwhiteColor,
+                      activeColor: AppColors.kmainColor,
                       onChanged: (value) {
                         toDoBloc.add(ToDoIthItemCheckBoxClickedEvent(
                             todoItem: todoItems[index]));
@@ -96,7 +96,7 @@ class ToDoListView extends StatelessWidget {
                     ),
                     subtitle: Text(todoItems[index].category ?? ""),
                     trailing: Text(todoItems[index].completionTime ?? " "),
-                    tileColor: AppColors.whiteColor,
+                    tileColor: AppColors.kwhiteColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),

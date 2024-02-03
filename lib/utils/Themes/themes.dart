@@ -5,33 +5,33 @@ import '../fonts/font_size.dart';
 
 class Themes {
   static getLightModeTheme(BuildContext context) => ThemeData(
-      iconTheme: const IconThemeData(color: AppColors.whiteColor),
-      canvasColor: AppColors.screenColor,
+      iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
+      canvasColor: AppColors.kscreenColor,
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: AppColors.mainColor),
+          backgroundColor: AppColors.kmainColor),
       appBarTheme: AppBarTheme(
           centerTitle: false,
-          backgroundColor: AppColors.mainColor,
-          iconTheme: const IconThemeData(color: AppColors.whiteColor),
+          backgroundColor: AppColors.kmainColor,
+          iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
           elevation: 0.0,
           titleSpacing: 1.3,
           titleTextStyle: TextStyle(
-              color: AppColors.whiteColor,
+              color: AppColors.kwhiteColor,
               fontSize: FontSize.getAppBarTitleFontSize(context),
               fontWeight: FontWeight.w500)));
   static getDarkModeTheme(BuildContext context) => ThemeData(
-      iconTheme: const IconThemeData(color: AppColors.whiteColor),
-      canvasColor: AppColors.screenColor,
+      iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
+      canvasColor: AppColors.kscreenColor,
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: AppColors.mainColor),
+          backgroundColor: AppColors.kmainColor),
       appBarTheme: AppBarTheme(
           centerTitle: false,
-          backgroundColor: AppColors.mainColor,
-          iconTheme: const IconThemeData(color: AppColors.whiteColor),
+          backgroundColor: AppColors.kmainColor,
+          iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
           elevation: 0.0,
           titleSpacing: 1.3,
           titleTextStyle: TextStyle(
-              color: AppColors.whiteColor,
+              color: AppColors.kwhiteColor,
               fontSize: FontSize.getAppBarTitleFontSize(context),
               fontWeight: FontWeight.w500)));
 }

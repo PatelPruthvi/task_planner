@@ -2,13 +2,12 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
-import 'package:task_planner/views/home_view/ui/home_view.dart';
 import 'package:task_planner/views/task_plan_view/bloc/task_plan_bloc.dart';
-import '../../utils/colors/app_colors.dart';
-import '../../utils/dates/date_time.dart';
-import '../../utils/dimensions/dimensions.dart';
-import '../../utils/fonts/font_size.dart';
-import '../../views/todo_view/bloc/to_do_bloc.dart';
+import '../../../utils/colors/app_colors.dart';
+import '../../../utils/dates/date_time.dart';
+import '../../../utils/dimensions/dimensions.dart';
+import '../../../utils/fonts/font_size.dart';
+import '../../../views/todo_view/bloc/to_do_bloc.dart';
 
 DateTime now = Dates.today;
 
@@ -67,16 +66,9 @@ class _HomeCalState extends State<HomeCal> {
                         InkWell(
                           borderRadius: BorderRadius.circular(10),
                           onTap: () {
-                            if (Dates.getDateTimeInMMMdFormat(date) !=
-                                Dates.getDateTimeInMMMdFormat(Dates.today)) {
-                              Navigator.popUntil(
-                                  context, (route) => route.isFirst);
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const HomeScreen()));
-                            }
+                            widget.dateController.animateToDate(Dates.today);
+                            widget.homeBloc.add(HomeCalendarDateTappedEvent(
+                                selectedDate: Dates.today));
                           },
                           child: Text(
                               Dates.getDateTimeInMMMdFormat(Dates.today),
@@ -86,7 +78,7 @@ class _HomeCalState extends State<HomeCal> {
                     ),
                   );
                 },
-                activeColor: AppColors.mainColor,
+                activeColor: AppColors.kmainColor,
                 firstDate: Dates.startDay,
                 focusDate: successState.focusedDate,
                 lastDate: Dates.endDay,
@@ -97,26 +89,27 @@ class _HomeCalState extends State<HomeCal> {
                     todayStyle: DayStyle(
                         dayStrStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.mainColor),
+                            color: AppColors.kredColor),
                         dayNumStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: AppColors.mainColor),
+                            color: AppColors.kredColor),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                color: AppColors.blackColor, width: 2),
-                            color: AppColors.whiteColor,
+                            border: Border.all(color: AppColors.kredColor),
+                            color: AppColors.kwhiteColor,
                             borderRadius: BorderRadius.circular(10))),
                     activeDayStyle: DayStyle(
                         dayStrStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.whiteColor),
+                            color: AppColors.kwhiteColor),
                         dayNumStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: AppColors.whiteColor),
+                            color: AppColors.kwhiteColor),
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.screenColor),
-                            color: AppColors.greyTileColor,
+                            border: Border.all(
+                                color: AppColors.kscreenColor, width: 2),
+                            color: AppColors.kdarkBlue2,
                             borderRadius: BorderRadius.circular(10))),
                     inactiveDayStyle: DayStyle(
                         dayStrStyle:
@@ -126,8 +119,8 @@ class _HomeCalState extends State<HomeCal> {
                           fontSize: FontSize.getAppBarTitleFontSize(context),
                         ),
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.mainColor),
-                            color: AppColors.whiteColor,
+                            border: Border.all(color: AppColors.kmainColor),
+                            color: AppColors.kwhiteColor,
                             borderRadius: BorderRadius.circular(10)))),
               );
 

@@ -108,8 +108,9 @@ class _TaskPlanViewState extends State<TaskPlanView> {
                                                             .taskPlannerList[
                                                         index]));
                                           },
-                                          backgroundColor: AppColors.redColor,
-                                          foregroundColor: AppColors.whiteColor,
+                                          backgroundColor: AppColors.kredColor,
+                                          foregroundColor:
+                                              AppColors.kwhiteColor,
                                           icon: Icons.delete,
                                         ),
                                       ]),
@@ -128,17 +129,18 @@ class _TaskPlanViewState extends State<TaskPlanView> {
                                             .description!;
 
                                         BottomSheets.getBottomSheetForPlanner(
-                                            context,
-                                            nameC,
-                                            startTimeC,
-                                            endTimeC,
-                                            descC,
-                                            formKey,
-                                            pickedStartTime,
-                                            pickedEndTime,
-                                            widget.taskBloc,
-                                            Buttons.getRectangleButton(context,
-                                                () {
+                                            context: context,
+                                            nameC: nameC,
+                                            startTimeC: startTimeC,
+                                            endTimeC: endTimeC,
+                                            descC: descC,
+                                            formKey: formKey,
+                                            pickedStartTime: pickedStartTime,
+                                            pickedEndTime: pickedEndTime,
+                                            taskPlanBloc: widget.taskBloc,
+                                            bottomSheetButton:
+                                                Buttons.getRectangleButton(
+                                                    context, () {
                                               if (formKey.currentState
                                                       ?.validate() ==
                                                   true) {
@@ -155,10 +157,11 @@ class _TaskPlanViewState extends State<TaskPlanView> {
                                                             descC.text));
                                               }
                                             }, "Update"),
-                                            "Update Task",
-                                            successState.taskPlannerList[index]
+                                            bottomSheetTitle: "Update Task",
+                                            initialDropdownValue: successState
+                                                .taskPlannerList[index]
                                                 .category!,
-                                            int.parse(successState
+                                            hexColorCode: int.parse(successState
                                                 .taskPlannerList[index]
                                                 .hexColorCode!));
                                       },
@@ -166,11 +169,11 @@ class _TaskPlanViewState extends State<TaskPlanView> {
                                           width: Dimensions
                                               .getTaskPlannerTileWidth(context),
                                           decoration: BoxDecoration(
-                                            color: AppColors.whiteColor,
+                                            color: AppColors.kwhiteColor,
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             border: Border.all(
-                                                color: AppColors.mainColor),
+                                                color: AppColors.kmainColor),
                                           ),
                                           child: IntrinsicHeight(
                                             child: Row(
@@ -254,19 +257,19 @@ class _TaskPlanViewState extends State<TaskPlanView> {
             }),
       ),
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add_outlined, color: AppColors.whiteColor),
+          child: const Icon(Icons.add_outlined, color: AppColors.kwhiteColor),
           onPressed: () {
             BottomSheets.getBottomSheetForPlanner(
-                context,
-                nameC,
-                startTimeC,
-                endTimeC,
-                descC,
-                formKey,
-                pickedStartTime,
-                pickedEndTime,
-                widget.taskBloc,
-                Buttons.getRectangleButton(
+                context: context,
+                nameC: nameC,
+                startTimeC: startTimeC,
+                endTimeC: endTimeC,
+                descC: descC,
+                formKey: formKey,
+                pickedStartTime: pickedStartTime,
+                pickedEndTime: pickedEndTime,
+                taskPlanBloc: widget.taskBloc,
+                bottomSheetButton: Buttons.getRectangleButton(
                   context,
                   () {
                     if (formKey.currentState?.validate() == true) {
@@ -279,9 +282,9 @@ class _TaskPlanViewState extends State<TaskPlanView> {
                   },
                   "Add Task",
                 ),
-                "Add Task",
-                "None",
-                AppHexVals.orange);
+                bottomSheetTitle: "Add Task",
+                initialDropdownValue: "None",
+                hexColorCode: AppHexVals.orange);
           }),
     );
   }
