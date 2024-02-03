@@ -49,8 +49,8 @@ class _CalendarViewState extends State<CalendarView> {
               return EasyDateTimeLine(
                 onDateChange: (selectedDate) {
                   now = selectedDate;
-                  widget.homeBloc.add(
-                      HomeCalendarDateTappedEvent(selectedDate: selectedDate));
+                  // widget.homeBloc.add(
+                  //     HomeCalendarDateTappedEvent(selectedDate: selectedDate));
                 },
                 activeColor: AppColors.mainColor,
                 initialDate: Dates.today,

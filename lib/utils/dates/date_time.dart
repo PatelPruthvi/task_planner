@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Dates {
   static DateTime today = DateTime.now();
@@ -7,6 +8,14 @@ class Dates {
   static getFormattedDate(DateTime dateTime) {
     String date = dateTime.toString().substring(0, 10);
     return date;
+  }
+
+  static String getDateTimeInMonthDayYearFormat(DateTime date) {
+    return DateFormat("MMM d, y").format(date);
+  }
+
+  static String getDateTimeInMMMdFormat(DateTime date) {
+    return DateFormat("MMM d").format(date);
   }
 
   static DateTime getDateTimeFromDateAndTime(String date, String time) {

@@ -5,10 +5,9 @@ import 'package:meta/meta.dart';
 import 'package:task_planner/database/SQL/sql_helper.dart';
 import 'package:task_planner/models/task_planner_model.dart';
 import 'package:task_planner/resources/algorithm/sort_algo.dart';
-import 'package:task_planner/resources/components/calendar/calendar_montly.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/color_drop_down.dart';
-
+import '../../../resources/components/main_cal.dart';
 part 'task_plan_event.dart';
 part 'task_plan_state.dart';
 
@@ -33,7 +32,8 @@ class TaskPlanBloc extends Bloc<TaskPlanEvent, TaskPlanState> {
 
   FutureOr<void> taskPlanAddTaskClickedEvent(
       TaskPlanAddTaskClickedEvent event, Emitter<TaskPlanState> emit) async {
-    DateTime dateTime = CalendarView.getSelectedDateTime();
+    DateTime dateTime = HomeCal.getSelectedDateTime();
+    // DateTime dateTime = CalendarView.getSelectedDateTime();
     String date = dateTime.toString().substring(0, 10);
     int hexColorCode = ColorDropDownList.getColorCode();
     String category = CategoryDropDownList.getCategoryDropDownVal();
@@ -80,9 +80,9 @@ class TaskPlanBloc extends Bloc<TaskPlanEvent, TaskPlanState> {
 
   Future<List<TaskPlanner>> fetchTaskPlannerList() async {
     List<TaskPlanner> taskPlansList = [];
-    // String date = HomeCal.getSelectedDateTime().toString().substring(0, 10);
-    String date =
-        CalendarView.getSelectedDateTime().toString().substring(0, 10);
+    String date = HomeCal.getSelectedDateTime().toString().substring(0, 10);
+    // String date =
+    //     CalendarView.getSelectedDateTime().toString().substring(0, 10);
     var response = await TaskPlannerHelper.getListByDay(date);
     for (int i = 0; i < response.length; i++) {
       taskPlansList.add(TaskPlanner.fromJson(response[i]));

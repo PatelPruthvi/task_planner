@@ -26,7 +26,8 @@ class FontSize {
           color: Colors.black,
           fontWeight: FontWeight.w600,
           fontSize: FontSize.getAppBarTitleFontSize(context));
-  static getMediumWhiteFontStyle(BuildContext context) => TextStyle(
+  static TextStyle getMediumWhiteFontStyle(BuildContext context) => TextStyle(
       fontSize: FontSize.getMediumFontSize(context),
+      fontWeight: FontWeight.w500,
       color: AppColors.whiteColor);
 }

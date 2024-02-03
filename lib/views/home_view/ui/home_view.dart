@@ -1,5 +1,6 @@
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:task_planner/resources/components/calendar/calendar_montly.dart';
+import 'package:task_planner/resources/components/main_cal.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
@@ -20,6 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeBloc homeBloc = HomeBloc();
   final ToDoBloc toDoBloc = ToDoBloc();
   final TaskPlanBloc taskBloc = TaskPlanBloc();
+  final EasyInfiniteDateTimelineController _dateTimelineController =
+      EasyInfiniteDateTimelineController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       context: context,
                       firstDate: Dates.startDay,
                       lastDate: Dates.endDay,
-                      initialDate: Dates.today);
-                  homeBloc.add(
-                      HomeCalendarDateTappedEvent(selectedDate: dateTime!));
+                      initialDate: HomeCal.getSelectedDateTime());
+                  _dateTimelineController.animateToDate(dateTime!);
+                  homeBloc
+                      .add(HomeCalendarDateTappedEvent(selectedDate: dateTime));
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -57,47 +61,14 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Container(
-          //   color: AppColors.mainColor,
-          //   child: const Column(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: [
-          //       // Container(height: Dimensions.getSafeAreaHeight(context)),
-          //       // Padding(
-          //       //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          //       //   child: Row(
-          //       //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       //     children: [
-          //       //       Text(
-          //       //         "Task Manager",
-          //       //         style: Theme.of(context).appBarTheme.titleTextStyle,
-          //       //       ),
-          //       //       InkWell(
-          //       //         onTap: () {
-          //       //           if (CalendarView.getSelectedDateTime()
-          //       //                   .compareTo(Dates.today) !=
-          //       //               0) {
-          //       //             Navigator.popUntil(
-          //       //                 context, (route) => route.isFirst);
-          //       //             Navigator.pushReplacement(
-          //       //                 context,
-          //       //                 MaterialPageRoute(
-          //       //                     builder: (context) => const HomeScreen()));
-          //       //           }
-          //       //         },
-          //       //         child: Text(DateFormat("d MMM").format(Dates.today),
-          //       //             style: FontSize.getMediumWhiteFontStyle(context)),
-          //       //       )
-          //       //     ],
-          //       //   ),
-          //       // ),
-          //     ],
-          //   ),
-          // ),
           Container(
               color: AppColors.mainColor,
-              child: CalendarView(
-                  homeBloc: homeBloc, toDoBloc: toDoBloc, taskBloc: taskBloc)),
+              child: HomeCal(
+                homeBloc: homeBloc,
+                toDoBloc: toDoBloc,
+                taskBloc: taskBloc,
+                dateController: _dateTimelineController,
+              )),
           DefaultTabController(
             length: 2,
             initialIndex: 0,

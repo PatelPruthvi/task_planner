@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:task_planner/models/enum_models.dart';
 import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/resources/algorithm/sort_algo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
+import 'package:task_planner/resources/components/main_cal.dart';
 import 'package:task_planner/services/notification_service.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import '../../../database/SQL/sql_helper.dart';
-import '../../../resources/components/calendar/calendar_montly.dart';
 
 part 'to_do_event.dart';
 part 'to_do_state.dart';
@@ -47,7 +47,8 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   FutureOr<void> toDoAddTaskClickedEvent(
       ToDoAddTaskClickedEvent event, Emitter<ToDoState> emit) async {
-    DateTime dateTime = CalendarView.getSelectedDateTime();
+    DateTime dateTime = HomeCal.getSelectedDateTime();
+    // DateTime dateTime = CalendarView.getSelectedDateTime();
     String date = dateTime.toString().substring(0, 10);
     ToDo todoItem = ToDo(
         title: event.title,
@@ -67,7 +68,11 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
           body: "Did you complete your task?",
           scheduledNotifDateTime: Models.getExactDateTimeForNotif(
               notifDateTime, event.reminderTime));
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
 
     emit(ToDoCloseSheetActionState());
   }
@@ -143,8 +148,9 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   Future<List<ToDo>> fetchToDoList() async {
     List<ToDo> todoItems = [];
-    String date =
-        CalendarView.getSelectedDateTime().toString().substring(0, 10);
+    String date = HomeCal.getSelectedDateTime().toString().substring(0, 10);
+    // String date =
+    //     CalendarView.getSelectedDateTime().toString().substring(0, 10);
     var response = await ToDoSQLhelper.getListByDay(date);
     for (int i = 0; i < response.length; i++) {
       todoItems.add(ToDo.fromJson(response[i]));

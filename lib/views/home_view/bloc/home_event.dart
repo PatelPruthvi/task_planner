@@ -7,7 +7,6 @@ class HomeInitialEvent extends HomeEvent {}
 
 class HomeCalendarDateTappedEvent extends HomeEvent {
   final DateTime selectedDate;
-
   HomeCalendarDateTappedEvent({required this.selectedDate});
 }
 
