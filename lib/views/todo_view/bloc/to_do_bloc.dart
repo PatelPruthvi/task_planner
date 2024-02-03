@@ -60,12 +60,15 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
         Dates.getDateTimeFromDateAndTime(date, event.completionTime);
 
     int id = await ToDoSQLhelper.createItem(todoItem);
-    await NotificationService().scheduleNotif(
-        id: id,
-        title: event.title,
-        body: "Did you complete your task?",
-        scheduledNotifDateTime:
-            Models.getExactDateTimeForNotif(notifDateTime, event.reminderTime));
+    try {
+      await NotificationService().scheduleNotif(
+          id: id,
+          title: event.title,
+          body: "Did you complete your task?",
+          scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+              notifDateTime, event.reminderTime));
+    } catch (e) {}
+
     emit(ToDoCloseSheetActionState());
   }
 

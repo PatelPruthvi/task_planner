@@ -36,7 +36,6 @@ class _LoginViewState extends State<LoginView> {
         listenWhen: (previous, current) => current is LoginActionState,
         listener: (context, state) {
           if (state is LoginNavigateToHomePageActionState) {
-            Navigator.popUntil(context, (route) => route.isFirst);
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
