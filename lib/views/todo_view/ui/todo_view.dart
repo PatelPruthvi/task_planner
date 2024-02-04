@@ -10,6 +10,7 @@ import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
+import 'package:task_planner/utils/widgets/util_widgets.dart';
 import 'package:task_planner/views/todo_view/bloc/to_do_bloc.dart';
 import '../../home_view/bloc/home_bloc.dart';
 
@@ -110,7 +111,10 @@ class _ToDoScreenState extends State<ToDoScreen> {
           listener: (context, state) {
             if (state is ToDoCloseSheetActionState) {
               Navigator.of(context).pop();
+
               widget.toDoBloc.add(ToDoInitialEvent());
+            } else if (state is ToDoShowErrorMsgActionState) {
+              Utils.flushBarErrorMsg(state.errorMsg, context);
             }
           },
         ),

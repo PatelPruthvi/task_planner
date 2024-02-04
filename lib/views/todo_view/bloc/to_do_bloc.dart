@@ -61,20 +61,19 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
         Dates.getDateTimeFromDateAndTime(date, event.completionTime);
 
     int id = await ToDoSQLhelper.createItem(todoItem);
-    try {
-      await NotificationService().scheduleNotif(
-          id: id,
-          title: event.title,
-          body: "Did you complete your task?",
-          scheduledNotifDateTime: Models.getExactDateTimeForNotif(
-              notifDateTime, event.reminderTime));
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-    }
-
-    emit(ToDoCloseSheetActionState());
+    await NotificationService()
+        .scheduleNotif(
+            id: id,
+            title: event.title,
+            body: "Did you complete your task?",
+            scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+                notifDateTime, event.reminderTime))
+        .then((value) {
+      emit(ToDoCloseSheetActionState());
+    }).onError((error, stackTrace) {
+      emit(ToDoCloseSheetActionState());
+      emit(ToDoShowErrorMsgActionState(errorMsg: error.toString()));
+    });
   }
 
   FutureOr<void> toDoIthItemCheckBoxClickedEvent(
@@ -84,20 +83,18 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     if (event.todoItem.isCompleted == true) {
       await NotificationService().cancelNotif(id: event.todoItem.id!);
     } else {
-      try {
-        DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
-            event.todoItem.date!, event.todoItem.completionTime!);
-        await NotificationService().scheduleNotif(
-            id: event.todoItem.id!,
-            title: event.todoItem.title,
-            body: "Did you complete your task?",
-            scheduledNotifDateTime: Models.getExactDateTimeForNotif(
-                notifDateTime, event.todoItem.reminder!));
-      } catch (e) {
-        if (kDebugMode) {
-          print(e.toString());
-        }
-      }
+      DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
+          event.todoItem.date!, event.todoItem.completionTime!);
+      await NotificationService()
+          .scheduleNotif(
+              id: event.todoItem.id!,
+              title: event.todoItem.title,
+              body: "Did you complete your task?",
+              scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+                  notifDateTime, event.todoItem.reminder!))
+          .onError((error, stackTrace) {
+        emit(ToDoShowErrorMsgActionState(errorMsg: error.toString()));
+      });
     }
     List<ToDo> todoItems = await fetchToDoList();
     List<ToDo> todoPending = [];
@@ -152,16 +149,21 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
       DateTime notifDateTime =
           Dates.getDateTimeFromDateAndTime(event.todoItem.date!, event.time);
 
-      await NotificationService().scheduleNotif(
-          id: event.todoItem.id!,
-          title: event.title,
-          body: "Did you complete your task?",
-          scheduledNotifDateTime:
-              Models.getExactDateTimeForNotif(notifDateTime, reminderVal));
+      await NotificationService()
+          .scheduleNotif(
+              id: event.todoItem.id!,
+              title: event.title,
+              body: "Did you complete your task?",
+              scheduledNotifDateTime:
+                  Models.getExactDateTimeForNotif(notifDateTime, reminderVal))
+          .then((value) async {
+        await ToDoSQLhelper.updateItem(todoItem);
+        emit(ToDoCloseSheetActionState());
+      }).onError((error, stackTrace) {
+        emit(ToDoCloseSheetActionState());
+        emit(ToDoShowErrorMsgActionState(errorMsg: error.toString()));
+      });
     }
-
-    await ToDoSQLhelper.updateItem(todoItem);
-    emit(ToDoCloseSheetActionState());
   }
 
   Future<List<ToDo>> fetchToDoList() async {

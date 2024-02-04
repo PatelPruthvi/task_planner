@@ -7,6 +7,12 @@ abstract class ToDoActionState extends ToDoState {}
 
 class ToDoCloseSheetActionState extends ToDoActionState {}
 
+class ToDoShowErrorMsgActionState extends ToDoActionState {
+  final String errorMsg;
+
+  ToDoShowErrorMsgActionState({required this.errorMsg});
+}
+
 final class ToDoInitial extends ToDoState {}
 
 class ToDoListLoadedSuccessState extends ToDoState {

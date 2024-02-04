@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:task_planner/exceptions/app_exceptions.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
@@ -48,14 +49,18 @@ class NotificationService {
       String? body,
       String? payload,
       required DateTime scheduledNotifDateTime}) async {
-    return notificationsPlugin.zonedSchedule(
-        id,
-        title,
-        body,
-        tz.TZDateTime.from(scheduledNotifDateTime, tz.local),
-        await notifDetails(),
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+    if (scheduledNotifDateTime.isAfter(DateTime.now())) {
+      return notificationsPlugin.zonedSchedule(
+          id,
+          title,
+          body,
+          tz.TZDateTime.from(scheduledNotifDateTime, tz.local),
+          await notifDetails(),
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime);
+    } else {
+      throw ImpossibleReminderTimeException();
+    }
   }
 
   Future cancelNotif({required int id}) async {
