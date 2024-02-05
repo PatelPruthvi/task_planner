@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:task_planner/models/enum_models.dart';
+
 import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/resources/algorithm/sort_algo.dart';
 import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
-import 'package:task_planner/services/notification_service.dart';
-import 'package:task_planner/utils/dates/date_time.dart';
+import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dart';
 import '../../../database/SQL/sql_helper.dart';
 
 part 'to_do_event.dart';
@@ -52,24 +51,16 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     // DateTime dateTime = CalendarView.getSelectedDateTime();
     String date = dateTime.toString().substring(0, 10);
     ToDo todoItem = ToDo(
-        title: event.title,
-        date: date,
-        isCompleted: false,
-        completionTime: event.completionTime,
-        category: event.category,
-        reminder: event.reminderTime);
-    DateTime notifDateTime =
-        Dates.getDateTimeFromDateAndTime(date, event.completionTime);
+      title: event.title,
+      date: date,
+      isCompleted: false,
+      completionTime: event.completionTime,
+      category: event.category,
+      reminder: event.reminderTime,
+      repeat: event.repeat,
+    );
 
-    int id = await ToDoSQLhelper.createItem(todoItem);
-    await NotificationService()
-        .scheduleNotif(
-            id: id,
-            title: event.title,
-            body: "Did you complete your task?",
-            scheduledNotifDateTime: Models.getExactDateTimeForNotif(
-                notifDateTime, event.reminderTime))
-        .then((value) {
+    await ToDoSQLhelper.createItem(todoItem).then((value) {
       emit(ToDoCloseSheetActionState());
     }).onError((error, stackTrace) {
       emit(ToDoCloseSheetActionState());
@@ -80,23 +71,20 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
   FutureOr<void> toDoIthItemCheckBoxClickedEvent(
       ToDoIthItemCheckBoxClickedEvent event, Emitter<ToDoState> emit) async {
     event.todoItem.isCompleted = !event.todoItem.isCompleted!;
-    await ToDoSQLhelper.updateItem(event.todoItem);
-    if (event.todoItem.isCompleted == true) {
-      await NotificationService().cancelNotif(id: event.todoItem.id!);
-    } else {
-      DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
-          event.todoItem.date!, event.todoItem.completionTime!);
-      await NotificationService()
-          .scheduleNotif(
-              id: event.todoItem.id!,
-              title: event.todoItem.title,
-              body: "Did you complete your task?",
-              scheduledNotifDateTime: Models.getExactDateTimeForNotif(
-                  notifDateTime, event.todoItem.reminder!))
-          .onError((error, stackTrace) {
-        emit(ToDoShowErrorMsgActionState(errorMsg: error.toString()));
-      });
-    }
+    await ToDoSQLhelper.updateCheckBoxItem(event.todoItem).then((value) async {
+      List<ToDo> todoItems = await fetchToDoList();
+      List<ToDo> todoPending = [];
+      List<ToDo> toDoCompleted = [];
+      for (var element in todoItems) {
+        if (element.isCompleted == true) {
+          toDoCompleted.add(element);
+        } else {
+          todoPending.add(element);
+        }
+      }
+      emit(ToDoListLoadedSuccessState(todoPending, toDoCompleted));
+    }).onError((error, stackTrace) {});
+
     List<ToDo> todoItems = await fetchToDoList();
     List<ToDo> todoPending = [];
     List<ToDo> toDoCompleted = [];
@@ -113,57 +101,42 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
   FutureOr<void> toDoIthItemDeletedButtonClickedEvent(
       ToDoIthItemDeletedButtonClickedEvent event,
       Emitter<ToDoState> emit) async {
-    await ToDoSQLhelper.deleteItem(event.todoItem);
-    await NotificationService().cancelNotif(id: event.todoItem.id!);
-    List<ToDo> todoItems = await fetchToDoList();
-    List<ToDo> todoPending = [];
-    List<ToDo> toDoCompleted = [];
-    for (var element in todoItems) {
-      if (element.isCompleted == true) {
-        toDoCompleted.add(element);
-      } else {
-        todoPending.add(element);
+    await ToDoSQLhelper.deleteItem(event.todoItem).then((value) async {
+      List<ToDo> todoItems = await fetchToDoList();
+      List<ToDo> todoPending = [];
+      List<ToDo> toDoCompleted = [];
+      for (var element in todoItems) {
+        if (element.isCompleted == true) {
+          toDoCompleted.add(element);
+        } else {
+          todoPending.add(element);
+        }
       }
-    }
 
-    if (todoItems.isEmpty) {
-      emit(ToDoListEmptyState());
-    } else {
-      emit(ToDoListLoadedSuccessState(todoPending, toDoCompleted));
-    }
+      if (todoItems.isEmpty) {
+        emit(ToDoListEmptyState());
+      } else {
+        emit(ToDoListLoadedSuccessState(todoPending, toDoCompleted));
+      }
+    }).onError((error, stackTrace) {});
   }
 
   FutureOr<void> toDoIthItemUpdateClickedEvent(
       ToDoIthItemUpdateClickedEvent event, Emitter<ToDoState> emit) async {
     String reminderVal = ReminderDropdown.getReminderVal();
     ToDo todoItem = ToDo(
-      id: event.todoItem.id,
-      title: event.title,
-      date: event.todoItem.date,
-      isCompleted: event.todoItem.isCompleted,
-      completionTime: event.time,
-      category: CategoryDropDownList.getCategoryDropDownVal(),
-      reminder: reminderVal,
-    );
+        id: event.todoItem.id,
+        title: event.title,
+        date: event.todoItem.date,
+        isCompleted: event.todoItem.isCompleted,
+        completionTime: event.time,
+        category: CategoryDropDownList.getCategoryDropDownVal(),
+        reminder: reminderVal,
+        repeat: RepeatDropdown.getRepeatVal());
     if (todoItem != event.todoItem) {
-      await NotificationService().cancelNotif(id: todoItem.id!);
-      DateTime notifDateTime =
-          Dates.getDateTimeFromDateAndTime(event.todoItem.date!, event.time);
+      await ToDoSQLhelper.updateItem(todoItem).onError((error, stackTrace) {});
 
-      await NotificationService()
-          .scheduleNotif(
-              id: event.todoItem.id!,
-              title: event.title,
-              body: "Did you complete your task?",
-              scheduledNotifDateTime:
-                  Models.getExactDateTimeForNotif(notifDateTime, reminderVal))
-          .then((value) async {
-        await ToDoSQLhelper.updateItem(todoItem);
-        emit(ToDoCloseSheetActionState());
-      }).onError((error, stackTrace) {
-        emit(ToDoCloseSheetActionState());
-        emit(ToDoShowErrorMsgActionState(errorMsg: error.toString()));
-      });
+      emit(ToDoCloseSheetActionState());
     }
   }
 

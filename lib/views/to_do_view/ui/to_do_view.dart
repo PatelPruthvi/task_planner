@@ -2,6 +2,7 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
+import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dart';
 import 'package:task_planner/resources/components/to_do_list.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
@@ -176,14 +177,15 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                 toDoBloc: toDoBloc,
                 initialDropdownVal: categories[0],
                 initialReminderValue: Models.getReminder(Reminder.sameTime),
+                initialRepeatVal: "Never",
                 elevatedButton: Buttons.getRectangleButton(context, () {
                   if (formKey.currentState?.validate() == true) {
                     toDoBloc.add(ToDoAddTaskClickedEvent(
-                      todoController.text,
-                      CategoryDropDownList.getCategoryDropDownVal(),
-                      timeC.text,
-                      ReminderDropdown.getReminderVal(),
-                    ));
+                        todoController.text,
+                        CategoryDropDownList.getCategoryDropDownVal(),
+                        timeC.text,
+                        ReminderDropdown.getReminderVal(),
+                        RepeatDropdown.getRepeatVal()));
                   }
                 }, "Done"));
           }),

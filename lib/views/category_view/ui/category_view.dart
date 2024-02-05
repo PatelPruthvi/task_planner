@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
@@ -57,49 +58,84 @@ class _CategoryViewState extends State<CategoryView> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 5),
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          tileColor: AppColors.kwhiteColor,
-                          leading: Checkbox(
-                              value: successState.todoItems[index].isCompleted!,
-                              onChanged: (val) {}),
-                          title: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(successState.todoItems[index].title!),
-                          ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        const Icon(Icons.timer_outlined),
-                                        const Text("  "),
-                                        Text(successState
-                                            .todoItems[index].completionTime!)
-                                      ],
+                        child: Slidable(
+                          key: ValueKey(2),
+                          endActionPane: ActionPane(
+                              extentRatio: 0.2,
+                              motion: const ScrollMotion(),
+                              //drag to delete functionality
+                              // dismissible: DismissiblePane(onDismissed: () {
+                              //   toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
+                              //       todoItem: todoItems[index]));
+                              // }),
+                              children: [
+                                SlidableAction(
+                                  borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)),
+                                  onPressed: (context) {
+                                    widget.reminderBloc.add(
+                                        ReminderDeleteItemPressedEvent(
+                                            todoItem:
+                                                successState.todoItems[index]));
+                                  },
+                                  backgroundColor: AppColors.kredColor,
+                                  foregroundColor: AppColors.kwhiteColor,
+                                  icon: Icons.delete,
+                                )
+                              ]),
+                          child: ListTile(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            tileColor: AppColors.kwhiteColor,
+                            leading: Checkbox(
+                                activeColor: AppColors.kblue600,
+                                value:
+                                    successState.todoItems[index].isCompleted!,
+                                onChanged: (val) {
+                                  widget.reminderBloc.add(
+                                      ReminderIthItemCheckBoxClickedEvent(
+                                          todoItem:
+                                              successState.todoItems[index]));
+                                }),
+                            title: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(successState.todoItems[index].title!),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          const Icon(Icons.timer_outlined),
+                                          const Text("  "),
+                                          Text(successState
+                                              .todoItems[index].completionTime!)
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(Icons.repeat),
-                                        Text("   "),
-                                        Text("-")
-                                      ],
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          const Icon(Icons.repeat),
+                                          const Text("   "),
+                                          Text(successState
+                                              .todoItems[index].repeat!)
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ]),
+                                  ]),
+                            ),
+                            trailing:
+                                Text(successState.todoItems[index].category!),
                           ),
-                          trailing:
-                              Text(successState.todoItems[index].category!),
                         ),
                       )
                     ],

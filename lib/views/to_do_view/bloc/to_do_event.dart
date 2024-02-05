@@ -11,9 +11,10 @@ class ToDoAddTaskClickedEvent extends ToDoEvent {
   final String category;
   final String completionTime;
   final String reminderTime;
+  final String repeat;
 
-  ToDoAddTaskClickedEvent(
-      this.title, this.category, this.completionTime, this.reminderTime);
+  ToDoAddTaskClickedEvent(this.title, this.category, this.completionTime,
+      this.reminderTime, this.repeat);
 }
 
 class ToDoIthItemUpdateClickedEvent extends ToDoEvent {

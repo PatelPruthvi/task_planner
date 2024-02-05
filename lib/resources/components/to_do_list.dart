@@ -70,6 +70,7 @@ class ToDoListView extends StatelessWidget {
                         toDoBloc: toDoBloc,
                         initialDropdownVal: todoItems[index].category!,
                         initialReminderValue: todoItems[index].reminder!,
+                        initialRepeatVal: todoItems[index].repeat!,
                         elevatedButton: Buttons.getRectangleButton(context, () {
                           if (formKey.currentState?.validate() == true) {
                             toDoBloc.add(ToDoIthItemUpdateClickedEvent(

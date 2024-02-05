@@ -50,8 +50,17 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       ReminderAddTaskClickedEvent event, Emitter<ReminderState> emit) async {}
 
   FutureOr<void> reminderDeleteItemPressedEvent(
-      ReminderDeleteItemPressedEvent event,
-      Emitter<ReminderState> emit) async {}
+      ReminderDeleteItemPressedEvent event, Emitter<ReminderState> emit) async {
+    await ToDoSQLhelper.deleteItem(event.todoItem).then((value) async {
+      List<ToDo> todoItems = await fetchFullToDoList();
+
+      if (todoItems.isEmpty) {
+        emit(ReminderEmptyLoadedState());
+      } else {
+        emit(ReminderLoadedSuccessState(todoItems: todoItems));
+      }
+    }).onError((error, stackTrace) {});
+  }
 
   FutureOr<void> reminderIthItemUpdateClickedEvent(
       ReminderIthItemUpdateClickedEvent event,
@@ -59,7 +68,14 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
   FutureOr<void> reminderIthItemCheckBoxClickedEvent(
       ReminderIthItemCheckBoxClickedEvent event,
-      Emitter<ReminderState> emit) async {}
+      Emitter<ReminderState> emit) async {
+    event.todoItem.isCompleted = !event.todoItem.isCompleted!;
+    await ToDoSQLhelper.updateCheckBoxItem(event.todoItem).then((value) async {
+      List<ToDo> todoItems = await fetchFullToDoList();
+
+      emit(ReminderLoadedSuccessState(todoItems: todoItems));
+    }).onError((error, stackTrace) {});
+  }
 
   Future<List<ToDo>> fetchFullToDoList() async {
     List<ToDo> todoItems = [];

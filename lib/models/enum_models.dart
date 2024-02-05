@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:task_planner/models/to_do_model.dart';
+import 'package:task_planner/utils/dates/date_time.dart';
+
 List<String> categories = ["None", "Work", "Personal", "Wishlist", "Birthday"];
 List<String> reminders = [
   "Same with due date",
@@ -8,7 +12,14 @@ List<String> reminders = [
   "1 hour before",
   "1 day before"
 ];
-List<String> repeats = [];
+List<String> repeats = [
+  "Never",
+  "Hourly",
+  "Daily",
+  "Weekly",
+  "Monthly",
+  "Annually"
+];
 
 enum Category { none, work, personal, wishlist, birthday }
 
@@ -58,6 +69,48 @@ class Models {
         return "1 day before";
       default:
         return "5 minutes before";
+    }
+  }
+
+  static ToDo getExactDateTimeOfrepeat(ToDo todoItem) {
+    ToDo repeatTaskItem = todoItem;
+
+    DateTime exactRepeatTime = Dates.getDateTimeFromDateAndTime(
+        todoItem.date!, todoItem.completionTime!);
+    switch (todoItem.repeat) {
+      case "Never":
+        return repeatTaskItem;
+      case "Hourly":
+        exactRepeatTime = exactRepeatTime.add(const Duration(hours: 1));
+        repeatTaskItem.isCompleted = false;
+        repeatTaskItem.date = exactRepeatTime.toString().substring(0, 10);
+        repeatTaskItem.completionTime = TimeOfDay.fromDateTime(exactRepeatTime)
+            .toString()
+            .substring(10, 15);
+        return repeatTaskItem;
+
+      case "Daily":
+        exactRepeatTime = exactRepeatTime.add(const Duration(days: 1));
+        repeatTaskItem.isCompleted = false;
+        repeatTaskItem.date = exactRepeatTime.toString().substring(0, 10);
+        return repeatTaskItem;
+      case "Weekly":
+        exactRepeatTime = exactRepeatTime.add(const Duration(days: 7));
+        repeatTaskItem.isCompleted = false;
+        repeatTaskItem.date = exactRepeatTime.toString().substring(0, 10);
+        return repeatTaskItem;
+      case "Monthly":
+        exactRepeatTime = exactRepeatTime.add(const Duration(days: 30));
+        repeatTaskItem.isCompleted = false;
+        repeatTaskItem.date = exactRepeatTime.toString().substring(0, 10);
+        return repeatTaskItem;
+      case "Annually":
+        exactRepeatTime = exactRepeatTime.add(const Duration(days: 365));
+        repeatTaskItem.isCompleted = false;
+        repeatTaskItem.date = exactRepeatTime.toString().substring(0, 10);
+        return repeatTaskItem;
+      default:
+        return repeatTaskItem;
     }
   }
 

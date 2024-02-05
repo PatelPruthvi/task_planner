@@ -42,7 +42,7 @@ class Sorting {
     double timeVal;
     if (a.length == 5) {
       hr = int.parse(a.substring(0, 2));
-      min = int.parse(a.substring(3, 2));
+      min = int.parse(a.substring(3, 5));
       timeVal = hr + min / 60;
       return timeVal;
     } else {

@@ -5,6 +5,7 @@ import 'package:task_planner/resources/button_demo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/color_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
+import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
 import '../../../utils/colors/app_colors.dart';
@@ -21,6 +22,7 @@ class BottomSheets {
     required ToDoBloc toDoBloc,
     required String initialDropdownVal,
     required String initialReminderValue,
+    required String initialRepeatVal,
     required ElevatedButton elevatedButton,
   }) {
     showModalBottomSheet(
@@ -65,6 +67,18 @@ class BottomSheets {
                             const SizedBox(width: 20),
                             ReminderDropdown(
                                 reminderValue: initialReminderValue)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Text("Repeat  ",
+                                style:
+                                    FontSize.getTextFieldTitleStyle(context)),
+                            const SizedBox(width: 20),
+                            RepeatDropdown(repeatInitialValue: initialRepeatVal)
                           ],
                         ),
                       ),

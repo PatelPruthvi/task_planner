@@ -27,7 +27,7 @@ class ToDo {
     category = json['category'];
     completionTime = json['completionTime'];
     reminder = json['reminder'];
-    // repeat = json['repeat'];
+    repeat = json['repeat'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,7 +39,7 @@ class ToDo {
     data['category'] = category;
     data['completionTime'] = completionTime;
     data['reminder'] = reminder;
-    // data['repeat'] = repeat;
+    data['repeat'] = repeat;
     return data;
   }
 }

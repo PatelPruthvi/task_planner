@@ -4,6 +4,10 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:task_planner/models/task_planner_model.dart';
 import 'package:task_planner/models/to_do_model.dart';
 
+import '../../models/enum_models.dart';
+import '../../services/notification_service.dart';
+import '../../utils/dates/date_time.dart';
+
 class SQLHelper {
   // creating a db
   static Future<sql.Database> db() async {
@@ -32,7 +36,8 @@ class ToDoSQLhelper {
         isCompleted BOOL,
         completionTime TEXT,
         category TEXT,
-        reminder TEXT
+        reminder TEXT,
+        repeat TEXT
         )""");
   }
 
@@ -42,6 +47,14 @@ class ToDoSQLhelper {
     final data = todoItem.toJson();
     int id = await db.insert(todoTableName, data,
         conflictAlgorithm: ConflictAlgorithm.replace);
+    DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
+        todoItem.date!, todoItem.completionTime!);
+    await NotificationService().scheduleNotif(
+        id: id,
+        title: todoItem.title,
+        body: "Did you complete your task?",
+        scheduledNotifDateTime:
+            Models.getExactDateTimeForNotif(notifDateTime, todoItem.reminder!));
     return id;
   }
 
@@ -62,12 +75,50 @@ class ToDoSQLhelper {
     return db.query(todoTableName, where: "category=?", whereArgs: [category]);
   }
 
-  static Future<void> updateItem(ToDo toDoItem) async {
+  static Future<void> updateItem(ToDo todoItem) async {
     final db = await SQLHelper.db();
-    final data = toDoItem.toJson();
+    final data = todoItem.toJson();
+    await db
+        .update(todoTableName, data, where: "id=?", whereArgs: [todoItem.id]);
+    await NotificationService().cancelNotif(id: todoItem.id!);
+    DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
+        todoItem.date!, todoItem.completionTime!);
+
+    await NotificationService().scheduleNotif(
+        id: todoItem.id!,
+        title: todoItem.title,
+        body: "Did you complete your task?",
+        scheduledNotifDateTime:
+            Models.getExactDateTimeForNotif(notifDateTime, todoItem.reminder!));
+  }
+
+  static Future<void> updateCheckBoxItem(ToDo todoItem) async {
+    final db = await SQLHelper.db();
+    final data = todoItem.toJson();
 
     await db
-        .update(todoTableName, data, where: "id=?", whereArgs: [toDoItem.id]);
+        .update(todoTableName, data, where: "id=?", whereArgs: [todoItem.id]);
+    if (todoItem.isCompleted == true) {
+      await NotificationService()
+          .cancelNotif(id: todoItem.id!)
+          .then((value) async {
+        if (todoItem.repeat != "Never") {
+          await ToDoSQLhelper.deleteItem(todoItem);
+
+          await ToDoSQLhelper.createItem(
+              Models.getExactDateTimeOfrepeat(todoItem));
+        }
+      });
+    } else {
+      DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
+          todoItem.date!, todoItem.completionTime!);
+      await NotificationService().scheduleNotif(
+          id: todoItem.id!,
+          title: todoItem.title,
+          body: "Did you complete your task?",
+          scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+              notifDateTime, todoItem.reminder!));
+    }
   }
 
   static Future<void> deleteItem(ToDo toDoItem) async {
@@ -75,6 +126,7 @@ class ToDoSQLhelper {
 
     try {
       await db.delete(todoTableName, where: "id=?", whereArgs: [toDoItem.id]);
+      await NotificationService().cancelNotif(id: toDoItem.id!);
     } catch (e) {
       rethrow;
     }
