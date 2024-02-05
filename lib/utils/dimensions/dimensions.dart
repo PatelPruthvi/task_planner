@@ -9,6 +9,8 @@ class Dimensions {
       MediaQuery.of(context).size.aspectRatio;
   static double getCalendarDayHeight(BuildContext context) =>
       MediaQuery.of(context).size.height / 10;
+  static double getCategoryButtonsHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height * 0.06;
   static double getCalendarDayWidth(BuildContext context) =>
       MediaQuery.of(context).size.width / 7;
   static double getTodoListViewHeight(BuildContext context) =>

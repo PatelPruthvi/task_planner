@@ -7,6 +7,7 @@ class ToDo {
   String? category;
   String? completionTime;
   String? reminder;
+  String? repeat;
 
   ToDo(
       {this.id,
@@ -15,7 +16,8 @@ class ToDo {
       this.isCompleted,
       this.category,
       this.completionTime,
-      this.reminder});
+      this.reminder,
+      this.repeat});
 
   ToDo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -25,6 +27,7 @@ class ToDo {
     category = json['category'];
     completionTime = json['completionTime'];
     reminder = json['reminder'];
+    // repeat = json['repeat'];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +39,7 @@ class ToDo {
     data['category'] = category;
     data['completionTime'] = completionTime;
     data['reminder'] = reminder;
+    // data['repeat'] = repeat;
     return data;
   }
 }

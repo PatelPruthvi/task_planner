@@ -11,7 +11,7 @@ import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import '../../../resources/button_demo.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/dimensions/dimensions.dart';
-import '../bloc/task_plan_bloc.dart';
+import '../../planner_view/bloc/task_plan_bloc.dart';
 
 DateTime dateTime = Dates.startDay;
 

@@ -6,10 +6,10 @@ import 'package:task_planner/resources/components/drop_down/category_drop_down.d
 import 'package:task_planner/resources/components/drop_down/color_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
-import 'package:task_planner/views/task_plan_view/bloc/task_plan_bloc.dart';
-import 'package:task_planner/views/todo_view/bloc/to_do_bloc.dart';
+import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/fonts/font_size.dart';
+import '../../../views/planner_view/bloc/task_plan_bloc.dart';
 
 class BottomSheets {
   static getBottomSheetForToDoList({

@@ -21,8 +21,16 @@ class Dates {
   static DateTime getDateTimeFromDateAndTime(String date, String time) {
     //date stored format is YYYY-MM-DD
     time = getconvertedTimeIn24hrFormat(time);
-    final val = DateTime.parse("$date $time");
+    DateTime val = DateTime.parse("$date $time");
+
     return val;
+  }
+
+  static String getDateInMdy(String date) {
+    //date stored format is YYYY-MM-DD
+    final val = DateTime.parse("$date 00:00");
+    String dateTime = DateFormat("d MMM,yy").format(val);
+    return dateTime;
   }
 
   static TimeOfDay getTimeInTimeOfDayFormat(String time) {

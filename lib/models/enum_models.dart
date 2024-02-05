@@ -8,6 +8,7 @@ List<String> reminders = [
   "1 hour before",
   "1 day before"
 ];
+List<String> repeats = [];
 
 enum Category { none, work, personal, wishlist, birthday }
 

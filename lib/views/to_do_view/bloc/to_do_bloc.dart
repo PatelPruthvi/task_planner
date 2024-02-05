@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:task_planner/models/enum_models.dart';
 import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/resources/algorithm/sort_algo.dart';
+import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
-import 'package:task_planner/resources/components/calendar/main_cal.dart';
 import 'package:task_planner/services/notification_service.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import '../../../database/SQL/sql_helper.dart';
@@ -47,7 +47,8 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   FutureOr<void> toDoAddTaskClickedEvent(
       ToDoAddTaskClickedEvent event, Emitter<ToDoState> emit) async {
-    DateTime dateTime = HomeCal.getSelectedDateTime();
+    DateTime dateTime = InfiniteCalendar.getSelectedDateTime();
+    // DateTime dateTime = HomeCal.getSelectedDateTime();
     // DateTime dateTime = CalendarView.getSelectedDateTime();
     String date = dateTime.toString().substring(0, 10);
     ToDo todoItem = ToDo(
@@ -168,14 +169,13 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   Future<List<ToDo>> fetchToDoList() async {
     List<ToDo> todoItems = [];
-    String date = HomeCal.getSelectedDateTime().toString().substring(0, 10);
-    // String date =
-    //     CalendarView.getSelectedDateTime().toString().substring(0, 10);
+    String date =
+        InfiniteCalendar.getSelectedDateTime().toString().substring(0, 10);
     var response = await ToDoSQLhelper.getListByDay(date);
     for (int i = 0; i < response.length; i++) {
       todoItems.add(ToDo.fromJson(response[i]));
     }
-    todoItems = Sorting.sortGivenTodoList(todoItems);
+    todoItems = Sorting.sortGivenTodoListAccordtingToTime(todoItems);
     return todoItems;
   }
 }

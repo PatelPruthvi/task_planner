@@ -5,10 +5,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/resources/button_demo.dart';
 import 'package:task_planner/resources/components/bottom_sheets/bottom_sheet_planner.dart';
-import 'package:task_planner/views/todo_view/bloc/to_do_bloc.dart';
 
 import '../../utils/colors/app_colors.dart';
 import '../../utils/fonts/font_size.dart';
+import '../../views/to_do_view/bloc/to_do_bloc.dart';
 
 // ignore: must_be_immutable
 class ToDoListView extends StatelessWidget {

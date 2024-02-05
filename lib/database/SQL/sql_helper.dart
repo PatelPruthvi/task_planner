@@ -45,10 +45,21 @@ class ToDoSQLhelper {
     return id;
   }
 
+  static Future<List<Map<String, dynamic>>> getAllToDoItems() async {
+    final db = await SQLHelper.db();
+    return db.query(todoTableName);
+  }
+
   // the listview will be decoded by this
   static Future<List<Map<String, dynamic>>> getListByDay(String date) async {
     final db = await SQLHelper.db();
     return db.query(todoTableName, where: "date=?", whereArgs: [date]);
+  }
+
+  static Future<List<Map<String, dynamic>>> getListByCategory(
+      String category) async {
+    final db = await SQLHelper.db();
+    return db.query(todoTableName, where: "category=?", whereArgs: [category]);
   }
 
   static Future<void> updateItem(ToDo toDoItem) async {

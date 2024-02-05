@@ -1,13 +1,12 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:task_planner/resources/components/calendar/main_cal.dart';
+
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
-import 'package:task_planner/views/task_plan_view/bloc/task_plan_bloc.dart';
+import 'package:task_planner/views/planner_view/bloc/task_plan_bloc.dart';
 import 'package:task_planner/views/task_plan_view/ui/task_plan_view.dart';
-import 'package:task_planner/views/todo_view/bloc/to_do_bloc.dart';
-import 'package:task_planner/views/todo_view/ui/todo_view.dart';
+import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
 import '../../../utils/dimensions/dimensions.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -42,10 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(10),
                 onTap: () async {
                   DateTime? dateTime = await showDatePicker(
-                      context: context,
-                      firstDate: Dates.startDay,
-                      lastDate: Dates.endDay,
-                      initialDate: HomeCal.getSelectedDateTime());
+                    context: context,
+                    firstDate: Dates.startDay,
+                    lastDate: Dates.endDay,
+                  );
                   if (dateTime != null) {
                     _dateTimelineController.animateToDate(dateTime);
                     homeBloc.add(
@@ -63,14 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-              color: AppColors.kmainColor,
-              child: HomeCal(
-                homeBloc: homeBloc,
-                toDoBloc: toDoBloc,
-                taskBloc: taskBloc,
-                dateController: _dateTimelineController,
-              )),
+          // Container(
+          //     color: AppColors.kmainColor,
+          //     child: HomeCal(
+          //       homeBloc: homeBloc,
+          //       toDoBloc: toDoBloc,
+          //       taskBloc: taskBloc,
+          //       dateController: _dateTimelineController,
+          //     )),
           DefaultTabController(
             length: 2,
             initialIndex: 0,
@@ -96,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: Dimensions.getTabBarViewHeight(context),
                   child: TabBarView(
                     children: [
-                      ToDoScreen(homeBloc: homeBloc, toDoBloc: toDoBloc),
+                      // ToDoScreen(homeBloc: homeBloc, toDoBloc: toDoBloc),
                       TaskPlanView(homeBloc: homeBloc, taskBloc: taskBloc)
                     ],
                   ),
