@@ -5,7 +5,7 @@ import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/planner_view/bloc/task_plan_bloc.dart';
-import 'package:task_planner/views/task_plan_view/ui/task_plan_view.dart';
+
 import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
 import '../../../utils/dimensions/dimensions.dart';
 
@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: TabBarView(
                     children: [
                       // ToDoScreen(homeBloc: homeBloc, toDoBloc: toDoBloc),
-                      TaskPlanView(homeBloc: homeBloc, taskBloc: taskBloc)
+                      // TaskPlanView(homeBloc: homeBloc, taskBloc: taskBloc)
                     ],
                   ),
                 ),
