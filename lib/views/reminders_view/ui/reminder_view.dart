@@ -57,7 +57,7 @@ class _ReminderViewState extends State<ReminderView> {
                           unselectedLabelStyle:
                               FontSize.getToDoItemTileTextStyle(context),
                           tabs: [
-                            Tab(text: "All"),
+                            const Tab(text: "All"),
                             Tab(text: Models.getCategory(Category.work)),
                             Tab(text: Models.getCategory(Category.personal)),
                             Tab(text: Models.getCategory(Category.birthday)),
@@ -70,24 +70,30 @@ class _ReminderViewState extends State<ReminderView> {
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           CategoryView(
-                              reminderBloc: reminderBloc,
-                              event: ReminderInitialEvent()),
+                            reminderBloc: reminderBloc,
+                            event: ReminderInitialEvent(),
+                            category: "All",
+                          ),
                           CategoryView(
                               reminderBloc: reminderBloc,
+                              category: Models.getCategory(Category.work),
                               event: ReminderCategoryChangedEvent(
                                   category: Models.getCategory(Category.work))),
                           CategoryView(
                               reminderBloc: reminderBloc,
+                              category: Models.getCategory(Category.personal),
                               event: ReminderCategoryChangedEvent(
                                   category:
                                       Models.getCategory(Category.personal))),
                           CategoryView(
                               reminderBloc: reminderBloc,
+                              category: Models.getCategory(Category.birthday),
                               event: ReminderCategoryChangedEvent(
                                   category:
                                       Models.getCategory(Category.birthday))),
                           CategoryView(
                               reminderBloc: reminderBloc,
+                              category: Models.getCategory(Category.wishlist),
                               event: ReminderCategoryChangedEvent(
                                   category:
                                       Models.getCategory(Category.wishlist))),

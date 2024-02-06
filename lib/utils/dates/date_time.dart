@@ -28,6 +28,7 @@ class Dates {
 
   static String getDateInMdy(String date) {
     //date stored format is YYYY-MM-DD
+
     final val = DateTime.parse("$date 00:00");
     String dateTime = DateFormat("d MMM,yy").format(val);
     return dateTime;

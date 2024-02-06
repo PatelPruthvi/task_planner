@@ -7,6 +7,7 @@ class Themes {
   static getLightModeTheme(BuildContext context) => ThemeData(
       iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
       canvasColor: AppColors.kscreenColor,
+      primaryColor: AppColors.kblue600,
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: AppColors.kmainColor),
       appBarTheme: AppBarTheme(
@@ -22,6 +23,7 @@ class Themes {
   static getDarkModeTheme(BuildContext context) => ThemeData(
       iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
       canvasColor: AppColors.kscreenColor,
+      primaryColor: AppColors.kblue600,
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: AppColors.kmainColor),
       appBarTheme: AppBarTheme(

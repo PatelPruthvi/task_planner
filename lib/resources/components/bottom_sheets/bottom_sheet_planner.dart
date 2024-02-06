@@ -7,6 +7,7 @@ import 'package:task_planner/resources/components/drop_down/color_drop_down.dart
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
 import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
+import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
 import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/fonts/font_size.dart';
@@ -233,10 +234,21 @@ class BottomSheets {
           style: FontSize.getTextFieldTitleStyle(context),
           onTap: () async {
             TimeOfDay? pickedStartTime = await showTimePicker(
-                context: context,
-                initialTime: controller.text == ""
-                    ? TimeOfDay.now()
-                    : Dates.getTimeInTimeOfDayFormat(controller.text));
+              context: context,
+              initialTime: controller.text == ""
+                  ? TimeOfDay.now()
+                  : Dates.getTimeInTimeOfDayFormat(controller.text),
+              builder: (context, child) {
+                return Theme(
+                  data: Theme.of(context).copyWith(
+                      colorScheme: const ColorScheme.light(
+                          primary: AppColors.kblue600,
+                          secondary: AppColors.kblue600,
+                          onSecondary: AppColors.kwhiteColor)),
+                  child: child!,
+                );
+              },
+            );
             if (pickedStartTime != null) {
               controller.text = pickedStartTime.format(context);
             }
@@ -256,15 +268,155 @@ class BottomSheets {
                   borderSide: BorderSide(color: AppColors.kmainColor)))),
     );
   }
+
+  static getBottomSheetForDateWiseTodo({
+    required BuildContext context,
+    required TextEditingController controller,
+    required TextEditingController timeC,
+    required TextEditingController dateC,
+    required TimeOfDay? pickedTime,
+    required DateTime? dateTime,
+    required GlobalKey<FormState> formKey,
+    required ReminderBloc reminderBloc,
+    required String initialDropdownVal,
+    required String initialReminderValue,
+    required String initialRepeatVal,
+    required ElevatedButton elevatedButton,
+  }) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) => Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: StatefulBuilder(builder: (context, setState) {
+                return Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text("To Do Task",
+                          style: FontSize.getMEdiumBlackFontstyle(context)),
+                      getTextField(context, () => null, controller, "Add Task"),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            controller: dateC,
+                            autocorrect: false,
+                            readOnly: true,
+                            cursorColor: AppColors.kmainColor,
+                            style: FontSize.getTextFieldTitleStyle(context),
+                            onTap: () async {
+                              dateTime = await showDatePicker(
+                                context: context,
+                                initialDate: dateC.text != ""
+                                    ? DateTime.parse(dateC.text)
+                                    : DateTime.now(),
+                                firstDate: Dates.startDay,
+                                lastDate: Dates.endDay,
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                        colorScheme: const ColorScheme.light(
+                                            primary: AppColors.kblue600,
+                                            secondary: AppColors.kblue600,
+                                            onSecondary:
+                                                AppColors.kwhiteColor)),
+                                    child: child!,
+                                  );
+                                },
+                              );
+
+                              if (dateTime != null) {
+                                dateC.text =
+                                    dateTime.toString().substring(0, 10);
+                              }
+                            },
+                            validator: (value) {
+                              if (value == "" ||
+                                  value == "null" ||
+                                  value!.isEmpty) {
+                                return "Date can not be empty";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                labelText: "Add Date",
+                                labelStyle:
+                                    FontSize.getTextFieldTitleStyle(context),
+                                disabledBorder: const OutlineInputBorder(),
+                                border: const OutlineInputBorder(),
+                                focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppColors.kmainColor)))),
+                      ),
+                      getTimeRetrieverTextField(
+                          context: context,
+                          controller: timeC,
+                          labelText: "Completion Time"),
+                      Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text("Category ",
+                                        style: FontSize.getTextFieldTitleStyle(
+                                            context)),
+                                    CategoryDropDownList(
+                                        categoryVal: initialDropdownVal),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text("Repeat  ",
+                                        style: FontSize.getTextFieldTitleStyle(
+                                            context)),
+                                    RepeatDropdown(
+                                        repeatInitialValue: initialRepeatVal)
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Text("Reminder  ",
+                                style:
+                                    FontSize.getTextFieldTitleStyle(context)),
+                            const SizedBox(width: 20),
+                            ReminderDropdown(
+                                reminderValue: initialReminderValue)
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Buttons.getRectangleButton(context,
+                              () => Navigator.of(context).pop(), "Cancel"),
+                          elevatedButton
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            )).then((value) {
+      controller.clear();
+      timeC.clear();
+      dateC.clear();
+    });
+  }
 }
-
-
-
-// , () async {
-//                             pickedStartTime = await showTimePicker(
-//                                 context: context, initialTime: TimeOfDay.now());
-//                             setState(() {
-//                               startTimeC.text =
-//                                   pickedStartTime!.format(context);
-//                             });
-//                           },
