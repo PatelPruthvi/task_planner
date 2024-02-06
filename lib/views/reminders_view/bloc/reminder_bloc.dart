@@ -109,8 +109,8 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       ReminderIthItemCheckBoxClickedEvent event,
       Emitter<ReminderState> emit) async {
     event.todoItem.isCompleted = !event.todoItem.isCompleted!;
+    List<ToDo> todoItems = [];
     await ToDoSQLhelper.updateCheckBoxItem(event.todoItem).then((value) async {
-      List<ToDo> todoItems = [];
       if (event.category == "All") {
         todoItems = await fetchFullToDoList();
       } else {

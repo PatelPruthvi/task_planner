@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/resources/button_demo.dart';
 import 'package:task_planner/resources/components/bottom_sheets/bottom_sheet_planner.dart';
+import 'package:task_planner/resources/components/dialog_box/dialog_box.dart';
 
 import '../../utils/colors/app_colors.dart';
 import '../../utils/fonts/font_size.dart';
@@ -49,8 +50,18 @@ class ToDoListView extends StatelessWidget {
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10)),
                         onPressed: (context) {
-                          toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
-                              todoItem: todoItems[index]));
+                          if (todoItems[index].repeat == "Never") {
+                            toDoBloc.add(ToDoIthItemCheckBoxClickedEvent(
+                              todoItem: todoItems[index],
+                            ));
+                          } else {
+                            DialogBoxes.getAlertDialogForTaskDeletion(
+                                context: context,
+                                todoItem: todoItems[index],
+                                todoBloc: toDoBloc);
+                          }
+                          // toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
+                          //     todoItem: todoItems[index]));
                         },
                         backgroundColor: AppColors.kredColor,
                         foregroundColor: AppColors.kwhiteColor,
@@ -87,8 +98,15 @@ class ToDoListView extends StatelessWidget {
                       checkColor: AppColors.kwhiteColor,
                       activeColor: AppColors.kmainColor,
                       onChanged: (value) {
-                        toDoBloc.add(ToDoIthItemCheckBoxClickedEvent(
-                            todoItem: todoItems[index]));
+                        if (todoItems[index].repeat == "Never") {
+                          toDoBloc.add(ToDoIthItemCheckBoxClickedEvent(
+                              todoItem: todoItems[index]));
+                        } else {
+                          DialogBoxes.getAlertDialogForRepeatTaskCompletion(
+                              context: context,
+                              todoItem: todoItems[index],
+                              todoBloc: toDoBloc);
+                        }
                       },
                     ),
                     title: Text(

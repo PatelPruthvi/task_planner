@@ -19,7 +19,12 @@ class Themes {
           titleTextStyle: TextStyle(
               color: AppColors.kwhiteColor,
               fontSize: FontSize.getAppBarTitleFontSize(context),
-              fontWeight: FontWeight.w500)));
+              fontWeight: FontWeight.w500)),
+      colorScheme: const ColorScheme.light(
+          primary: AppColors.kblue600,
+          secondary: AppColors.kblue600,
+          onSecondary: AppColors.kwhiteColor));
+
   static getDarkModeTheme(BuildContext context) => ThemeData(
       iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
       canvasColor: AppColors.kscreenColor,
@@ -35,5 +40,9 @@ class Themes {
           titleTextStyle: TextStyle(
               color: AppColors.kwhiteColor,
               fontSize: FontSize.getAppBarTitleFontSize(context),
-              fontWeight: FontWeight.w500)));
+              fontWeight: FontWeight.w500)),
+      colorScheme: const ColorScheme.light(
+          primary: AppColors.kblue600,
+          secondary: AppColors.kblue600,
+          onSecondary: AppColors.kwhiteColor));
 }

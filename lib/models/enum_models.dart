@@ -100,12 +100,23 @@ class Models {
         repeatTaskItem.date = exactRepeatTime.toString().substring(0, 10);
         return repeatTaskItem;
       case "Monthly":
-        exactRepeatTime = exactRepeatTime.add(const Duration(days: 30));
+        exactRepeatTime = DateTime(
+            exactRepeatTime.year,
+            exactRepeatTime.month + 1,
+            exactRepeatTime.day,
+            exactRepeatTime.hour,
+            exactRepeatTime.minute);
+
         repeatTaskItem.isCompleted = false;
         repeatTaskItem.date = exactRepeatTime.toString().substring(0, 10);
         return repeatTaskItem;
       case "Annually":
-        exactRepeatTime = exactRepeatTime.add(const Duration(days: 365));
+        exactRepeatTime = DateTime(
+            exactRepeatTime.year + 1,
+            exactRepeatTime.month,
+            exactRepeatTime.day,
+            exactRepeatTime.hour,
+            exactRepeatTime.minute);
         repeatTaskItem.isCompleted = false;
         repeatTaskItem.date = exactRepeatTime.toString().substring(0, 10);
         return repeatTaskItem;

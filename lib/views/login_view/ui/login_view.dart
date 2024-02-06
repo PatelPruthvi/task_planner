@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:task_planner/resources/button_demo.dart';
+import 'package:task_planner/views/bottom_bar_view/bottom_bar_view.dart';
 import 'package:task_planner/views/login_view/bloc/login_bloc.dart';
 
 import '../../../database/auth/app_authentication.dart';
@@ -55,7 +56,7 @@ class _LoginViewState extends State<LoginView> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()));
+                                  builder: (context) => const BottomBarView()));
                         });
                       }, "Log-In Anonymously"),
                     )

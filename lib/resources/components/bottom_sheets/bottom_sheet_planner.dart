@@ -238,16 +238,6 @@ class BottomSheets {
               initialTime: controller.text == ""
                   ? TimeOfDay.now()
                   : Dates.getTimeInTimeOfDayFormat(controller.text),
-              builder: (context, child) {
-                return Theme(
-                  data: Theme.of(context).copyWith(
-                      colorScheme: const ColorScheme.light(
-                          primary: AppColors.kblue600,
-                          secondary: AppColors.kblue600,
-                          onSecondary: AppColors.kwhiteColor)),
-                  child: child!,
-                );
-              },
             );
             if (pickedStartTime != null) {
               controller.text = pickedStartTime.format(context);
@@ -315,17 +305,6 @@ class BottomSheets {
                                     : DateTime.now(),
                                 firstDate: Dates.startDay,
                                 lastDate: Dates.endDay,
-                                builder: (context, child) {
-                                  return Theme(
-                                    data: Theme.of(context).copyWith(
-                                        colorScheme: const ColorScheme.light(
-                                            primary: AppColors.kblue600,
-                                            secondary: AppColors.kblue600,
-                                            onSecondary:
-                                                AppColors.kwhiteColor)),
-                                    child: child!,
-                                  );
-                                },
                               );
 
                               if (dateTime != null) {

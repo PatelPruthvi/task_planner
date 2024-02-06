@@ -9,6 +9,7 @@ import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
 import '../../../models/enum_models.dart';
 import '../../../resources/button_demo.dart';
 import '../../../resources/components/bottom_sheets/bottom_sheet_planner.dart';
+import '../../../resources/components/dialog_box/dialog_box.dart';
 import '../../../resources/components/drop_down/category_drop_down.dart';
 import '../../../resources/components/drop_down/reminder_dropdown.dart';
 import '../../../resources/components/drop_down/repeat_drop_down.dart';
@@ -97,11 +98,26 @@ class _CategoryViewState extends State<CategoryView> {
                                               topRight: Radius.circular(10),
                                               bottomRight: Radius.circular(10)),
                                           onPressed: (context) {
-                                            widget.reminderBloc.add(
-                                                ReminderDeleteItemPressedEvent(
-                                                    todoItem: successState
-                                                        .todoItems[index],
-                                                    category: widget.category));
+                                            if (successState
+                                                    .todoItems[index].repeat ==
+                                                "Never") {
+                                              widget.reminderBloc.add(
+                                                  ReminderDeleteItemPressedEvent(
+                                                      todoItem: successState
+                                                          .todoItems[index],
+                                                      category:
+                                                          widget.category));
+                                            } else {
+                                              DialogBoxes
+                                                  .getAlertDialogForTaskDeletion(
+                                                      context: context,
+                                                      todoItem: successState
+                                                          .todoItems[index],
+                                                      reminderBloc:
+                                                          widget.reminderBloc,
+                                                      category:
+                                                          widget.category);
+                                            }
                                           },
                                           backgroundColor: AppColors.kredColor,
                                           foregroundColor:
@@ -160,11 +176,24 @@ class _CategoryViewState extends State<CategoryView> {
                                         value: successState
                                             .todoItems[index].isCompleted!,
                                         onChanged: (val) {
-                                          widget.reminderBloc.add(
-                                              ReminderIthItemCheckBoxClickedEvent(
-                                                  todoItem: successState
-                                                      .todoItems[index],
-                                                  category: widget.category));
+                                          if (successState
+                                                  .todoItems[index].repeat ==
+                                              "Never") {
+                                            widget.reminderBloc.add(
+                                                ReminderIthItemCheckBoxClickedEvent(
+                                                    todoItem: successState
+                                                        .todoItems[index],
+                                                    category: widget.category));
+                                          } else {
+                                            DialogBoxes
+                                                .getAlertDialogForRepeatTaskCompletion(
+                                                    context: context,
+                                                    todoItem: successState
+                                                        .todoItems[index],
+                                                    reminderBloc:
+                                                        widget.reminderBloc,
+                                                    category: widget.category);
+                                          }
                                         }),
                                     title: Padding(
                                       padding: const EdgeInsets.all(8.0),

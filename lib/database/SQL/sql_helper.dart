@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqlite_api.dart';
 import 'package:task_planner/models/task_planner_model.dart';
@@ -49,10 +50,12 @@ class ToDoSQLhelper {
         conflictAlgorithm: ConflictAlgorithm.replace);
     DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
         todoItem.date!, todoItem.completionTime!);
+    String body = "Reminder - ";
+    body = body + DateFormat("d MMM, hh:mm").format(notifDateTime);
     await NotificationService().scheduleNotif(
         id: id,
         title: todoItem.title,
-        body: "Did you complete your task?",
+        body: body,
         scheduledNotifDateTime:
             Models.getExactDateTimeForNotif(notifDateTime, todoItem.reminder!));
     return id;
@@ -80,16 +83,21 @@ class ToDoSQLhelper {
     final data = todoItem.toJson();
     await db
         .update(todoTableName, data, where: "id=?", whereArgs: [todoItem.id]);
-    await NotificationService().cancelNotif(id: todoItem.id!);
+    await NotificationService()
+        .cancelNotif(id: todoItem.id!)
+        .onError((error, stackTrace) => null);
     DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
         todoItem.date!, todoItem.completionTime!);
-
-    await NotificationService().scheduleNotif(
-        id: todoItem.id!,
-        title: todoItem.title,
-        body: "Did you complete your task?",
-        scheduledNotifDateTime:
-            Models.getExactDateTimeForNotif(notifDateTime, todoItem.reminder!));
+    String body = "Reminder - ";
+    body = body + DateFormat("d MMM, hh:mm").format(notifDateTime);
+    await NotificationService()
+        .scheduleNotif(
+            id: todoItem.id!,
+            title: todoItem.title,
+            body: body,
+            scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+                notifDateTime, todoItem.reminder!))
+        .onError((error, stackTrace) => null);
   }
 
   static Future<void> updateCheckBoxItem(ToDo todoItem) async {
@@ -108,16 +116,20 @@ class ToDoSQLhelper {
           await ToDoSQLhelper.createItem(
               Models.getExactDateTimeOfrepeat(todoItem));
         }
-      });
+      }).onError((error, stackTrace) => null);
     } else {
       DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
           todoItem.date!, todoItem.completionTime!);
-      await NotificationService().scheduleNotif(
-          id: todoItem.id!,
-          title: todoItem.title,
-          body: "Did you complete your task?",
-          scheduledNotifDateTime: Models.getExactDateTimeForNotif(
-              notifDateTime, todoItem.reminder!));
+      String body = "Reminder - ";
+      body = body + DateFormat("d MMM, hh:mm").format(notifDateTime);
+      await NotificationService()
+          .scheduleNotif(
+              id: todoItem.id!,
+              title: todoItem.title,
+              body: body,
+              scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+                  notifDateTime, todoItem.reminder!))
+          .onError((error, stackTrace) {});
     }
   }
 
