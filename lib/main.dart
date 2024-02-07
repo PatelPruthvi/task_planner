@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:task_planner/services/notification_service.dart';
 import 'package:task_planner/utils/Themes/themes.dart';
-import 'package:task_planner/views/bottom_bar_view/bottom_bar_view.dart';
+import 'package:task_planner/views/login_view/ui/login_view.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
@@ -29,6 +29,6 @@ class _MyAppState extends State<MyApp> {
         themeMode: ThemeMode.system,
         darkTheme: Themes.getDarkModeTheme(context),
         theme: Themes.getLightModeTheme(context),
-        home: const BottomBarView());
+        home: const LoginView());
   }
 }

@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:task_planner/resources/button_demo.dart';
+import 'package:task_planner/utils/utils.dart';
 import 'package:task_planner/views/bottom_bar_view/bottom_bar_view.dart';
 import 'package:task_planner/views/login_view/bloc/login_bloc.dart';
-
-import '../../../database/auth/app_authentication.dart';
-import '../../home_view/ui/home_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({
@@ -29,7 +27,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthManager authManager = AuthManager();
     return Scaffold(
       appBar: AppBar(title: const Text("Task Planner")),
       body: BlocConsumer<LoginBloc, LoginState>(
@@ -38,26 +35,24 @@ class _LoginViewState extends State<LoginView> {
         listener: (context, state) {
           if (state is LoginNavigateToHomePageActionState) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
+                MaterialPageRoute(builder: (context) => const BottomBarView()));
+          } else if (state is LoginShowErrorMsgActionState) {
+            Utils.flushBarErrorMsg(state.error, context);
           }
         },
         buildWhen: (previous, current) => current is! LoginActionState,
         builder: (context, state) {
           switch (state.runtimeType) {
+            case LoginLoadingState:
+              return const Center(child: CircularProgressIndicator());
             case LoginLoadedSuccessState:
               return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Image.asset("images/task.jpg"),
                     Center(
-                      child: Buttons.getRectangleButton(context, () async {
-                        await authManager.signInAnonymously().then((value) {
-                          Navigator.popUntil(context, (route) => route.isFirst);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const BottomBarView()));
-                        });
+                      child: Buttons.getRectangleButton(context, () {
+                        loginBloc.add(LoginButtonPressedEvent());
                       }, "Log-In Anonymously"),
                     )
                   ]);
