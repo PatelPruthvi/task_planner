@@ -46,7 +46,7 @@ class _CategoryViewState extends State<CategoryView> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: Scaffold(
-        backgroundColor: Theme.of(context).canvasColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: BlocConsumer<ReminderBloc, ReminderState>(
           bloc: widget.reminderBloc,
           buildWhen: (previous, current) => current is! ReminderActionState,
@@ -55,8 +55,8 @@ class _CategoryViewState extends State<CategoryView> {
               case ReminderEmptyLoadedState:
                 return Center(
                   child: Text(
-                    "No reminders found...",
-                    style: FontSize.getMEdiumBlackFontstyle(context),
+                    "No Reminders Found...",
+                    style: FontSize.getToDoItemTileTextStyle(context),
                   ),
                 );
               case ReminderLoadedSuccessState:
@@ -167,12 +167,15 @@ class _CategoryViewState extends State<CategoryView> {
                                         }, "Update"));
                                   },
                                   child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    tileColor: AppColors.kwhiteColor,
                                     leading: Checkbox(
-                                        activeColor: AppColors.kblue600,
+                                        side: BorderSide(
+                                          color: Theme.of(context)
+                                              .listTileTheme
+                                              .textColor!,
+                                          width: 2,
+                                        ),
+                                        activeColor:
+                                            Theme.of(context).primaryColor,
                                         value: successState
                                             .todoItems[index].isCompleted!,
                                         onChanged: (val) {

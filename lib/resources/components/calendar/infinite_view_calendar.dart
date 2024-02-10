@@ -81,7 +81,7 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                     ),
                   );
                 },
-                activeColor: AppColors.kmainColor,
+                activeColor: Theme.of(context).primaryColor,
                 firstDate: Dates.startDay,
                 focusDate: successState.focusedDate,
                 lastDate: Dates.endDay,
@@ -99,20 +99,30 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                             color: AppColors.kredColor),
                         decoration: BoxDecoration(
                             border: Border.all(color: AppColors.kredColor),
-                            color: AppColors.kwhiteColor,
+                            color: Theme.of(context).splashColor,
                             borderRadius: BorderRadius.circular(10))),
                     activeDayStyle: DayStyle(
-                        dayStrStyle: const TextStyle(
+                        dayStrStyle: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.kwhiteColor),
+                            color: Theme.of(context)
+                                .appBarTheme
+                                .titleTextStyle!
+                                .color),
                         dayNumStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: AppColors.kwhiteColor),
+                            color: Theme.of(context)
+                                .appBarTheme
+                                .titleTextStyle!
+                                .color),
                         decoration: BoxDecoration(
                             border: Border.all(
-                                color: AppColors.kscreenColor, width: 2),
-                            color: AppColors.kdarkBlue2,
+                                color: Theme.of(context)
+                                    .appBarTheme
+                                    .titleTextStyle!
+                                    .color!,
+                                width: 2),
+                            color: Theme.of(context).primaryColorDark,
                             borderRadius: BorderRadius.circular(10))),
                     inactiveDayStyle: DayStyle(
                         dayStrStyle:
@@ -122,8 +132,9 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                           fontSize: FontSize.getAppBarTitleFontSize(context),
                         ),
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.kmainColor),
-                            color: AppColors.kwhiteColor,
+                            border: Border.all(
+                                color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).splashColor,
                             borderRadius: BorderRadius.circular(10)))),
               );
 

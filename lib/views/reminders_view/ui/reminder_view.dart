@@ -1,7 +1,6 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:task_planner/models/enum_models.dart';
-import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/category_view/ui/category_view.dart';
@@ -26,7 +25,6 @@ class _ReminderViewState extends State<ReminderView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
       appBar: AppBar(
         title: const Padding(
           padding: EdgeInsets.only(left: 20.0),
@@ -43,7 +41,7 @@ class _ReminderViewState extends State<ReminderView> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    color: Theme.of(context).canvasColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ButtonsTabBar(
@@ -51,8 +49,9 @@ class _ReminderViewState extends State<ReminderView> {
                           height: Dimensions.getCategoryButtonsHeight(context),
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 20),
-                          backgroundColor: AppColors.kblue600,
-                          unselectedBackgroundColor: AppColors.kwhiteColor,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          unselectedBackgroundColor:
+                              Theme.of(context).listTileTheme.tileColor,
                           labelStyle: FontSize.getMediumWhiteFontStyle(context),
                           unselectedLabelStyle:
                               FontSize.getToDoItemTileTextStyle(context),

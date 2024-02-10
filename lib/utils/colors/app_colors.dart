@@ -9,8 +9,12 @@ class AppColors {
   static const Color kblue600 = Color.fromRGBO(38, 44, 107, 1);
   static const Color klightBlueColor = Color.fromRGBO(39, 161, 217, 1);
   static const Color kmediumBlueColor = Color.fromRGBO(0, 122, 255, 1);
+  static const Color kdarkModeTileColor = Color.fromRGBO(130, 183, 239, 1);
+  static const Color klightModeTileColor = Color.fromRGBO(32, 29, 65, 1);
   static const Color kredColor = Color.fromRGBO(255, 7, 7, 1);
   static const Color kblackColor = Colors.black;
+  static const Color kGreycanvasColor = Color.fromARGB(255, 19, 17, 17);
+  static Color kGreyColor = Colors.grey.shade700;
   static const Color kwhiteColor = Colors.white;
   static const Color kdarkBlue1 = Color.fromRGBO(32, 29, 65, .65);
   static const Color kdarkBlue2 = Color.fromRGBO(32, 29, 65, 1);

@@ -27,71 +27,94 @@ class BottomSheets {
     required ElevatedButton elevatedButton,
   }) {
     showModalBottomSheet(
+        showDragHandle: true,
         isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(40)),
+            side: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 5,
+              strokeAlign: 1,
+            )),
         context: context,
         builder: (context) => Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: StatefulBuilder(builder: (context, setState) {
-                return Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("To Do Task",
-                          style: FontSize.getMEdiumBlackFontstyle(context)),
-                      getTextField(context, () => null, controller, "Add Task"),
-                      getTimeRetrieverTextField(
-                          context: context,
-                          controller: timeC,
-                          labelText: "Completion Time"),
-                      Padding(
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("To Do Task",
+                            style: FontSize.getMEdiumBlackFontstyle(context)),
+                        getTextField(
+                            context, () => null, controller, "Add Task"),
+                        getTimeRetrieverTextField(
+                            context: context,
+                            controller: timeC,
+                            labelText: "Completion Time"),
+                        Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text("Category",
+                                          style:
+                                              FontSize.getTextFieldTitleStyle(
+                                                  context)),
+                                      CategoryDropDownList(
+                                          categoryVal: initialDropdownVal),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text("Repeat",
+                                          style:
+                                              FontSize.getTextFieldTitleStyle(
+                                                  context)),
+                                      RepeatDropdown(
+                                          repeatInitialValue: initialRepeatVal)
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )),
+                        Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text("Category  ",
+                              Text("Reminder",
                                   style:
                                       FontSize.getTextFieldTitleStyle(context)),
-                              const SizedBox(width: 20),
-                              CategoryDropDownList(
-                                  categoryVal: initialDropdownVal),
+                              ReminderDropdown(
+                                  reminderValue: initialReminderValue)
                             ],
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("Reminder  ",
-                                style:
-                                    FontSize.getTextFieldTitleStyle(context)),
-                            const SizedBox(width: 20),
-                            ReminderDropdown(
-                                reminderValue: initialReminderValue)
+                            Buttons.getRectangleButton(context,
+                                () => Navigator.of(context).pop(), "Cancel"),
+                            elevatedButton
                           ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          children: [
-                            Text("Repeat  ",
-                                style:
-                                    FontSize.getTextFieldTitleStyle(context)),
-                            const SizedBox(width: 20),
-                            RepeatDropdown(repeatInitialValue: initialRepeatVal)
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Buttons.getRectangleButton(context,
-                              () => Navigator.of(context).pop(), "Cancel"),
-                          elevatedButton
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }),
@@ -117,74 +140,86 @@ class BottomSheets {
           required int hexColorCode}) =>
       showModalBottomSheet(
         isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+            side: BorderSide(
+              color: AppColors.kblue600,
+              width: 5,
+              strokeAlign: 1,
+            )),
         context: context,
         builder: (context) {
           return StatefulBuilder(
             builder: (context, setState) => Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Form(
-                key: formKey,
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(bottomSheetTitle,
-                            style: Theme.of(context)
-                                .appBarTheme
-                                .titleTextStyle!
-                                .copyWith(
-                                    color: AppColors.kmainColor,
-                                    fontWeight: FontWeight.w600)),
-                      ),
-                      getTextField(context, () {}, nameC, "Task Name"),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: getTimeRetrieverTextField(
-                                  context: context,
-                                  controller: startTimeC,
-                                  labelText: "Start Time")),
-                          Expanded(
-                              child: getTimeRetrieverTextField(
-                                  context: context,
-                                  controller: endTimeC,
-                                  labelText: "End Time"))
-                        ],
-                      ),
-                      getTextField(context, () {}, descC, "Description"),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(bottomSheetTitle,
+                              style: Theme.of(context)
+                                  .appBarTheme
+                                  .titleTextStyle!
+                                  .copyWith(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.w600)),
+                        ),
+                        getTextField(context, () {}, nameC, "Task Name"),
+                        Row(
                           children: [
                             Expanded(
-                                child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Color",
-                                    style: FontSize.getTextFieldTitleStyle(
-                                        context)),
-                                ColorDropDownList(hexCode: hexColorCode),
-                              ],
-                            )),
+                                child: getTimeRetrieverTextField(
+                                    context: context,
+                                    controller: startTimeC,
+                                    labelText: "Start Time")),
                             Expanded(
-                                child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Category",
-                                    style: FontSize.getTextFieldTitleStyle(
-                                        context)),
-                                CategoryDropDownList(
-                                    categoryVal: initialDropdownValue),
-                              ],
-                            ))
+                                child: getTimeRetrieverTextField(
+                                    context: context,
+                                    controller: endTimeC,
+                                    labelText: "End Time"))
                           ],
                         ),
-                      ),
-                      bottomSheetButton
-                    ]),
+                        getTextField(context, () {}, descC, "Description"),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text("Color",
+                                      style: FontSize.getTextFieldTitleStyle(
+                                          context)),
+                                  ColorDropDownList(hexCode: hexColorCode),
+                                ],
+                              )),
+                              Expanded(
+                                  child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text("Category",
+                                      style: FontSize.getTextFieldTitleStyle(
+                                          context)),
+                                  CategoryDropDownList(
+                                      categoryVal: initialDropdownValue),
+                                ],
+                              ))
+                            ],
+                          ),
+                        ),
+                        bottomSheetButton
+                      ]),
+                ),
               ),
             ),
           );
@@ -210,14 +245,15 @@ class BottomSheets {
             controller: controller,
             autocorrect: false,
             onTap: onTap,
-            cursorColor: AppColors.kmainColor,
+            cursorColor: Theme.of(context).primaryColor,
             style: FontSize.getTextFieldTitleStyle(context),
             decoration: InputDecoration(
                 labelText: labelText,
                 labelStyle: FontSize.getTextFieldTitleStyle(context),
                 border: const OutlineInputBorder(),
-                focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.kmainColor)))),
+                focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Theme.of(context).primaryColor)))),
       );
 
   static Widget getTimeRetrieverTextField(
@@ -230,7 +266,7 @@ class BottomSheets {
           controller: controller,
           autocorrect: false,
           readOnly: true,
-          cursorColor: AppColors.kmainColor,
+          cursorColor: Theme.of(context).primaryColor,
           style: FontSize.getTextFieldTitleStyle(context),
           onTap: () async {
             TimeOfDay? pickedStartTime = await showTimePicker(
@@ -254,8 +290,9 @@ class BottomSheets {
               labelStyle: FontSize.getTextFieldTitleStyle(context),
               disabledBorder: const OutlineInputBorder(),
               border: const OutlineInputBorder(),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.kmainColor)))),
+              focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Theme.of(context).primaryColor)))),
     );
   }
 
@@ -274,121 +311,137 @@ class BottomSheets {
     required ElevatedButton elevatedButton,
   }) {
     showModalBottomSheet(
+        showDragHandle: true,
         isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+            side: BorderSide(
+              color: AppColors.kblue600,
+              width: 5,
+              strokeAlign: 1,
+            )),
         context: context,
         builder: (context) => Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: StatefulBuilder(builder: (context, setState) {
-                return Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("To Do Task",
-                          style: FontSize.getMEdiumBlackFontstyle(context)),
-                      getTextField(context, () => null, controller, "Add Task"),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                            controller: dateC,
-                            autocorrect: false,
-                            readOnly: true,
-                            cursorColor: AppColors.kmainColor,
-                            style: FontSize.getTextFieldTitleStyle(context),
-                            onTap: () async {
-                              dateTime = await showDatePicker(
-                                context: context,
-                                initialDate: dateC.text != ""
-                                    ? DateTime.parse(dateC.text)
-                                    : DateTime.now(),
-                                firstDate: Dates.startDay,
-                                lastDate: Dates.endDay,
-                              );
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("To Do Task",
+                            style: FontSize.getMEdiumBlackFontstyle(context)),
+                        getTextField(
+                            context, () => null, controller, "Add Task"),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                              controller: dateC,
+                              autocorrect: false,
+                              readOnly: true,
+                              cursorColor: Theme.of(context).primaryColor,
+                              style: FontSize.getTextFieldTitleStyle(context),
+                              onTap: () async {
+                                dateTime = await showDatePicker(
+                                  context: context,
+                                  initialDate: dateC.text != ""
+                                      ? DateTime.parse(dateC.text)
+                                      : DateTime.now(),
+                                  firstDate: Dates.startDay,
+                                  lastDate: Dates.endDay,
+                                );
 
-                              if (dateTime != null) {
-                                dateC.text =
-                                    dateTime.toString().substring(0, 10);
-                              }
-                            },
-                            validator: (value) {
-                              if (value == "" ||
-                                  value == "null" ||
-                                  value!.isEmpty) {
-                                return "Date can not be empty";
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                                labelText: "Add Date",
-                                labelStyle:
-                                    FontSize.getTextFieldTitleStyle(context),
-                                disabledBorder: const OutlineInputBorder(),
-                                border: const OutlineInputBorder(),
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: AppColors.kmainColor)))),
-                      ),
-                      getTimeRetrieverTextField(
-                          context: context,
-                          controller: timeC,
-                          labelText: "Completion Time"),
-                      Padding(
+                                if (dateTime != null) {
+                                  dateC.text =
+                                      dateTime.toString().substring(0, 10);
+                                }
+                              },
+                              validator: (value) {
+                                if (value == "" ||
+                                    value == "null" ||
+                                    value!.isEmpty) {
+                                  return "Date can not be empty";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText: "Add Date",
+                                  labelStyle:
+                                      FontSize.getTextFieldTitleStyle(context),
+                                  disabledBorder: const OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .primaryColor)))),
+                        ),
+                        getTimeRetrieverTextField(
+                            context: context,
+                            controller: timeC,
+                            labelText: "Completion Time"),
+                        Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text("Category ",
+                                          style:
+                                              FontSize.getTextFieldTitleStyle(
+                                                  context)),
+                                      CategoryDropDownList(
+                                          categoryVal: initialDropdownVal),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text("Repeat  ",
+                                          style:
+                                              FontSize.getTextFieldTitleStyle(
+                                                  context)),
+                                      RepeatDropdown(
+                                          repeatInitialValue: initialRepeatVal)
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )),
+                        Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text("Category ",
-                                        style: FontSize.getTextFieldTitleStyle(
-                                            context)),
-                                    CategoryDropDownList(
-                                        categoryVal: initialDropdownVal),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text("Repeat  ",
-                                        style: FontSize.getTextFieldTitleStyle(
-                                            context)),
-                                    RepeatDropdown(
-                                        repeatInitialValue: initialRepeatVal)
-                                  ],
-                                ),
-                              ),
+                              Text("Reminder",
+                                  style:
+                                      FontSize.getTextFieldTitleStyle(context)),
+                              // const SizedBox(width: 20),
+                              ReminderDropdown(
+                                  reminderValue: initialReminderValue)
                             ],
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("Reminder  ",
-                                style:
-                                    FontSize.getTextFieldTitleStyle(context)),
-                            const SizedBox(width: 20),
-                            ReminderDropdown(
-                                reminderValue: initialReminderValue)
+                            Buttons.getRectangleButton(context,
+                                () => Navigator.of(context).pop(), "Cancel"),
+                            elevatedButton
                           ],
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Buttons.getRectangleButton(context,
-                              () => Navigator.of(context).pop(), "Cancel"),
-                          elevatedButton
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }),

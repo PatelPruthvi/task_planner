@@ -39,7 +39,6 @@ class _ToDoWidgetState extends State<ToDoWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
       appBar: AppBar(
         toolbarHeight: Dimensions.getAppBarHeight(context),
         title: Padding(
@@ -76,7 +75,7 @@ class _ToDoWidgetState extends State<ToDoWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-              color: AppColors.kmainColor,
+              color: Theme.of(context).primaryColor,
               child: InfiniteCalendar(
                   homeBloc: homeBloc,
                   dateController: _dateTimelineController,
@@ -133,7 +132,9 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                                               ? Icons.keyboard_arrow_up_outlined
                                               : Icons
                                                   .keyboard_arrow_down_outlined,
-                                          color: Colors.black)
+                                          color: Theme.of(context)
+                                              .listTileTheme
+                                              .textColor)
                                     ])),
                           ),
                           areCompletedItemsVisible

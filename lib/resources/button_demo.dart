@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../utils/colors/app_colors.dart';
 import '../utils/fonts/font_size.dart';
 
 class Buttons {
@@ -9,7 +7,7 @@ class Buttons {
       ElevatedButton(
           style: ButtonStyle(
             backgroundColor:
-                const MaterialStatePropertyAll(AppColors.kmainColor),
+                MaterialStatePropertyAll(Theme.of(context).primaryColor),
             shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
           ),

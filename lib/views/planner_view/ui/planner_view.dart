@@ -35,7 +35,6 @@ class _PlannerViewState extends State<PlannerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
       appBar: AppBar(
         toolbarHeight: Dimensions.getAppBarHeight(context),
         title: Padding(
@@ -72,7 +71,7 @@ class _PlannerViewState extends State<PlannerView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-              color: AppColors.kmainColor,
+              color: Theme.of(context).primaryColor,
               child: InfiniteCalendar(
                   homeBloc: homeBloc,
                   dateController: _dateTimelineController,
@@ -221,12 +220,14 @@ class _PlannerViewState extends State<PlannerView> {
                                                   .getTaskPlannerTileWidth(
                                                       context),
                                               decoration: BoxDecoration(
-                                                color: AppColors.kwhiteColor,
+                                                color: Theme.of(context)
+                                                    .listTileTheme
+                                                    .tileColor,
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 border: Border.all(
-                                                    color:
-                                                        AppColors.kmainColor),
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
                                               ),
                                               child: IntrinsicHeight(
                                                 child: Row(
@@ -273,6 +274,10 @@ class _PlannerViewState extends State<PlannerView> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .listTileTheme
+                                                                    .textColor,
                                                                 fontSize: FontSize
                                                                     .getAppBarTitleFontSize(
                                                                         context)),
@@ -286,6 +291,10 @@ class _PlannerViewState extends State<PlannerView> {
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .listTileTheme
+                                                                    .textColor,
                                                                 fontSize: FontSize
                                                                     .getTaskPlannerDescriptionFontSize(
                                                                         context)),

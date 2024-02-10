@@ -96,7 +96,10 @@ class ToDoListView extends StatelessWidget {
                     leading: Checkbox(
                       value: todoItems[index].isCompleted,
                       checkColor: AppColors.kwhiteColor,
-                      activeColor: AppColors.kmainColor,
+                      activeColor: Theme.of(context).primaryColor,
+                      side: BorderSide(
+                          color: Theme.of(context).listTileTheme.textColor!,
+                          width: 2),
                       onChanged: (value) {
                         if (todoItems[index].repeat == "Never") {
                           toDoBloc.add(ToDoIthItemCheckBoxClickedEvent(
@@ -115,9 +118,6 @@ class ToDoListView extends StatelessWidget {
                     ),
                     subtitle: Text(todoItems[index].category ?? ""),
                     trailing: Text(todoItems[index].completionTime ?? " "),
-                    tileColor: AppColors.kwhiteColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
               ));

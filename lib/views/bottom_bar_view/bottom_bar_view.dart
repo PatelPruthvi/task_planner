@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/planner_view/ui/planner_view.dart';
 import 'package:task_planner/views/reminders_view/ui/reminder_view.dart';
@@ -29,10 +28,10 @@ class _BottomBarViewState extends State<BottomBarView> {
       const PlannerView()
     ];
     return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: widgets.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.kscreenColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.access_time_filled_sharp), label: "Reminders"),
@@ -42,9 +41,11 @@ class _BottomBarViewState extends State<BottomBarView> {
               icon: Icon(Icons.playlist_add_check_circle_sharp),
               label: "Task Planner")
         ],
-        selectedItemColor: AppColors.kblue600,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Theme.of(context).primaryColorLight,
         selectedFontSize: 16,
         unselectedFontSize: 12,
+        unselectedLabelStyle: FontSize.getBottomTextStyle(context),
         selectedLabelStyle: FontSize.getTextFieldTitleStyle(context),
         currentIndex: selectedIndex,
         onTap: onBarChange,
