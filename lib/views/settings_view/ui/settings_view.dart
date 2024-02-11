@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:task_planner/resources/components/buttons/settings_page_button.dart';
+
+import '../../../utils/fonts/font_size.dart';
+
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({super.key});
+
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text("Settings"),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).listTileTheme.tileColor,
+                    borderRadius: BorderRadius.circular(15)),
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    const Icon(Icons.sunny),
+                    const SizedBox(width: 10),
+                    const Icon(Icons.dark_mode),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        "App Theme",
+                        style: TextStyle(
+                            fontSize: FontSize.getMediumFontSize(context),
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).listTileTheme.textColor),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog.adaptive(
+                                title: const Text(
+                                    "To switch to the dark or light theme in the app, adjust your device's theme settings to dark or light."),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Okay!"))
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        icon: const Icon(Icons.info))
+                  ],
+                ),
+              ),
+              SettingsPageButton(
+                  text: "Rate App", press: () {}, icon: Icons.star),
+              SettingsPageButton(
+                  text: "Share App", press: () {}, icon: Icons.share),
+              SettingsPageButton(
+                  text: "Send us a Feedback", press: () {}, icon: Icons.mail),
+              SettingsPageButton(
+                  text: "Privacy Policy", press: () {}, icon: Icons.back_hand),
+              SettingsPageButton(
+                  text: "Terms of Service",
+                  press: () {},
+                  icon: Icons.article_rounded)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -10,7 +10,7 @@ class Themes {
   //primaryColorDark == selected tile color
   // splash color == unselected tile color
   static getLightModeTheme(BuildContext context) => ThemeData(
-      iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
+      iconTheme: const IconThemeData(color: AppColors.kblackColor),
       // canvasColor: ,
       listTileTheme: ListTileThemeData(
           tileColor: AppColors.kwhiteColor,
@@ -41,6 +41,12 @@ class Themes {
           dragHandleColor: AppColors.kGreyColor,
           showDragHandle: true,
           backgroundColor: AppColors.kscreenColor),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: AppColors.kblue600,
+        unselectedItemColor: AppColors.kGreyColor,
+        unselectedLabelStyle: FontSize.getBottomTextStyle(context),
+        selectedLabelStyle: FontSize.getBottomSelectedStyle(context),
+      ),
       colorScheme: const ColorScheme.light(
           primary: AppColors.kblue600,
           secondary: AppColors.kblue600,
@@ -72,6 +78,12 @@ class Themes {
         textColor: AppColors.kwhiteColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         iconColor: AppColors.kwhiteColor,
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: AppColors.kmediumBlueColor,
+        unselectedItemColor: AppColors.kscreenColor,
+        unselectedLabelStyle: FontSize.getBottomTextStyle(context),
+        selectedLabelStyle: FontSize.getBottomSelectedStyle(context),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
           dragHandleColor: AppColors.kscreenColor,

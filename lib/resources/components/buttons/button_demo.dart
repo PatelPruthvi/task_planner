@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/fonts/font_size.dart';
+import '../../../utils/fonts/font_size.dart';
 
 class Buttons {
   static ElevatedButton getRectangleButton(

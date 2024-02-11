@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/planner_view/ui/planner_view.dart';
 import 'package:task_planner/views/reminders_view/ui/reminder_view.dart';
+import 'package:task_planner/views/settings_view/ui/settings_view.dart';
 import 'package:task_planner/views/to_do_view/ui/to_do_view.dart';
 
 class BottomBarView extends StatefulWidget {
@@ -25,12 +25,14 @@ class _BottomBarViewState extends State<BottomBarView> {
     final List<Widget> widgets = [
       const ReminderView(),
       const ToDoWidget(),
-      const PlannerView()
+      const PlannerView(),
+      const SettingScreen()
     ];
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: widgets.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         items: const [
           BottomNavigationBarItem(
@@ -39,14 +41,9 @@ class _BottomBarViewState extends State<BottomBarView> {
               icon: Icon(Icons.app_registration_sharp), label: "To Do List"),
           BottomNavigationBarItem(
               icon: Icon(Icons.playlist_add_check_circle_sharp),
-              label: "Task Planner")
+              label: "Task Planner"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings")
         ],
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Theme.of(context).primaryColorLight,
-        selectedFontSize: 16,
-        unselectedFontSize: 12,
-        unselectedLabelStyle: FontSize.getBottomTextStyle(context),
-        selectedLabelStyle: FontSize.getBottomSelectedStyle(context),
         currentIndex: selectedIndex,
         onTap: onBarChange,
       ),

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:task_planner/resources/button_demo.dart';
+import 'package:task_planner/resources/components/buttons/button_demo.dart';
 import 'package:task_planner/utils/utils.dart';
 import 'package:task_planner/views/bottom_bar_view/bottom_bar_view.dart';
 import 'package:task_planner/views/login_view/bloc/login_bloc.dart';

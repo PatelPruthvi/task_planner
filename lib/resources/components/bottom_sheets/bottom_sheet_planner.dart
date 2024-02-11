@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:task_planner/resources/button_demo.dart';
+import 'package:task_planner/resources/components/buttons/button_demo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/color_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';

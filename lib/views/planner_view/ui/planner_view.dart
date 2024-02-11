@@ -2,7 +2,7 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:task_planner/resources/button_demo.dart';
+import 'package:task_planner/resources/components/buttons/button_demo.dart';
 import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/planner_view/bloc/task_plan_bloc.dart';

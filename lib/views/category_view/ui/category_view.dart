@@ -7,7 +7,7 @@ import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
 
 import '../../../models/enum_models.dart';
-import '../../../resources/button_demo.dart';
+import '../../../resources/components/buttons/button_demo.dart';
 import '../../../resources/components/bottom_sheets/bottom_sheet_planner.dart';
 import '../../../resources/components/dialog_box/dialog_box.dart';
 import '../../../resources/components/drop_down/category_drop_down.dart';
