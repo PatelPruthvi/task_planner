@@ -22,9 +22,17 @@ class _RepeatDropdownState extends State<RepeatDropdown> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
+        dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+        iconEnabledColor: Theme.of(context).listTileTheme.textColor,
         value: repeatValue,
         items: repeats.map((val) {
-          return DropdownMenuItem(value: val, child: Text(val));
+          return DropdownMenuItem(
+              value: val,
+              child: Text(
+                val,
+                style:
+                    TextStyle(color: Theme.of(context).listTileTheme.textColor),
+              ));
         }).toList(),
         onChanged: (val) {
           setState(() {

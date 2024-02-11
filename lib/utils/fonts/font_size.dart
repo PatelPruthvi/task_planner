@@ -13,6 +13,9 @@ class FontSize {
       fontSize: FontSize.getTaskPlannerDescriptionFontSize(context),
       color: Theme.of(context).listTileTheme.textColor);
   static getTextFieldTitleStyle(BuildContext context) => TextStyle(
+      color: Theme.of(context).primaryColorDark,
+      fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));
+  static getBottomSelectedStyle(BuildContext context) => TextStyle(
       color: Theme.of(context).primaryColor,
       fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));
   static getBottomTextStyle(BuildContext context) => TextStyle(
@@ -27,7 +30,7 @@ class FontSize {
       fontSize: FontSize.getMediumFontSize(context));
   static getMEdiumBlackFontstyle(BuildContext context) =>
       Theme.of(context).appBarTheme.titleTextStyle!.copyWith(
-          color: Colors.black,
+          color: Theme.of(context).listTileTheme.textColor,
           fontWeight: FontWeight.w600,
           fontSize: FontSize.getAppBarTitleFontSize(context));
   static TextStyle getMediumWhiteFontStyle(BuildContext context) => TextStyle(

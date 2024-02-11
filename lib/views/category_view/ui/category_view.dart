@@ -217,7 +217,6 @@ class _CategoryViewState extends State<CategoryView> {
                                                 children: [
                                                   const Icon(
                                                       Icons.timer_outlined),
-                                                  const Text("  "),
                                                   Text(successState
                                                       .todoItems[index]
                                                       .completionTime!)
@@ -231,7 +230,6 @@ class _CategoryViewState extends State<CategoryView> {
                                                         .spaceEvenly,
                                                 children: [
                                                   const Icon(Icons.repeat),
-                                                  const Text("   "),
                                                   Text(successState
                                                       .todoItems[index].repeat!)
                                                 ],

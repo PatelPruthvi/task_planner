@@ -9,7 +9,6 @@ import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dar
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
 import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
-import '../../../utils/colors/app_colors.dart';
 import '../../../utils/fonts/font_size.dart';
 import '../../../views/planner_view/bloc/task_plan_bloc.dart';
 
@@ -140,10 +139,10 @@ class BottomSheets {
           required int hexColorCode}) =>
       showModalBottomSheet(
         isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(40)),
             side: BorderSide(
-              color: AppColors.kblue600,
+              color: Theme.of(context).primaryColor,
               width: 5,
               strokeAlign: 1,
             )),
@@ -168,7 +167,7 @@ class BottomSheets {
                                   .appBarTheme
                                   .titleTextStyle!
                                   .copyWith(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Theme.of(context).primaryColorDark,
                                       fontWeight: FontWeight.w600)),
                         ),
                         getTextField(context, () {}, nameC, "Task Name"),
@@ -250,10 +249,18 @@ class BottomSheets {
             decoration: InputDecoration(
                 labelText: labelText,
                 labelStyle: FontSize.getTextFieldTitleStyle(context),
-                border: const OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
                     borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor)))),
+                        BorderSide(color: Theme.of(context).primaryColorDark)),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide:
+                        BorderSide(color: Theme.of(context).primaryColorDark)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).primaryColorDark)))),
       );
 
   static Widget getTimeRetrieverTextField(
@@ -288,11 +295,18 @@ class BottomSheets {
           decoration: InputDecoration(
               labelText: labelText,
               labelStyle: FontSize.getTextFieldTitleStyle(context),
-              disabledBorder: const OutlineInputBorder(),
-              border: const OutlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
                   borderSide:
-                      BorderSide(color: Theme.of(context).primaryColor)))),
+                      BorderSide(color: Theme.of(context).primaryColorDark)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).primaryColorDark)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).primaryColorDark)))),
     );
   }
 
@@ -313,13 +327,12 @@ class BottomSheets {
     showModalBottomSheet(
         showDragHandle: true,
         isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(40)),
             side: BorderSide(
-              color: AppColors.kblue600,
-              width: 5,
-              strokeAlign: 1,
-            )),
+                color: Theme.of(context).primaryColor,
+                width: 5,
+                strokeAlign: 1)),
         context: context,
         builder: (context) => Padding(
               padding: EdgeInsets.only(
@@ -339,50 +352,73 @@ class BottomSheets {
                             context, () => null, controller, "Add Task"),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                              controller: dateC,
-                              autocorrect: false,
-                              readOnly: true,
-                              cursorColor: Theme.of(context).primaryColor,
-                              style: FontSize.getTextFieldTitleStyle(context),
-                              onTap: () async {
-                                dateTime = await showDatePicker(
-                                  context: context,
-                                  initialDate: dateC.text != ""
-                                      ? DateTime.parse(dateC.text)
-                                      : DateTime.now(),
-                                  firstDate: Dates.startDay,
-                                  lastDate: Dates.endDay,
-                                );
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                    controller: dateC,
+                                    autocorrect: false,
+                                    readOnly: true,
+                                    cursorColor: Theme.of(context).primaryColor,
+                                    style: FontSize.getTextFieldTitleStyle(
+                                        context),
+                                    onTap: () async {
+                                      dateTime = await showDatePicker(
+                                        context: context,
+                                        initialDate: dateC.text != ""
+                                            ? DateTime.parse(dateC.text)
+                                            : DateTime.now(),
+                                        firstDate: Dates.startDay,
+                                        lastDate: Dates.endDay,
+                                      );
 
-                                if (dateTime != null) {
-                                  dateC.text =
-                                      dateTime.toString().substring(0, 10);
-                                }
-                              },
-                              validator: (value) {
-                                if (value == "" ||
-                                    value == "null" ||
-                                    value!.isEmpty) {
-                                  return "Date can not be empty";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                  labelText: "Add Date",
-                                  labelStyle:
-                                      FontSize.getTextFieldTitleStyle(context),
-                                  disabledBorder: const OutlineInputBorder(),
-                                  border: const OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .primaryColor)))),
+                                      if (dateTime != null) {
+                                        dateC.text = dateTime
+                                            .toString()
+                                            .substring(0, 10);
+                                      }
+                                    },
+                                    validator: (value) {
+                                      if (value == "" ||
+                                          value == "null" ||
+                                          value!.isEmpty) {
+                                        return "Date can not be empty";
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                        labelText: "Add Date",
+                                        labelStyle:
+                                            FontSize.getTextFieldTitleStyle(
+                                                context),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColorDark)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColorDark)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColorDark)))),
+                              ),
+                              Expanded(
+                                child: getTimeRetrieverTextField(
+                                    context: context,
+                                    controller: timeC,
+                                    labelText: "Completion Time"),
+                              ),
+                            ],
+                          ),
                         ),
-                        getTimeRetrieverTextField(
-                            context: context,
-                            controller: timeC,
-                            labelText: "Completion Time"),
                         Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Row(

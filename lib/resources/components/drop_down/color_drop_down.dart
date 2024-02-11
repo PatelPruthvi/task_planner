@@ -24,6 +24,7 @@ class _ColorDropDownListState extends State<ColorDropDownList> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
+      iconEnabledColor: Theme.of(context).listTileTheme.textColor,
       value: colorHexCode,
       items: appHexColorCodes.map((colorVal) {
         return DropdownMenuItem(

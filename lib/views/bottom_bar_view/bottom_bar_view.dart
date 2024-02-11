@@ -46,7 +46,7 @@ class _BottomBarViewState extends State<BottomBarView> {
         selectedFontSize: 16,
         unselectedFontSize: 12,
         unselectedLabelStyle: FontSize.getBottomTextStyle(context),
-        selectedLabelStyle: FontSize.getTextFieldTitleStyle(context),
+        selectedLabelStyle: FontSize.getBottomSelectedStyle(context),
         currentIndex: selectedIndex,
         onTap: onBarChange,
       ),

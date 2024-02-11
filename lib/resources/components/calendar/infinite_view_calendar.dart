@@ -125,15 +125,15 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                             color: Theme.of(context).primaryColorDark,
                             borderRadius: BorderRadius.circular(10))),
                     inactiveDayStyle: DayStyle(
-                        dayStrStyle:
-                            const TextStyle(fontWeight: FontWeight.bold),
+                        dayStrStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.kblackColor),
                         dayNumStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: FontSize.getAppBarTitleFontSize(context),
-                        ),
+                            fontWeight: FontWeight.bold,
+                            fontSize: FontSize.getAppBarTitleFontSize(context),
+                            color: AppColors.kblackColor),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).primaryColor),
+                            border: Border.all(color: Theme.of(context).primaryColor),
                             color: Theme.of(context).splashColor,
                             borderRadius: BorderRadius.circular(10)))),
               );

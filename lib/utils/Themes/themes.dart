@@ -77,8 +77,9 @@ class Themes {
           dragHandleColor: AppColors.kscreenColor,
           showDragHandle: true,
           backgroundColor: AppColors.kblackColor),
-      colorScheme: const ColorScheme.light(
-          primary: AppColors.kblue600,
-          secondary: AppColors.kblue600,
+      colorScheme: ColorScheme.dark(
+          surfaceTint: Theme.of(context).scaffoldBackgroundColor,
+          primary: AppColors.kmediumBlueColor,
+          secondary: AppColors.kmediumBlueColor,
           onSecondary: AppColors.kwhiteColor));
 }
