@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_planner/resources/components/buttons/settings_page_button.dart';
@@ -43,39 +44,30 @@ class _SettingScreenState extends State<SettingScreen> {
                   padding: const EdgeInsets.all(20),
                   child: Row(
                     children: [
-                      const Icon(Icons.sunny),
-                      const SizedBox(width: 10),
+                      // const Icon(Icons.sunny),
+                      // const SizedBox(width: 10),
                       const Icon(Icons.dark_mode),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          "App Theme",
+                          "Dark Theme",
                           style: TextStyle(
                               fontSize: FontSize.getMediumFontSize(context),
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).listTileTheme.textColor),
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog.adaptive(
-                                  title: const Text(
-                                      "To switch to the dark or light theme in the app, adjust your device's theme settings to dark or light."),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text("Okay!"))
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          icon: const Icon(Icons.info))
+                      Switch.adaptive(
+                        value: AdaptiveTheme.of(context).mode.isDark,
+                        activeColor: Theme.of(context).primaryColor,
+                        onChanged: (value) {
+                          if (value) {
+                            AdaptiveTheme.of(context).setDark();
+                          } else {
+                            AdaptiveTheme.of(context).setLight();
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),

@@ -10,6 +10,7 @@ class Themes {
   //primaryColorDark == selected tile color
   // splash color == unselected tile color
   static getLightModeTheme(BuildContext context) => ThemeData(
+      brightness: Brightness.light,
       iconTheme: const IconThemeData(color: AppColors.kblackColor),
       // canvasColor: ,
       listTileTheme: ListTileThemeData(
@@ -53,6 +54,7 @@ class Themes {
           onSecondary: AppColors.kwhiteColor));
 
   static getDarkModeTheme(BuildContext context) => ThemeData(
+      brightness: Brightness.dark,
       iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
       // canvasColor: ,
       scaffoldBackgroundColor: AppColors.kGreycanvasColor,

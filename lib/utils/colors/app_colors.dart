@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // static const mainColor = Color(0xFF7743db);
-
+  static const kMainAppColor = Color.fromRGBO(253, 240, 209, 1);
   static const kcalendarTileColor = Color.fromARGB(255, 1, 59, 52);
   static const kscreenColor = Color.fromRGBO(226, 227, 246, 1);
   static const kmainColor = kblue600;
