@@ -51,9 +51,8 @@ class ToDoListView extends StatelessWidget {
                             bottomRight: Radius.circular(10)),
                         onPressed: (context) {
                           if (todoItems[index].repeat == "Never") {
-                            toDoBloc.add(ToDoIthItemCheckBoxClickedEvent(
-                              todoItem: todoItems[index],
-                            ));
+                            toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
+                                todoItem: todoItems[index]));
                           } else {
                             DialogBoxes.getAlertDialogForTaskDeletion(
                                 context: context,

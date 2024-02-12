@@ -63,9 +63,11 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                         HomeCalendarDateTappedEvent(selectedDate: dateTime));
                   }
                 },
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.calendar_month_outlined),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.calendar_month_outlined,
+                      color:
+                          Theme.of(context).appBarTheme.titleTextStyle!.color),
                 )),
           )
         ],

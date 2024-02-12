@@ -9,10 +9,11 @@ class Themes {
   //primaryColorLight == used for bottombar unselectedlabelcolor
   //primaryColorDark == selected tile color
   // splash color == unselected tile color
+  //canvas color == selected tile text color
   static getLightModeTheme(BuildContext context) => ThemeData(
       brightness: Brightness.light,
       iconTheme: const IconThemeData(color: AppColors.kblackColor),
-      // canvasColor: ,
+      canvasColor: AppColors.kwhiteColor,
       listTileTheme: ListTileThemeData(
           tileColor: AppColors.kwhiteColor,
           titleTextStyle: FontSize.getToDoItemTileTextStyle(context),
@@ -56,7 +57,7 @@ class Themes {
   static getDarkModeTheme(BuildContext context) => ThemeData(
       brightness: Brightness.dark,
       iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
-      // canvasColor: ,
+      canvasColor: AppColors.kblackColor,
       scaffoldBackgroundColor: AppColors.kGreycanvasColor,
       primaryColorLight: AppColors.kscreenColor, //used for buttons
       primaryColorDark: AppColors.kwhiteColor,
@@ -71,7 +72,8 @@ class Themes {
           elevation: 0.0,
           titleSpacing: 1.3,
           titleTextStyle: TextStyle(
-              color: AppColors.kblackColor,
+              // color: AppColors.kblackColor,
+              color: AppColors.kwhiteColor,
               fontSize: FontSize.getAppBarTitleFontSize(context),
               fontWeight: FontWeight.w500)),
       listTileTheme: ListTileThemeData(

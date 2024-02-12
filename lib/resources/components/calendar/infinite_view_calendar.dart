@@ -90,52 +90,32 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                     width: Dimensions.getCalendarDayWidth(context),
                     dayStructure: DayStructure.dayStrDayNum,
                     todayStyle: DayStyle(
-                        dayStrStyle: const TextStyle(
+                        dayStrStyle: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.kredColor),
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.kwhiteColor
+                                : AppColors.kredColor),
                         dayNumStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: AppColors.kredColor),
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.kwhiteColor
+                                : AppColors.kredColor),
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.kredColor),
+                            border: Border.all(
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? AppColors.kwhiteColor
+                                    : AppColors.kredColor),
                             color: Theme.of(context).splashColor,
                             borderRadius: BorderRadius.circular(10))),
                     activeDayStyle: DayStyle(
                         dayStrStyle: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context)
-                                .appBarTheme
-                                .titleTextStyle!
-                                .color),
-                        dayNumStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: Theme.of(context)
-                                .appBarTheme
-                                .titleTextStyle!
-                                .color),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context)
-                                    .appBarTheme
-                                    .titleTextStyle!
-                                    .color!,
-                                width: 2),
-                            color: Theme.of(context).primaryColorDark,
-                            borderRadius: BorderRadius.circular(10))),
-                    inactiveDayStyle: DayStyle(
-                        dayStrStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.kblackColor),
-                        dayNumStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: FontSize.getAppBarTitleFontSize(context),
-                            color: AppColors.kblackColor),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Theme.of(context).primaryColor),
-                            color: Theme.of(context).splashColor,
-                            borderRadius: BorderRadius.circular(10)))),
+                            color: Theme.of(context).canvasColor),
+                        dayNumStyle:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: FontSize.getAppBarTitleFontSize(context), color: Theme.of(context).canvasColor),
+                        decoration: BoxDecoration(border: Border.all(color: Theme.of(context).canvasColor, width: 2), color: Theme.of(context).primaryColorDark, borderRadius: BorderRadius.circular(10))),
+                    inactiveDayStyle: DayStyle(dayStrStyle: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.kblackColor), dayNumStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: FontSize.getAppBarTitleFontSize(context), color: AppColors.kblackColor), decoration: BoxDecoration(border: Border.all(color: Theme.of(context).primaryColor), color: Theme.of(context).splashColor, borderRadius: BorderRadius.circular(10)))),
               );
 
             default:
