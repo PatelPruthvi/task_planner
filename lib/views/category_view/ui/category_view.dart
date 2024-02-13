@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
@@ -59,239 +60,239 @@ class _CategoryViewState extends State<CategoryView> {
                 );
               case ReminderLoadedSuccessState:
                 final successState = state as ReminderLoadedSuccessState;
-
+                List<bool> isVisible =
+                    List.filled(successState.todoItems.length, true);
                 return Scaffold(
                   backgroundColor: Colors.transparent,
-                  body:
-                      // ListView.builder(
-                      //   itemCount: successState.todoItems.length,
-                      //   itemBuilder: (context, index) {
-                      // return Column(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Padding(
-                      //         padding: const EdgeInsets.all(8.0),
-                      //         child: Row(
-                      //           children: [
-                      //             Padding(
-                      //               padding: const EdgeInsets.all(8.0),
-                      //               child: Text(
-                      //                   Dates.getDateInMdy(successState
-                      //                       .todoItems[0][0].date!),
-                      //                   style: TextStyle(
-                      //                       fontSize: FontSize
-                      //                           .getTaskPlannerDescriptionFontSize(
-                      //                               context))),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ]);
-                      //   },
-                      // )
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: successState.todoItems.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                  body: StatefulBuilder(builder: (context, setState) {
+                    return ListView.builder(
+                      itemCount: successState.todoItems.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isVisible[index] = !isVisible[index];
+                                    });
+                                  },
                                   child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            Dates.getDateInMdy(successState
-                                                .todoItems[index].date!),
-                                            style: TextStyle(
-                                                fontSize: FontSize
-                                                    .getTaskPlannerDescriptionFontSize(
-                                                        context))),
-                                      ),
+                                      Text(
+                                          Dates.getDateInMdy(successState
+                                              .todoItems[index][0].date!),
+                                          style: TextStyle(
+                                              fontSize: FontSize
+                                                  .getTaskPlannerDescriptionFontSize(
+                                                      context))),
+                                      Icon(isVisible[index]
+                                          ? Icons.keyboard_arrow_down_outlined
+                                          : Icons.keyboard_arrow_up_outlined),
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15.0, vertical: 5),
-                                  child: Slidable(
-                                    key: ValueKey(2 + index),
-                                    endActionPane: ActionPane(
-                                        extentRatio: 0.2,
-                                        motion: const ScrollMotion(),
-                                        //drag to delete functionality
-                                        // dismissible: DismissiblePane(onDismissed: () {
-                                        //   toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
-                                        //       todoItem: todoItems[index]));
-                                        // }),
-                                        children: [
-                                          SlidableAction(
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                      topRight:
-                                                          Radius.circular(10),
-                                                      bottomRight:
-                                                          Radius.circular(10)),
-                                              onPressed: (context) {
-                                                if (successState
-                                                        .todoItems[index]
-                                                        .repeat ==
-                                                    "Never") {
-                                                  widget.reminderBloc.add(
-                                                      ReminderDeleteItemPressedEvent(
-                                                          todoItem: successState
-                                                              .todoItems[index],
-                                                          category:
-                                                              widget.category));
-                                                } else {
-                                                  DialogBoxes
-                                                      .getAlertDialogForTaskDeletion(
-                                                          context: context,
-                                                          todoItem: successState
-                                                              .todoItems[index],
-                                                          reminderBloc: widget
-                                                              .reminderBloc,
-                                                          category:
-                                                              widget.category);
-                                                }
+                              ),
+                              isVisible[index]
+                                  ? ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount:
+                                          successState.todoItems[index].length,
+                                      itemBuilder: (context, i) {
+                                        ToDo todoItem =
+                                            successState.todoItems[index][i];
+
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15.0, vertical: 5),
+                                          child: Slidable(
+                                            key: ValueKey(2 + index),
+                                            endActionPane: ActionPane(
+                                                extentRatio: 0.2,
+                                                motion: const ScrollMotion(),
+                                                //drag to delete functionality
+                                                // dismissible: DismissiblePane(onDismissed: () {
+                                                //   toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
+                                                //       todoItem: todoItems[index]));
+                                                // }),
+                                                children: [
+                                                  SlidableAction(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                      onPressed: (context) {
+                                                        if (todoItem.repeat ==
+                                                            "Never") {
+                                                          widget.reminderBloc.add(
+                                                              ReminderDeleteItemPressedEvent(
+                                                                  todoItem:
+                                                                      todoItem,
+                                                                  category: widget
+                                                                      .category));
+                                                        } else {
+                                                          DialogBoxes.getAlertDialogForTaskDeletion(
+                                                              context: context,
+                                                              todoItem:
+                                                                  todoItem,
+                                                              reminderBloc: widget
+                                                                  .reminderBloc,
+                                                              category: widget
+                                                                  .category);
+                                                        }
+                                                      },
+                                                      backgroundColor:
+                                                          AppColors.kredColor,
+                                                      foregroundColor:
+                                                          AppColors.kwhiteColor,
+                                                      icon: Icons.delete)
+                                                ]),
+                                            child: InkWell(
+                                              onLongPress: () {
+                                                todoController.text =
+                                                    todoItem.title ?? " ";
+                                                timeC.text =
+                                                    todoItem.completionTime ??
+                                                        "00:00";
+                                                dateC.text = todoItem.date ??
+                                                    "0000-00-00";
+                                                BottomSheets
+                                                    .getBottomSheetForDateWiseTodo(
+                                                  context: context,
+                                                  controller: todoController,
+                                                  timeC: timeC,
+                                                  dateC: dateC,
+                                                  pickedTime: Dates
+                                                      .getTimeInTimeOfDayFormat(
+                                                          todoItem
+                                                              .completionTime!),
+                                                  dateTime: DateTime.now(),
+                                                  formKey: formKey,
+                                                  reminderBloc:
+                                                      widget.reminderBloc,
+                                                  initialDropdownVal:
+                                                      todoItem.category!,
+                                                  initialReminderValue:
+                                                      todoItem.reminder!,
+                                                  initialRepeatVal:
+                                                      todoItem.repeat!,
+                                                  onPressed: () {
+                                                    widget.reminderBloc.add(
+                                                        ReminderIthItemUpdateClickedEvent(
+                                                            title:
+                                                                todoController
+                                                                    .text,
+                                                            time: timeC.text,
+                                                            todoItem: todoItem,
+                                                            category:
+                                                                widget.category,
+                                                            dateTime:
+                                                                dateC.text));
+                                                  },
+                                                  buttonLabel: "UPDATE",
+                                                );
                                               },
-                                              backgroundColor:
-                                                  AppColors.kredColor,
-                                              foregroundColor:
-                                                  AppColors.kwhiteColor,
-                                              icon: Icons.delete)
-                                        ]),
-                                    child: InkWell(
-                                      onLongPress: () {
-                                        todoController.text = successState
-                                                .todoItems[index].title ??
-                                            " ";
-                                        timeC.text = successState
-                                                .todoItems[index]
-                                                .completionTime ??
-                                            "00:00";
-                                        dateC.text = successState
-                                                .todoItems[index].date ??
-                                            "0000-00-00";
-                                        BottomSheets
-                                            .getBottomSheetForDateWiseTodo(
-                                          context: context,
-                                          controller: todoController,
-                                          timeC: timeC,
-                                          dateC: dateC,
-                                          pickedTime:
-                                              Dates.getTimeInTimeOfDayFormat(
-                                                  successState.todoItems[index]
-                                                      .completionTime!),
-                                          dateTime: DateTime.now(),
-                                          formKey: formKey,
-                                          reminderBloc: widget.reminderBloc,
-                                          initialDropdownVal: successState
-                                              .todoItems[index].category!,
-                                          initialReminderValue: successState
-                                              .todoItems[index].reminder!,
-                                          initialRepeatVal: successState
-                                              .todoItems[index].repeat!,
-                                          onPressed: () {
-                                            widget.reminderBloc.add(
-                                                ReminderIthItemUpdateClickedEvent(
-                                                    title: todoController.text,
-                                                    time: timeC.text,
-                                                    todoItem: successState
-                                                        .todoItems[index],
-                                                    category: widget.category,
-                                                    dateTime: dateC.text));
-                                          },
-                                          buttonLabel: "UPDATE",
+                                              child: ListTile(
+                                                leading: Checkbox(
+                                                    side: BorderSide(
+                                                      color: Theme.of(context)
+                                                          .listTileTheme
+                                                          .textColor!,
+                                                      width: 2,
+                                                    ),
+                                                    activeColor:
+                                                        Theme.of(context)
+                                                            .primaryColor,
+                                                    value:
+                                                        todoItem.isCompleted!,
+                                                    onChanged: (val) {
+                                                      if (todoItem.repeat ==
+                                                          "Never") {
+                                                        widget.reminderBloc.add(
+                                                            ReminderIthItemCheckBoxClickedEvent(
+                                                                todoItem:
+                                                                    todoItem,
+                                                                category: widget
+                                                                    .category));
+                                                      } else {
+                                                        DialogBoxes
+                                                            .getAlertDialogForRepeatTaskCompletion(
+                                                                context:
+                                                                    context,
+                                                                todoItem:
+                                                                    todoItem,
+                                                                reminderBloc: widget
+                                                                    .reminderBloc,
+                                                                category: widget
+                                                                    .category);
+                                                      }
+                                                    }),
+                                                title: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(todoItem.title!),
+                                                ),
+                                                subtitle: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              const Icon(Icons
+                                                                  .timer_outlined),
+                                                              Text(todoItem
+                                                                  .completionTime!)
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              const Icon(
+                                                                  Icons.repeat),
+                                                              Text(todoItem
+                                                                  .repeat!)
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ]),
+                                                ),
+                                                trailing:
+                                                    Text(todoItem.category!),
+                                              ),
+                                            ),
+                                          ),
                                         );
                                       },
-                                      child: ListTile(
-                                        leading: Checkbox(
-                                            side: BorderSide(
-                                              color: Theme.of(context)
-                                                  .listTileTheme
-                                                  .textColor!,
-                                              width: 2,
-                                            ),
-                                            activeColor:
-                                                Theme.of(context).primaryColor,
-                                            value: successState
-                                                .todoItems[index].isCompleted!,
-                                            onChanged: (val) {
-                                              if (successState.todoItems[index]
-                                                      .repeat ==
-                                                  "Never") {
-                                                widget.reminderBloc.add(
-                                                    ReminderIthItemCheckBoxClickedEvent(
-                                                        todoItem: successState
-                                                            .todoItems[index],
-                                                        category:
-                                                            widget.category));
-                                              } else {
-                                                DialogBoxes
-                                                    .getAlertDialogForRepeatTaskCompletion(
-                                                        context: context,
-                                                        todoItem: successState
-                                                            .todoItems[index],
-                                                        reminderBloc:
-                                                            widget.reminderBloc,
-                                                        category:
-                                                            widget.category);
-                                              }
-                                            }),
-                                        title: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(successState
-                                              .todoItems[index].title!),
-                                        ),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      const Icon(
-                                                          Icons.timer_outlined),
-                                                      Text(successState
-                                                          .todoItems[index]
-                                                          .completionTime!)
-                                                    ],
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      const Icon(Icons.repeat),
-                                                      Text(successState
-                                                          .todoItems[index]
-                                                          .repeat!)
-                                                    ],
-                                                  ),
-                                                ),
-                                              ]),
-                                        ),
-                                        trailing: Text(successState
-                                            .todoItems[index].category!),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            );
-                          }),
+                                    )
+                                  : Container(),
+                            ]);
+                      },
+                    );
+                  }),
                 );
 
               default:

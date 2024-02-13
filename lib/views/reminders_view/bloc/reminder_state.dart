@@ -6,7 +6,7 @@ sealed class ReminderState {}
 final class ReminderInitial extends ReminderState {}
 
 class ReminderLoadedSuccessState extends ReminderState {
-  final List<ToDo> todoItems;
+  final List<List<ToDo>> todoItems;
 
   ReminderLoadedSuccessState({required this.todoItems});
 }

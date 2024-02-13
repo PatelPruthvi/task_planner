@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:meta/meta.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:task_planner/AppUrls/app_url.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -88,7 +88,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
     } catch (e) {
       // Handle sharing error, if any
-      print('Error sharing: $e');
+      if (kDebugMode) {
+        print('Error sharing: $e');
+      }
       emit(SettingsErrorMsgActionState(
           errorMsg: "Error sharing app to others..."));
     }

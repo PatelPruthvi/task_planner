@@ -26,7 +26,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
   FutureOr<void> reminderInitialEvent(
       ReminderInitialEvent event, Emitter<ReminderState> emit) async {
-    List<ToDo> todoItems = await fetchFullToDoList();
+    List<List<ToDo>> todoItems = await fetchFullToDoList();
 
     if (todoItems.isEmpty) {
       emit(ReminderEmptyLoadedState());
@@ -37,7 +37,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
   FutureOr<void> reminderCategoryChangedEvent(
       ReminderCategoryChangedEvent event, Emitter<ReminderState> emit) async {
-    List<ToDo> todoItems = [];
+    List<List<ToDo>> todoItems = [];
     todoItems = await fetchByCategory(event.category);
     // List<List<ToDo>> todo = [];
     // Map<String, List<ToDo>> dateMaps = {};
@@ -77,7 +77,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
   FutureOr<void> reminderDeleteItemPressedEvent(
       ReminderDeleteItemPressedEvent event, Emitter<ReminderState> emit) async {
     await ToDoSQLhelper.deleteItem(event.todoItem).then((value) async {
-      List<ToDo> todoItems = [];
+      List<List<ToDo>> todoItems = [];
       if (event.category == "All") {
         todoItems = await fetchFullToDoList();
       } else {
@@ -128,7 +128,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       ReminderIthItemCheckBoxClickedEvent event,
       Emitter<ReminderState> emit) async {
     event.todoItem.isCompleted = !event.todoItem.isCompleted!;
-    List<ToDo> todoItems = [];
+    List<List<ToDo>> todoItems = [];
     await ToDoSQLhelper.updateCheckBoxItem(event.todoItem).then((value) async {
       if (event.category == "All") {
         todoItems = await fetchFullToDoList();
@@ -150,23 +150,52 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
     }).onError((error, stackTrace) {});
   }
 
-  Future<List<ToDo>> fetchFullToDoList() async {
+  Future<List<List<ToDo>>> fetchFullToDoList() async {
     List<ToDo> todoItems = [];
     var response = await ToDoSQLhelper.getAllToDoItems();
     for (int i = 0; i < response.length; i++) {
       todoItems.add(ToDo.fromJson(response[i]));
     }
     todoItems = Sorting.sortGivenTodoListAccordtingToDateTime(todoItems);
-    return todoItems;
+
+    List<List<ToDo>> todo = [];
+    Map<String, List<ToDo>> dateMaps = {};
+    for (var element in todoItems) {
+      dateMaps[element.date!] = [];
+    }
+    for (var element in todoItems) {
+      dateMaps[element.date]?.add(element);
+    }
+    dateMaps.forEach(
+      (key, value) {
+        todo.add(value);
+      },
+    );
+
+    return todo;
   }
 
-  Future<List<ToDo>> fetchByCategory(String category) async {
+  Future<List<List<ToDo>>> fetchByCategory(String category) async {
     List<ToDo> todoItems = [];
     var response = await ToDoSQLhelper.getListByCategory(category);
     for (int i = 0; i < response.length; i++) {
       todoItems.add(ToDo.fromJson(response[i]));
     }
     todoItems = Sorting.sortGivenTodoListAccordtingToDateTime(todoItems);
-    return todoItems;
+    List<List<ToDo>> todo = [];
+    Map<String, List<ToDo>> dateMaps = {};
+    for (var element in todoItems) {
+      dateMaps[element.date!] = [];
+    }
+    for (var element in todoItems) {
+      dateMaps[element.date]?.add(element);
+    }
+    dateMaps.forEach(
+      (key, value) {
+        todo.add(value);
+      },
+    );
+
+    return todo;
   }
 }
