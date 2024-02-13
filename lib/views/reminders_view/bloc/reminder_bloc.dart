@@ -39,6 +39,16 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       ReminderCategoryChangedEvent event, Emitter<ReminderState> emit) async {
     List<ToDo> todoItems = [];
     todoItems = await fetchByCategory(event.category);
+    // List<List<ToDo>> todo = [];
+    // Map<String, List<ToDo>> dateMaps = {};
+    // for (var element in todoItems) {
+    //   dateMaps[element.date]?.add(element);
+    // }
+    // dateMaps.forEach(
+    //   (key, value) {
+    //     todo.add(value);
+    //   },
+    // );
     if (todoItems.isEmpty) {
       emit(ReminderEmptyLoadedState());
     } else {
@@ -73,7 +83,16 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       } else {
         todoItems = await fetchByCategory(event.category);
       }
-
+      // List<List<ToDo>> todo = [];
+      // Map<String, List<ToDo>> dateMaps = {};
+      // for (var element in todoItems) {
+      //   dateMaps[element.date]?.add(element);
+      // }
+      // dateMaps.forEach(
+      //   (key, value) {
+      //     todo.add(value);
+      //   },
+      // );
       if (todoItems.isEmpty) {
         emit(ReminderEmptyLoadedState());
       } else {
@@ -116,23 +135,16 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       } else {
         todoItems = await fetchByCategory(event.category);
       }
-      List<List<ToDo>> todo = [];
-      Map<String, List<ToDo>> dateMaps = {};
-      for (var element in todoItems) {
-        dateMaps[element.date]?.add(element);
-      }
-      dateMaps.forEach(
-        (key, value) {
-          todo.add(value);
-        },
-      );
-      todo.forEach(
-        (element) {
-          element.forEach((element) {
-            print(element.date);
-          });
-        },
-      );
+      // List<List<ToDo>> todo = [];
+      // Map<String, List<ToDo>> dateMaps = {};
+      // for (var element in todoItems) {
+      //   dateMaps[element.date]?.add(element);
+      // }
+      // dateMaps.forEach(
+      //   (key, value) {
+      //     todo.add(value);
+      //   },
+      // );
 
       emit(ReminderLoadedSuccessState(todoItems: todoItems));
     }).onError((error, stackTrace) {});
@@ -145,7 +157,6 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       todoItems.add(ToDo.fromJson(response[i]));
     }
     todoItems = Sorting.sortGivenTodoListAccordtingToDateTime(todoItems);
-
     return todoItems;
   }
 

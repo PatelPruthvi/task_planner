@@ -89,7 +89,7 @@ class ToDoListView extends StatelessWidget {
                             ));
                           }
                         },
-                        buttonLabel: "Update");
+                        buttonLabel: "UPDATE");
                   },
                   child: ListTile(
                     leading: Checkbox(

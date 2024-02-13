@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../colors/app_colors.dart';
 import '../fonts/font_size.dart';
 
@@ -26,9 +26,10 @@ class Themes {
           elevation: 0.0,
           titleSpacing: 1.3,
           titleTextStyle: TextStyle(
-              color: AppColors.kwhiteColor,
+              color: AppColors.kscreenColor,
               fontSize: FontSize.getAppBarTitleFontSize(context),
-              fontWeight: FontWeight.w500)),
+              fontFamily: GoogleFonts.comfortaa().fontFamily,
+              fontWeight: FontWeight.bold)),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: TextStyle(
             color: AppColors.kblackColor,
@@ -85,9 +86,10 @@ class Themes {
           titleSpacing: 1.3,
           titleTextStyle: TextStyle(
               // color: AppColors.kblackColor,
-              color: AppColors.kwhiteColor,
+              color: AppColors.kscreenColor,
               fontSize: FontSize.getAppBarTitleFontSize(context),
-              fontWeight: FontWeight.w500)),
+              fontFamily: GoogleFonts.comfortaa().fontFamily,
+              fontWeight: FontWeight.bold)),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: TextStyle(
             color: AppColors.kwhiteColor,

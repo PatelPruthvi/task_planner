@@ -1,8 +1,10 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:task_planner/resources/components/buttons/settings_page_button.dart';
-import 'package:task_planner/utils/dimensions/dimensions.dart';
+
+import 'package:task_planner/utils/widgets/utils.dart';
 import 'package:task_planner/views/settings_view/bloc/settings_bloc.dart';
 
 import '../../../utils/fonts/font_size.dart';
@@ -22,9 +24,12 @@ class _SettingScreenState extends State<SettingScreen> {
       appBar: AppBar(
         title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Image.asset(
-              "images/task_planner_cream.png",
-              width: Dimensions.getScreenWidth(context) * 0.4,
+            child: Row(
+              children: [
+                Utils.getAppLogoForAppBar(context),
+                const SizedBox(width: 10),
+                const Text("Settings")
+              ],
             )),
       ),
       body: Padding(
@@ -36,7 +41,10 @@ class _SettingScreenState extends State<SettingScreen> {
               if (state is SettingsNavigateToRateActionState) {
               } else if (state is SettingsNavigateToShareActionState) {
               } else if (state is SettingsNavigateToPrivacyPolicyActionState) {
-              } else if (state is SettingsNavigateToPrivacyPolicyActionState) {}
+              } else if (state is SettingsNavigateToPrivacyPolicyActionState) {
+              } else if (state is SettingsErrorMsgActionState) {
+                Utils.flushBarErrorMsg(state.errorMsg, context);
+              }
             },
             child: Column(
               children: [
@@ -75,18 +83,34 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
                 SettingsPageButton(
-                    text: "Rate App", press: () {}, icon: Icons.star),
+                    text: "Rate App",
+                    press: () {
+                      settingBloc.add(SettingsRateButtonClickedEvent());
+                    },
+                    icon: Icons.star),
                 SettingsPageButton(
-                    text: "Share App", press: () {}, icon: Icons.share),
+                    text: "Share App",
+                    press: () {
+                      settingBloc.add(SettingsShareButtonClickedEvent());
+                    },
+                    icon: Icons.share),
                 SettingsPageButton(
-                    text: "Send us a Feedback", press: () {}, icon: Icons.mail),
+                    text: "Send us a Feedback",
+                    press: () {
+                      settingBloc.add(SettingsFeedbackButtonClickedEvent());
+                    },
+                    icon: Icons.mail),
                 SettingsPageButton(
                     text: "Privacy Policy",
-                    press: () {},
+                    press: () {
+                      settingBloc.add(SettingsPrivacyButtonClickedEvent());
+                    },
                     icon: Icons.back_hand),
                 SettingsPageButton(
                     text: "Terms of Service",
-                    press: () {},
+                    press: () {
+                      settingBloc.add(SettingsTermsButtonClickedEvent());
+                    },
                     icon: Icons.article_rounded)
               ],
             ),

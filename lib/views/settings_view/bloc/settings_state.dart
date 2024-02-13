@@ -14,3 +14,9 @@ class SettingsNavigateToShareActionState extends SettingsActionState {}
 class SettingsNavigateToPrivacyPolicyActionState extends SettingsActionState {}
 
 class SettingsNavigateToTermsOfServiceActionState extends SettingsActionState {}
+
+class SettingsErrorMsgActionState extends SettingsActionState {
+  final String errorMsg;
+
+  SettingsErrorMsgActionState({required this.errorMsg});
+}

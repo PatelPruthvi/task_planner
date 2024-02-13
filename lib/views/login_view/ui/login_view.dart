@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:task_planner/resources/components/buttons/button_demo.dart';
-import 'package:task_planner/utils/utils.dart';
+import 'package:task_planner/utils/widgets/utils.dart';
 import 'package:task_planner/views/bottom_bar_view/bottom_bar_view.dart';
 import 'package:task_planner/views/login_view/bloc/login_bloc.dart';
 
@@ -28,7 +28,9 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Image.asset("images/task_planner_cream.png")),
+      appBar: AppBar(
+        title: Utils.getAppLogoForAppBar(context),
+      ),
       body: BlocConsumer<LoginBloc, LoginState>(
         bloc: loginBloc,
         listenWhen: (previous, current) => current is LoginActionState,

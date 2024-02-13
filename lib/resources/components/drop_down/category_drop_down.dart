@@ -35,14 +35,6 @@ class _CategoryDropDownListState extends State<CategoryDropDownList> {
     // );
     return Container(
       padding: const EdgeInsets.only(left: 8),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-              color: Theme.of(context)
-                  .inputDecorationTheme
-                  .border!
-                  .borderSide
-                  .color)),
       child: DropdownButton(
           underline: const Text(""),
           iconEnabledColor: Theme.of(context).listTileTheme.textColor,

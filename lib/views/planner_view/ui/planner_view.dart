@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
+import 'package:task_planner/utils/widgets/utils.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/planner_view/bloc/task_plan_bloc.dart';
 import '../../../resources/components/bottom_sheets/bottom_sheet_planner.dart';
@@ -38,9 +39,15 @@ class _PlannerViewState extends State<PlannerView> {
         toolbarHeight: Dimensions.getAppBarHeight(context),
         title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Image.asset(
-              "images/task_planner_cream.png",
-              width: Dimensions.getScreenWidth(context) * 0.4,
+            child: Row(
+              children: [
+                Utils.getAppLogoForAppBar(context),
+                const SizedBox(width: 10),
+                Text(
+                  "Task Planner",
+                  style: Theme.of(context).appBarTheme.titleTextStyle,
+                )
+              ],
             )),
         actions: [
           Padding(
@@ -200,7 +207,7 @@ class _PlannerViewState extends State<PlannerView> {
                                                                         .text));
                                                       }
                                                     },
-                                                    buttonLabel: "Update",
+                                                    buttonLabel: "UPDATE",
                                                     bottomSheetTitle:
                                                         "Update Task",
                                                     initialDropdownValue:
@@ -350,7 +357,7 @@ class _PlannerViewState extends State<PlannerView> {
                         description: descC.text));
                   }
                 },
-                buttonLabel: "Add",
+                buttonLabel: "ADD",
                 bottomSheetTitle: "Add Task",
                 initialDropdownValue: "None",
                 hexColorCode: AppHexVals.orange);

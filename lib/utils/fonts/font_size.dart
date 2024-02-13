@@ -27,6 +27,10 @@ class FontSize {
       color: Theme.of(context).listTileTheme.textColor,
       fontWeight: FontWeight.w500,
       fontSize: FontSize.getMediumFontSize(context));
+  static getBottomSheetButtonTextStyle(BuildContext context) => TextStyle(
+      color: AppColors.kwhiteColor,
+      fontWeight: FontWeight.w500,
+      fontSize: FontSize.getMediumFontSize(context));
   static getMEdiumBlackFontstyle(BuildContext context) =>
       Theme.of(context).appBarTheme.titleTextStyle!.copyWith(
           color: Theme.of(context).listTileTheme.textColor,

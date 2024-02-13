@@ -14,7 +14,7 @@ import '../../../resources/components/drop_down/reminder_dropdown.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/dates/date_time.dart';
 import '../../../utils/dimensions/dimensions.dart';
-import '../../../utils/utils.dart';
+import '../../../utils/widgets/utils.dart';
 
 class ToDoWidget extends StatefulWidget {
   const ToDoWidget({super.key});
@@ -42,9 +42,12 @@ class _ToDoWidgetState extends State<ToDoWidget> {
         toolbarHeight: Dimensions.getAppBarHeight(context),
         title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Image.asset(
-              "images/task_planner_cream.png",
-              width: Dimensions.getScreenWidth(context) * 0.4,
+            child: Row(
+              children: [
+                Utils.getAppLogoForAppBar(context),
+                const SizedBox(width: 10),
+                const Text("To-Do List")
+              ],
             )),
         actions: [
           Padding(
@@ -188,7 +191,7 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                         RepeatDropdown.getRepeatVal()));
                   }
                 },
-                buttonLabel: "Done");
+                buttonLabel: "DONE");
           }),
     );
   }

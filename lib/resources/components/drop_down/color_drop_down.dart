@@ -33,12 +33,12 @@ class _ColorDropDownListState extends State<ColorDropDownList> {
           return DropdownMenuItem(
               value: colorVal,
               child: Container(
-                width: Dimensions.getSmallerSizedBox(context).width! * 2,
-                height: Dimensions.getSmallerSizedBox(context).width! * 2,
+                width: Dimensions.getSmallerSizedBox(context).width! * 1.5,
+                height: Dimensions.getSmallerSizedBox(context).width! * 1.5,
                 decoration: BoxDecoration(
                     color: Color(colorVal),
                     borderRadius: BorderRadius.circular(
-                        Dimensions.getSmallerSizedBox(context).width!)),
+                        Dimensions.getSmallerSizedBox(context).width! * 1.5)),
               ));
         }).toList(),
         onChanged: (value) {

@@ -23,14 +23,6 @@ class _ReminderDropdownState extends State<ReminderDropdown> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 8),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-              color: Theme.of(context)
-                  .inputDecorationTheme
-                  .border!
-                  .borderSide
-                  .color)),
       child: DropdownButton(
           isExpanded: true,
           alignment: Alignment.center,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:task_planner/models/enum_models.dart';
 import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
+import 'package:task_planner/utils/widgets/utils.dart';
 import 'package:task_planner/views/category_view/ui/category_view.dart';
 import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
 
@@ -28,9 +29,12 @@ class _ReminderViewState extends State<ReminderView> {
       appBar: AppBar(
         title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Image.asset(
-              "images/task_planner_cream.png",
-              width: Dimensions.getScreenWidth(context) * 0.4,
+            child: Row(
+              children: [
+                Utils.getAppLogoForAppBar(context),
+                const SizedBox(width: 10),
+                const Text("Reminders")
+              ],
             )),
       ),
       body: Column(

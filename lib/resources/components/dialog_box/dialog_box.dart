@@ -56,7 +56,7 @@ class DialogBoxes {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text("Cancel"))
+                child: const Text("CANCEL"))
           ],
         );
       },
