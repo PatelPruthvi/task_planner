@@ -12,9 +12,8 @@ class FontSize {
   static getDescFontStyle(BuildContext context) => TextStyle(
       fontSize: FontSize.getTaskPlannerDescriptionFontSize(context),
       color: Theme.of(context).listTileTheme.textColor);
-  static getTextFieldTitleStyle(BuildContext context) => TextStyle(
-      color: Theme.of(context).primaryColorDark,
-      fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));
+  static TextStyle getTextFieldTitleStyle(BuildContext context) =>
+      TextStyle(fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));
   static getBottomSelectedStyle(BuildContext context) => TextStyle(
       color: Theme.of(context).primaryColor,
       fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));

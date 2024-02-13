@@ -21,23 +21,41 @@ class _ReminderDropdownState extends State<ReminderDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton(
-        iconEnabledColor: Theme.of(context).listTileTheme.textColor,
-        dropdownColor: Theme.of(context).scaffoldBackgroundColor,
-        value: reminderVal,
-        items: reminders.map((val) {
-          return DropdownMenuItem(
-              value: val,
-              child: Text(
-                val,
-                style:
-                    TextStyle(color: Theme.of(context).listTileTheme.textColor),
-              ));
-        }).toList(),
-        onChanged: (val) {
-          setState(() {
-            reminderVal = val!;
-          });
-        });
+    return Container(
+      padding: const EdgeInsets.only(left: 8),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+              color: Theme.of(context)
+                  .inputDecorationTheme
+                  .border!
+                  .borderSide
+                  .color)),
+      child: DropdownButton(
+          isExpanded: true,
+          alignment: Alignment.center,
+          underline: const Text(""),
+          iconEnabledColor: Theme.of(context).listTileTheme.textColor,
+          dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(15),
+          value: reminderVal,
+          items: reminders.map((val) {
+            return DropdownMenuItem(
+                value: val,
+                child: Center(
+                  child: Text(
+                    val,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: Theme.of(context).listTileTheme.textColor),
+                  ),
+                ));
+          }).toList(),
+          onChanged: (val) {
+            setState(() {
+              reminderVal = val!;
+            });
+          }),
+    );
   }
 }

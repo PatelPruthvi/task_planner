@@ -33,15 +33,15 @@ class _BottomBarViewState extends State<BottomBarView> {
       body: widgets.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.access_time_filled_sharp), label: "Reminders"),
+              icon: Icon(Icons.access_time_rounded), label: "Reminders"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.app_registration_sharp), label: "To Do List"),
+              icon: Icon(Icons.format_list_bulleted_rounded),
+              label: "To Do List"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.playlist_add_check_circle_sharp),
-              label: "Task Planner"),
+              icon: Icon(Icons.task_alt), label: "Task Planner"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings")
         ],
         currentIndex: selectedIndex,

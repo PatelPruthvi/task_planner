@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:task_planner/models/to_do_model.dart';
-import 'package:task_planner/resources/components/buttons/button_demo.dart';
 import 'package:task_planner/resources/components/bottom_sheets/bottom_sheet_planner.dart';
 import 'package:task_planner/resources/components/dialog_box/dialog_box.dart';
 
@@ -81,7 +80,7 @@ class ToDoListView extends StatelessWidget {
                         initialDropdownVal: todoItems[index].category!,
                         initialReminderValue: todoItems[index].reminder!,
                         initialRepeatVal: todoItems[index].repeat!,
-                        elevatedButton: Buttons.getRectangleButton(context, () {
+                        onPressed: () {
                           if (formKey.currentState?.validate() == true) {
                             toDoBloc.add(ToDoIthItemUpdateClickedEvent(
                               title: nameC.text,
@@ -89,7 +88,8 @@ class ToDoListView extends StatelessWidget {
                               todoItem: todoItems[index],
                             ));
                           }
-                        }, "Update"));
+                        },
+                        buttonLabel: "Update");
                   },
                   child: ListTile(
                     leading: Checkbox(

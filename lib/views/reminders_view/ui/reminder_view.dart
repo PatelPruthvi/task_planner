@@ -26,16 +26,17 @@ class _ReminderViewState extends State<ReminderView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 20.0),
-          child: Text("Reminders"),
-        ),
+        title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Image.asset(
+              "images/task_planner_cream.png",
+              width: Dimensions.getScreenWidth(context) * 0.4,
+            )),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            height: Dimensions.getScreenHeight(context) * 0.75,
+          Expanded(
             child: DefaultTabController(
               length: categories.length,
               child: Column(

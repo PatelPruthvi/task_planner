@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
-
-import '../../../utils/fonts/font_size.dart';
+import 'package:task_planner/utils/dimensions/dimensions.dart';
 
 int colorHexCode = AppHexVals.orange;
 
@@ -23,27 +22,33 @@ class _ColorDropDownListState extends State<ColorDropDownList> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton(
-      iconEnabledColor: Theme.of(context).listTileTheme.textColor,
-      value: colorHexCode,
-      items: appHexColorCodes.map((colorVal) {
-        return DropdownMenuItem(
-            value: colorVal,
-            child: Container(
-              width: 40,
-              height: FontSize.getAppBarTitleFontSize(context),
-              decoration: BoxDecoration(
-                  color: Color(colorVal),
-                  borderRadius: BorderRadius.circular(10)),
-            ));
-      }).toList(),
-      onChanged: (value) {
-        setState(
-          () {
-            colorHexCode = value!;
-          },
-        );
-      },
+    return Container(
+      padding: const EdgeInsets.only(left: 8),
+      child: DropdownButton(
+        iconSize: 0,
+        value: colorHexCode,
+        underline: const Text(""),
+        borderRadius: BorderRadius.circular(15),
+        items: appHexColorCodes.map((colorVal) {
+          return DropdownMenuItem(
+              value: colorVal,
+              child: Container(
+                width: Dimensions.getSmallerSizedBox(context).width! * 2,
+                height: Dimensions.getSmallerSizedBox(context).width! * 2,
+                decoration: BoxDecoration(
+                    color: Color(colorVal),
+                    borderRadius: BorderRadius.circular(
+                        Dimensions.getSmallerSizedBox(context).width!)),
+              ));
+        }).toList(),
+        onChanged: (value) {
+          setState(
+            () {
+              colorHexCode = value!;
+            },
+          );
+        },
+      ),
     );
   }
 }

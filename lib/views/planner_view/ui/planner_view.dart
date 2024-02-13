@@ -2,7 +2,6 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:task_planner/resources/components/buttons/button_demo.dart';
 import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/planner_view/bloc/task_plan_bloc.dart';
@@ -38,10 +37,11 @@ class _PlannerViewState extends State<PlannerView> {
       appBar: AppBar(
         toolbarHeight: Dimensions.getAppBarHeight(context),
         title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("Task Planner",
-              style: Theme.of(context).appBarTheme.titleTextStyle),
-        ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Image.asset(
+              "images/task_planner_cream.png",
+              width: Dimensions.getScreenWidth(context) * 0.4,
+            )),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -177,9 +177,7 @@ class _PlannerViewState extends State<PlannerView> {
                                                     pickedEndTime:
                                                         pickedEndTime,
                                                     taskPlanBloc: taskPlanBloc,
-                                                    bottomSheetButton: Buttons
-                                                        .getRectangleButton(
-                                                            context, () {
+                                                    onTap: () {
                                                       if (formKey.currentState
                                                               ?.validate() ==
                                                           true) {
@@ -201,7 +199,8 @@ class _PlannerViewState extends State<PlannerView> {
                                                                     descC
                                                                         .text));
                                                       }
-                                                    }, "Update"),
+                                                    },
+                                                    buttonLabel: "Update",
                                                     bottomSheetTitle:
                                                         "Update Task",
                                                     initialDropdownValue:
@@ -342,19 +341,16 @@ class _PlannerViewState extends State<PlannerView> {
                 pickedStartTime: pickedStartTime,
                 pickedEndTime: pickedEndTime,
                 taskPlanBloc: taskPlanBloc,
-                bottomSheetButton: Buttons.getRectangleButton(
-                  context,
-                  () {
-                    if (formKey.currentState?.validate() == true) {
-                      taskPlanBloc.add(TaskPlanAddTaskClickedEvent(
-                          taskName: nameC.text,
-                          startTime: startTimeC.text,
-                          endtime: endTimeC.text,
-                          description: descC.text));
-                    }
-                  },
-                  "Add Task",
-                ),
+                onTap: () {
+                  if (formKey.currentState?.validate() == true) {
+                    taskPlanBloc.add(TaskPlanAddTaskClickedEvent(
+                        taskName: nameC.text,
+                        startTime: startTimeC.text,
+                        endtime: endTimeC.text,
+                        description: descC.text));
+                  }
+                },
+                buttonLabel: "Add",
                 bottomSheetTitle: "Add Task",
                 initialDropdownValue: "None",
                 hexColorCode: AppHexVals.orange);

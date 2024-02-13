@@ -21,23 +21,48 @@ class _CategoryDropDownListState extends State<CategoryDropDownList> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton(
-        iconEnabledColor: Theme.of(context).listTileTheme.textColor,
-        dropdownColor: Theme.of(context).scaffoldBackgroundColor,
-        value: dropDownValue,
-        items: categories.map((val) {
-          return DropdownMenuItem(
-              value: val,
-              child: Text(
-                val,
-                style:
-                    TextStyle(color: Theme.of(context).listTileTheme.textColor),
-              ));
-        }).toList(),
-        onChanged: (val) {
-          setState(() {
-            dropDownValue = val!;
-          });
-        });
+    // return DropdownMenu(
+    //   initialSelection: dropDownValue,
+    //   textStyle: TextStyle(color: Theme.of(context).listTileTheme.textColor),
+    //   dropdownMenuEntries: categories.map((val) {
+    //     return DropdownMenuEntry(value: val, label: val);
+    //   }).toList(),
+    //   onSelected: (value) {
+    //     setState(() {
+    //       dropDownValue = value!;
+    //     });
+    //   },
+    // );
+    return Container(
+      padding: const EdgeInsets.only(left: 8),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+              color: Theme.of(context)
+                  .inputDecorationTheme
+                  .border!
+                  .borderSide
+                  .color)),
+      child: DropdownButton(
+          underline: const Text(""),
+          iconEnabledColor: Theme.of(context).listTileTheme.textColor,
+          dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(15),
+          value: dropDownValue,
+          items: categories.map((val) {
+            return DropdownMenuItem(
+                value: val,
+                child: Text(
+                  val,
+                  style: TextStyle(
+                      color: Theme.of(context).listTileTheme.textColor),
+                ));
+          }).toList(),
+          onChanged: (val) {
+            setState(() {
+              dropDownValue = val!;
+            });
+          }),
+    );
   }
 }

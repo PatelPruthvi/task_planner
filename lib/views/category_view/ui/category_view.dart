@@ -5,9 +5,7 @@ import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
-
 import '../../../models/enum_models.dart';
-import '../../../resources/components/buttons/button_demo.dart';
 import '../../../resources/components/bottom_sheets/bottom_sheet_planner.dart';
 import '../../../resources/components/dialog_box/dialog_box.dart';
 import '../../../resources/components/drop_down/category_drop_down.dart';
@@ -73,11 +71,20 @@ class _CategoryViewState extends State<CategoryView> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                  Dates.getDateInMdy(
-                                      successState.todoItems[index].date!),
-                                  style: FontSize.getToDoItemTileTextStyle(
-                                      context)),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                        Dates.getDateInMdy(successState
+                                            .todoItems[index].date!),
+                                        style: TextStyle(
+                                            fontSize: FontSize
+                                                .getTaskPlannerDescriptionFontSize(
+                                                    context))),
+                                  ),
+                                ],
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -136,35 +143,35 @@ class _CategoryViewState extends State<CategoryView> {
                                         successState.todoItems[index].date ??
                                             "0000-00-00";
                                     BottomSheets.getBottomSheetForDateWiseTodo(
-                                        context: context,
-                                        controller: todoController,
-                                        timeC: timeC,
-                                        dateC: dateC,
-                                        pickedTime:
-                                            Dates.getTimeInTimeOfDayFormat(
-                                                successState.todoItems[index]
-                                                    .completionTime!),
-                                        dateTime: DateTime.now(),
-                                        formKey: formKey,
-                                        reminderBloc: widget.reminderBloc,
-                                        initialDropdownVal: successState
-                                            .todoItems[index].category!,
-                                        initialReminderValue: successState
-                                            .todoItems[index].reminder!,
-                                        initialRepeatVal: successState
-                                            .todoItems[index].repeat!,
-                                        elevatedButton:
-                                            Buttons.getRectangleButton(context,
-                                                () {
-                                          widget.reminderBloc.add(
-                                              ReminderIthItemUpdateClickedEvent(
-                                                  title: todoController.text,
-                                                  time: timeC.text,
-                                                  todoItem: successState
-                                                      .todoItems[index],
-                                                  category: widget.category,
-                                                  dateTime: dateC.text));
-                                        }, "Update"));
+                                      context: context,
+                                      controller: todoController,
+                                      timeC: timeC,
+                                      dateC: dateC,
+                                      pickedTime:
+                                          Dates.getTimeInTimeOfDayFormat(
+                                              successState.todoItems[index]
+                                                  .completionTime!),
+                                      dateTime: DateTime.now(),
+                                      formKey: formKey,
+                                      reminderBloc: widget.reminderBloc,
+                                      initialDropdownVal: successState
+                                          .todoItems[index].category!,
+                                      initialReminderValue: successState
+                                          .todoItems[index].reminder!,
+                                      initialRepeatVal:
+                                          successState.todoItems[index].repeat!,
+                                      onPressed: () {
+                                        widget.reminderBloc.add(
+                                            ReminderIthItemUpdateClickedEvent(
+                                                title: todoController.text,
+                                                time: timeC.text,
+                                                todoItem: successState
+                                                    .todoItems[index],
+                                                category: widget.category,
+                                                dateTime: dateC.text));
+                                      },
+                                      buttonLabel: "Update",
+                                    );
                                   },
                                   child: ListTile(
                                     leading: Checkbox(
@@ -278,7 +285,7 @@ class _CategoryViewState extends State<CategoryView> {
                       initialReminderValue:
                           Models.getReminder(Reminder.sameTime),
                       initialRepeatVal: "Never",
-                      elevatedButton: Buttons.getRectangleButton(context, () {
+                      onPressed: () {
                         if (formKey.currentState?.validate() == true) {
                           widget.reminderBloc.add(ReminderAddTaskClickedEvent(
                               title: todoController.text,
@@ -289,7 +296,8 @@ class _CategoryViewState extends State<CategoryView> {
                               date: dateC.text,
                               repeat: RepeatDropdown.getRepeatVal()));
                         }
-                      }, "Done"));
+                      },
+                      buttonLabel: "Done");
                 })
             : Container(),
       ),

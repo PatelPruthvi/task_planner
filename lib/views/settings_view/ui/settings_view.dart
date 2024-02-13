@@ -2,6 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_planner/resources/components/buttons/settings_page_button.dart';
+import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/views/settings_view/bloc/settings_bloc.dart';
 
 import '../../../utils/fonts/font_size.dart';
@@ -19,10 +20,12 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text("Settings"),
-        ),
+        title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Image.asset(
+              "images/task_planner_cream.png",
+              width: Dimensions.getScreenWidth(context) * 0.4,
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),

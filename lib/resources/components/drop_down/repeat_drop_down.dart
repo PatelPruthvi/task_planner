@@ -21,23 +21,36 @@ class _RepeatDropdownState extends State<RepeatDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton(
-        dropdownColor: Theme.of(context).scaffoldBackgroundColor,
-        iconEnabledColor: Theme.of(context).listTileTheme.textColor,
-        value: repeatValue,
-        items: repeats.map((val) {
-          return DropdownMenuItem(
-              value: val,
-              child: Text(
-                val,
-                style:
-                    TextStyle(color: Theme.of(context).listTileTheme.textColor),
-              ));
-        }).toList(),
-        onChanged: (val) {
-          setState(() {
-            repeatValue = val!;
-          });
-        });
+    return Container(
+      padding: const EdgeInsets.only(left: 8),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+              color: Theme.of(context)
+                  .inputDecorationTheme
+                  .border!
+                  .borderSide
+                  .color)),
+      child: DropdownButton(
+          borderRadius: BorderRadius.circular(15),
+          underline: const Text(""),
+          dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+          iconEnabledColor: Theme.of(context).listTileTheme.textColor,
+          value: repeatValue,
+          items: repeats.map((val) {
+            return DropdownMenuItem(
+                value: val,
+                child: Text(
+                  val,
+                  style: TextStyle(
+                      color: Theme.of(context).listTileTheme.textColor),
+                ));
+          }).toList(),
+          onChanged: (val) {
+            setState(() {
+              repeatValue = val!;
+            });
+          }),
+    );
   }
 }

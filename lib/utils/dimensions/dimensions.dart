@@ -29,4 +29,7 @@ class Dimensions {
       MediaQuery.of(context).size.height * 0.7;
   static getSliderWidth(BuildContext context) =>
       MediaQuery.of(context).size.width / 5;
+
+  static SizedBox getSmallerSizedBox(BuildContext context) =>
+      SizedBox(width: MediaQuery.of(context).size.width / 20);
 }

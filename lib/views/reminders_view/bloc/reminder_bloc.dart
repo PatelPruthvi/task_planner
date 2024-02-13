@@ -116,6 +116,23 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       } else {
         todoItems = await fetchByCategory(event.category);
       }
+      List<List<ToDo>> todo = [];
+      Map<String, List<ToDo>> dateMaps = {};
+      for (var element in todoItems) {
+        dateMaps[element.date]?.add(element);
+      }
+      dateMaps.forEach(
+        (key, value) {
+          todo.add(value);
+        },
+      );
+      todo.forEach(
+        (element) {
+          element.forEach((element) {
+            print(element.date);
+          });
+        },
+      );
 
       emit(ReminderLoadedSuccessState(todoItems: todoItems));
     }).onError((error, stackTrace) {});

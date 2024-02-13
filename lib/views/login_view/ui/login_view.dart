@@ -28,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Task Planner")),
+      appBar: AppBar(title: Image.asset("images/task_planner_cream.png")),
       body: BlocConsumer<LoginBloc, LoginState>(
         bloc: loginBloc,
         listenWhen: (previous, current) => current is LoginActionState,

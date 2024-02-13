@@ -8,7 +8,6 @@ import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
 import '../../../models/enum_models.dart';
-import '../../../resources/components/buttons/button_demo.dart';
 import '../../../resources/components/bottom_sheets/bottom_sheet_planner.dart';
 import '../../../resources/components/drop_down/category_drop_down.dart';
 import '../../../resources/components/drop_down/reminder_dropdown.dart';
@@ -42,10 +41,11 @@ class _ToDoWidgetState extends State<ToDoWidget> {
       appBar: AppBar(
         toolbarHeight: Dimensions.getAppBarHeight(context),
         title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("To-Do List",
-              style: Theme.of(context).appBarTheme.titleTextStyle),
-        ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Image.asset(
+              "images/task_planner_cream.png",
+              width: Dimensions.getScreenWidth(context) * 0.4,
+            )),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -63,12 +63,9 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                         HomeCalendarDateTappedEvent(selectedDate: dateTime));
                   }
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.calendar_month_outlined,
-                      color:
-                          Theme.of(context).appBarTheme.titleTextStyle!.color),
-                )),
+                child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.calendar_month_outlined))),
           )
         ],
       ),
@@ -181,7 +178,7 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                 initialDropdownVal: categories[0],
                 initialReminderValue: Models.getReminder(Reminder.sameTime),
                 initialRepeatVal: "Never",
-                elevatedButton: Buttons.getRectangleButton(context, () {
+                onPressed: () {
                   if (formKey.currentState?.validate() == true) {
                     toDoBloc.add(ToDoAddTaskClickedEvent(
                         todoController.text,
@@ -190,7 +187,8 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                         ReminderDropdown.getReminderVal(),
                         RepeatDropdown.getRepeatVal()));
                   }
-                }, "Done"));
+                },
+                buttonLabel: "Done");
           }),
     );
   }

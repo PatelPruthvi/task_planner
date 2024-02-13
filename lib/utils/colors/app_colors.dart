@@ -13,9 +13,11 @@ class AppColors {
   static const Color kmediumBlueColor = Color(0xFF6d2932);
   // Color.fromRGBO(0, 122, 255, 1);
 
-  static const Color kdarkModeTileColor = Color.fromARGB(255, 139, 95, 100);
+  static const Color kdarkModeTileColor = Color(0xFF561C24);
+  // Color.fromARGB(255, 139, 95, 100);
   // Color.fromRGBO(130, 183, 239, 1);
-  static const Color klightModeTileColor = Color.fromARGB(255, 150, 9, 23);
+  static const Color klightModeTileColor = Color(0xFF9B3C48);
+  // Color.fromARGB(255, 150, 9, 23);
   // Color.fromRGBO(32, 29, 65, 1);
   static const Color kredColor = Color.fromRGBO(255, 7, 7, 1);
   static const Color kblackColor = Colors.black;
