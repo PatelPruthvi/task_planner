@@ -15,7 +15,7 @@ class NotificationService {
           .requestNotificationsPermission();
     }
     AndroidInitializationSettings androidInitializationSettings =
-        const AndroidInitializationSettings('ic_notif_cream');
+        const AndroidInitializationSettings('ic_stat_name');
     var initializationSettingIos = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,

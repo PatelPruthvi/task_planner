@@ -207,7 +207,7 @@ class _PlannerViewState extends State<PlannerView> {
                                                                         .text));
                                                       }
                                                     },
-                                                    buttonLabel: "UPDATE",
+                                                    buttonLabel: "Update",
                                                     bottomSheetTitle:
                                                         "Update Task",
                                                     initialDropdownValue:
@@ -357,7 +357,7 @@ class _PlannerViewState extends State<PlannerView> {
                         description: descC.text));
                   }
                 },
-                buttonLabel: "ADD",
+                buttonLabel: "Add",
                 bottomSheetTitle: "Add Task",
                 initialDropdownValue: "None",
                 hexColorCode: AppHexVals.orange);

@@ -201,7 +201,7 @@ class _CategoryViewState extends State<CategoryView> {
                                                             dateTime:
                                                                 dateC.text));
                                                   },
-                                                  buttonLabel: "UPDATE",
+                                                  buttonLabel: "Update",
                                                 );
                                               },
                                               child: ListTile(
@@ -337,7 +337,7 @@ class _CategoryViewState extends State<CategoryView> {
                               repeat: RepeatDropdown.getRepeatVal()));
                         }
                       },
-                      buttonLabel: "DONE");
+                      buttonLabel: "Done");
                 })
             : Container(),
       ),

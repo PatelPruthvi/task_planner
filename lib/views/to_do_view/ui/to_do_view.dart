@@ -191,7 +191,7 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                         RepeatDropdown.getRepeatVal()));
                   }
                 },
-                buttonLabel: "DONE");
+                buttonLabel: "Done");
           }),
     );
   }

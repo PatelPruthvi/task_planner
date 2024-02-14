@@ -159,7 +159,7 @@ class BottomSheets {
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text("CANCEL",
+                                    child: Text("Cancel",
                                         textAlign: TextAlign.center,
                                         style: FontSize
                                             .getBottomSheetButtonTextStyle(
@@ -549,7 +549,7 @@ class BottomSheets {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("CANCEL",
+                                  child: Text("Cancel",
                                       textAlign: TextAlign.center,
                                       style: FontSize
                                           .getBottomSheetButtonTextStyle(
@@ -565,7 +565,7 @@ class BottomSheets {
                       //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       //   children: [
                       //     Buttons.getRectangleButton(context,
-                      //         () => Navigator.of(context).pop(), "CANCEL"),
+                      //         () => Navigator.of(context).pop(), "Cancel"),
                       //     elevatedButton
                       //   ],
                       // ),
