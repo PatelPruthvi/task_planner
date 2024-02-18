@@ -18,6 +18,22 @@ class Dates {
     return DateFormat("MMM d").format(date);
   }
 
+  static int compareTimeOfDays(timeA, String timeB) {
+    TimeOfDay a = getTimeInTimeOfDayFormat(timeA);
+    TimeOfDay b = getTimeInTimeOfDayFormat(timeB);
+    if (a.hour < b.hour) {
+      return 1; //start time is lesser than end time
+    } else if (a.hour == b.hour) {
+      if (a.minute > b.minute) {
+        return -1; // start time is greater than end time
+      } else {
+        return 1; // start time is less than end time
+      }
+    } else {
+      return -1; // 1 states timeA is greater than time b
+    }
+  }
+
   static DateTime getDateTimeFromDateAndTime(String date, String time) {
     //date stored format is YYYY-MM-DD
     time = getconvertedTimeIn24hrFormat(time);

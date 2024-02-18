@@ -82,31 +82,31 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                   homeBloc: homeBloc,
                   dateController: _dateTimelineController,
                   toDoBloc: toDoBloc)),
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: BlocConsumer<ToDoBloc, ToDoState>(
-              bloc: toDoBloc,
-              buildWhen: (previous, current) => current is! ToDoActionState,
-              builder: (context, state) {
-                switch (state.runtimeType) {
-                  case ToDoListEmptyState:
-                    return Center(
-                        child: SizedBox(
-                      height: Dimensions.getTabBarViewHeight(context) * 0.95,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "No Pending Tasks...",
-                            style: FontSize.getToDoItemTileTextStyle(context),
-                          ),
-                        ],
-                      ),
-                    ));
-                  case ToDoListLoadedSuccessState:
-                    final successState = state as ToDoListLoadedSuccessState;
-                    return SizedBox(
-                      child: Column(
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: BlocConsumer<ToDoBloc, ToDoState>(
+                bloc: toDoBloc,
+                buildWhen: (previous, current) => current is! ToDoActionState,
+                builder: (context, state) {
+                  switch (state.runtimeType) {
+                    case ToDoListEmptyState:
+                      return Center(
+                          child: SizedBox(
+                        height: Dimensions.getTabBarViewHeight(context) * 0.95,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "No Pending Tasks...",
+                              style: FontSize.getToDoItemTileTextStyle(context),
+                            ),
+                          ],
+                        ),
+                      ));
+                    case ToDoListLoadedSuccessState:
+                      final successState = state as ToDoListLoadedSuccessState;
+                      return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ToDoListView(
@@ -145,22 +145,22 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                                   toDoBloc: toDoBloc)
                               : Container(),
                         ],
-                      ),
-                    );
-                  default:
-                    return Container();
-                }
-              },
-              listenWhen: (previous, current) => current is ToDoActionState,
-              listener: (context, state) {
-                if (state is ToDoCloseSheetActionState) {
-                  Navigator.of(context).pop();
+                      );
+                    default:
+                      return Container();
+                  }
+                },
+                listenWhen: (previous, current) => current is ToDoActionState,
+                listener: (context, state) {
+                  if (state is ToDoCloseSheetActionState) {
+                    Navigator.of(context).pop();
 
-                  toDoBloc.add(ToDoInitialEvent());
-                } else if (state is ToDoShowErrorMsgActionState) {
-                  Utils.flushBarErrorMsg(state.errorMsg, context);
-                }
-              },
+                    toDoBloc.add(ToDoInitialEvent());
+                  } else if (state is ToDoShowErrorMsgActionState) {
+                    Utils.flushBarErrorMsg(state.errorMsg, context);
+                  }
+                },
+              ),
             ),
           ),
           // SizedBox(
