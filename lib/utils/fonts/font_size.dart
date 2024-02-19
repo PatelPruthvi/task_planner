@@ -40,4 +40,9 @@ class FontSize {
       fontSize: FontSize.getMediumFontSize(context),
       fontWeight: FontWeight.w500,
       color: Theme.of(context).appBarTheme.titleTextStyle!.color);
+  static TextStyle getPrimayColoredTitletext(BuildContext context) =>
+      Theme.of(context)
+          .appBarTheme
+          .titleTextStyle!
+          .copyWith(color: Theme.of(context).primaryColor);
 }

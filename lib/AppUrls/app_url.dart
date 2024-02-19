@@ -1,5 +1,6 @@
 class AppUrls {
   static const String whiteListImagePath = "images/only_list_cream.png";
+  static const String blackImagePath = "images/list_dark.png";
   static const String imageLogoPath = "images/app_logo.png";
   static const String packageName = "com.agevole.taskplanner";
   static const String appStoreId = "";
@@ -15,7 +16,7 @@ class AppUrls {
   static const privacyPolicyUrl =
       "https://apps.agevole.in/taskplanner/privacy/";
   static const termsUrl = "https://apps.agevole.in/taskplanner/terms/";
-  static const String image1stBoardingPage = "images/bottom_sheet_light.jpg";
+  static const String image1stBoardingPage = "images/TP1.jpg";
   static const String image2ndBoardingPage = "images/calendar_light.png";
   static const String image3rdBoardingPage = "images/dialog_box.png";
   static const String image4thBoardingPage = "images/reminder_page.jpg";

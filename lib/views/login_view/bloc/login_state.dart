@@ -8,7 +8,11 @@ final class LoginInitial extends LoginState {}
 
 class LoginActionState extends LoginState {}
 
-class LoginLoadedSuccessState extends LoginState {}
+class LoginLoadedSuccessState extends LoginState {
+  final List<String> imgUrls;
+
+  LoginLoadedSuccessState({required this.imgUrls});
+}
 
 class LoginNavigateToHomePageActionState extends LoginActionState {}
 
@@ -18,3 +22,5 @@ class LoginShowErrorMsgActionState extends LoginActionState {
 }
 
 class LoginLoadingState extends LoginState {}
+
+class LoginLoadingFailedState extends LoginState {}

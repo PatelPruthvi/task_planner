@@ -13,3 +13,8 @@ class ImpossibleReminderTimeException extends AppExceptions {
   ImpossibleReminderTimeException([String? message])
       : super("Can not set reminder for that time");
 }
+
+class InternetNotConnectedException extends AppExceptions {
+  InternetNotConnectedException([String? message])
+      : super("Internet not connected...");
+}
