@@ -6,7 +6,7 @@
         <bitmap android:gravity="fill" android:src="@drawable/background"/>
     </item>
     <item>
-        <bitmap android:gravity="center" android:src="@drawable/ic_stat_name"/>
+        <bitmap android:gravity="center" android:src="@drawable/ic_notif_cream"/>
     </item>
     <!-- You can insert your own image assets here -->
     <!-- <item>
