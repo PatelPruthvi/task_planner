@@ -103,11 +103,7 @@ class _LoginViewState extends State<LoginView> {
                                     .titleTextStyle!
                                     .copyWith(
                                         fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).primaryColor)
-                                // TextStyle(
-                                //     fontFamily:
-                                //         GoogleFonts.comfortaa().fontFamily),
-                                ))
+                                        color: Theme.of(context).primaryColor)))
                         : Container()
                   ],
                 ),
@@ -128,8 +124,15 @@ class _LoginViewState extends State<LoginView> {
                               Expanded(
                                 child: Image.network(successState.imgUrls[i],
                                     width: Dimensions.getScreenWidth(context),
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (context, error, stackTrace) {
+                                    fit: BoxFit.fill, loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  } else {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                }, errorBuilder: (context, error, stackTrace) {
                                   return Image.asset(
                                     AppUrls.image1stBoardingPage,
                                     height:
