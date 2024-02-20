@@ -9,9 +9,9 @@
             android:gravity="center"
             android:src="@mipmap/launch_image" />
     </item> -->
-     <item>
+     <!-- <item>
         <bitmap android:gravity="fill" android:src="@drawable/background"/>
-    </item>
+    </item> -->
     <item>
         <bitmap android:gravity="center" android:src="@drawable/ic_notif_cream"/>
     </item>

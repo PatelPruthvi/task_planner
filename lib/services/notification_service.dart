@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:task_planner/exceptions/app_exceptions.dart';
+import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
@@ -34,6 +35,8 @@ class NotificationService {
   notifDetails() {
     return const NotificationDetails(
         android: AndroidNotificationDetails('channelId', 'channelName',
+            color: AppColors.kblue600,
+            colorized: true,
             importance: Importance.max),
         iOS: DarwinNotificationDetails());
   }
