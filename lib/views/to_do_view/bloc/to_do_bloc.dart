@@ -4,11 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:task_planner/models/to_do_model.dart';
-import 'package:task_planner/resources/algorithm/sort_algo.dart';
 import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
-import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
-import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
-import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dart';
 import '../../../database/SQL/sql_helper.dart';
 
 part 'to_do_event.dart';
@@ -26,10 +22,10 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   FutureOr<void> toDoInitialEvent(
       ToDoInitialEvent event, Emitter<ToDoState> emit) async {
-    List<ToDo> todoItems = await fetchToDoList();
-    List<ToDo> todoPending = [];
-    List<ToDo> toDoCompleted = [];
-    for (var element in todoItems) {
+    List<ToDoModel> reminderItems = await fetchToDoList();
+    List<ToDoModel> todoPending = [];
+    List<ToDoModel> toDoCompleted = [];
+    for (var element in reminderItems) {
       if (element.isCompleted == true) {
         toDoCompleted.add(element);
       } else {
@@ -37,7 +33,7 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
       }
     }
 
-    if (todoItems.isEmpty) {
+    if (reminderItems.isEmpty) {
       emit(ToDoListEmptyState());
     } else {
       emit(ToDoListLoadedSuccessState(todoPending, toDoCompleted));
@@ -50,17 +46,10 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     // DateTime dateTime = HomeCal.getSelectedDateTime();
     // DateTime dateTime = CalendarView.getSelectedDateTime();
     String date = dateTime.toString().substring(0, 10);
-    ToDo todoItem = ToDo(
-      title: event.title,
-      date: date,
-      isCompleted: false,
-      completionTime: event.completionTime,
-      category: event.category,
-      reminder: event.reminderTime,
-      repeat: event.repeat,
-    );
+    ToDoModel todoItem =
+        ToDoModel(title: event.title, date: date, isCompleted: false);
 
-    await ToDoSQLhelper.createItem(todoItem).then((value) {
+    await ToDoSQLHelper.createItem(todoItem).then((value) {
       emit(ToDoCloseSheetActionState());
     }).onError((error, stackTrace) {
       emit(ToDoCloseSheetActionState());
@@ -71,11 +60,11 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
   FutureOr<void> toDoIthItemCheckBoxClickedEvent(
       ToDoIthItemCheckBoxClickedEvent event, Emitter<ToDoState> emit) async {
     event.todoItem.isCompleted = !event.todoItem.isCompleted!;
-    await ToDoSQLhelper.updateCheckBoxItem(event.todoItem).then((value) async {
-      List<ToDo> todoItems = await fetchToDoList();
-      List<ToDo> todoPending = [];
-      List<ToDo> toDoCompleted = [];
-      for (var element in todoItems) {
+    await ToDoSQLHelper.updateCheckBoxItem(event.todoItem).then((value) async {
+      List<ToDoModel> reminderItems = await fetchToDoList();
+      List<ToDoModel> todoPending = [];
+      List<ToDoModel> toDoCompleted = [];
+      for (var element in reminderItems) {
         if (element.isCompleted == true) {
           toDoCompleted.add(element);
         } else {
@@ -85,10 +74,10 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
       emit(ToDoListLoadedSuccessState(todoPending, toDoCompleted));
     }).onError((error, stackTrace) {});
 
-    List<ToDo> todoItems = await fetchToDoList();
-    List<ToDo> todoPending = [];
-    List<ToDo> toDoCompleted = [];
-    for (var element in todoItems) {
+    List<ToDoModel> reminderItems = await fetchToDoList();
+    List<ToDoModel> todoPending = [];
+    List<ToDoModel> toDoCompleted = [];
+    for (var element in reminderItems) {
       if (element.isCompleted == true) {
         toDoCompleted.add(element);
       } else {
@@ -101,11 +90,11 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
   FutureOr<void> toDoIthItemDeletedButtonClickedEvent(
       ToDoIthItemDeletedButtonClickedEvent event,
       Emitter<ToDoState> emit) async {
-    await ToDoSQLhelper.deleteItem(event.todoItem).then((value) async {
-      List<ToDo> todoItems = await fetchToDoList();
-      List<ToDo> todoPending = [];
-      List<ToDo> toDoCompleted = [];
-      for (var element in todoItems) {
+    await ToDoSQLHelper.deleteItem(event.todoItem).then((value) async {
+      List<ToDoModel> reminderItems = await fetchToDoList();
+      List<ToDoModel> todoPending = [];
+      List<ToDoModel> toDoCompleted = [];
+      for (var element in reminderItems) {
         if (element.isCompleted == true) {
           toDoCompleted.add(element);
         } else {
@@ -113,7 +102,7 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
         }
       }
 
-      if (todoItems.isEmpty) {
+      if (reminderItems.isEmpty) {
         emit(ToDoListEmptyState());
       } else {
         emit(ToDoListLoadedSuccessState(todoPending, toDoCompleted));
@@ -123,32 +112,28 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
   FutureOr<void> toDoIthItemUpdateClickedEvent(
       ToDoIthItemUpdateClickedEvent event, Emitter<ToDoState> emit) async {
-    String reminderVal = ReminderDropdown.getReminderVal();
-    ToDo todoItem = ToDo(
-        id: event.todoItem.id,
-        title: event.title,
-        date: event.todoItem.date,
-        isCompleted: event.todoItem.isCompleted,
-        completionTime: event.time,
-        category: CategoryDropDownList.getCategoryDropDownVal(),
-        reminder: reminderVal,
-        repeat: RepeatDropdown.getRepeatVal());
+    ToDoModel todoItem = ToDoModel(
+      id: event.todoItem.id,
+      title: event.title,
+      date: event.todoItem.date,
+      isCompleted: event.todoItem.isCompleted,
+    );
     if (todoItem != event.todoItem) {
-      await ToDoSQLhelper.updateItem(todoItem).onError((error, stackTrace) {});
+      await ToDoSQLHelper.updateItem(todoItem).onError((error, stackTrace) {});
 
       emit(ToDoCloseSheetActionState());
     }
   }
 
-  Future<List<ToDo>> fetchToDoList() async {
-    List<ToDo> todoItems = [];
+  Future<List<ToDoModel>> fetchToDoList() async {
+    List<ToDoModel> reminderItems = [];
     String date =
         InfiniteCalendar.getSelectedDateTime().toString().substring(0, 10);
-    var response = await ToDoSQLhelper.getListByDay(date);
+    var response = await ToDoSQLHelper.getListByDay(date);
     for (int i = 0; i < response.length; i++) {
-      todoItems.add(ToDo.fromJson(response[i]));
+      reminderItems.add(ToDoModel.fromJson(response[i]));
     }
-    todoItems = Sorting.sortGivenTodoListAccordtingToTime(todoItems);
-    return todoItems;
+
+    return reminderItems;
   }
 }

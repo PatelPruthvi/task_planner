@@ -2,15 +2,11 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
-import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dart';
 import 'package:task_planner/resources/components/to_do_list.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/home_view/bloc/home_bloc.dart';
 import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
-import '../../../models/enum_models.dart';
 import '../../../resources/components/bottom_sheets/bottom_sheet_planner.dart';
-import '../../../resources/components/drop_down/category_drop_down.dart';
-import '../../../resources/components/drop_down/reminder_dropdown.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/dates/date_time.dart';
 import '../../../utils/dimensions/dimensions.dart';
@@ -110,7 +106,7 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ToDoListView(
-                              todoItems: successState.todoPendingItems,
+                              reminderItems: successState.todoPendingItems,
                               toDoBloc: toDoBloc),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
@@ -141,7 +137,8 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                           ),
                           areCompletedItemsVisible
                               ? ToDoListView(
-                                  todoItems: successState.todoCompletedItems,
+                                  reminderItems:
+                                      successState.todoCompletedItems,
                                   toDoBloc: toDoBloc)
                               : Container(),
                         ],
@@ -174,21 +171,11 @@ class _ToDoWidgetState extends State<ToDoWidget> {
             BottomSheets.getBottomSheetForToDoList(
                 context: context,
                 controller: todoController,
-                timeC: timeC,
-                pickedTime: timeOfDay,
                 formKey: formKey,
                 toDoBloc: toDoBloc,
-                initialDropdownVal: categories[0],
-                initialReminderValue: Models.getReminder(Reminder.sameTime),
-                initialRepeatVal: "Never",
                 onPressed: () {
                   if (formKey.currentState?.validate() == true) {
-                    toDoBloc.add(ToDoAddTaskClickedEvent(
-                        todoController.text,
-                        CategoryDropDownList.getCategoryDropDownVal(),
-                        timeC.text,
-                        ReminderDropdown.getReminderVal(),
-                        RepeatDropdown.getRepeatVal()));
+                    toDoBloc.add(ToDoAddTaskClickedEvent(todoController.text));
                   }
                 },
                 buttonLabel: "Done");

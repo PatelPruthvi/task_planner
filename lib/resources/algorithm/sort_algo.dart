@@ -1,4 +1,4 @@
-import 'package:task_planner/models/to_do_model.dart';
+import 'package:task_planner/models/reminder_model.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 
 import '../../models/task_planner_model.dart';
@@ -14,17 +14,19 @@ class Sorting {
     return taskPlannerList;
   }
 
-  static List<ToDo> sortGivenTodoListAccordtingToTime(List<ToDo> toDoList) {
-    toDoList.sort((a, b) {
+  static List<ReminderModel> sortGivenTodoListAccordtingToTime(
+      List<ReminderModel> reminderList) {
+    reminderList.sort((a, b) {
       double timevalA = Sorting.timeConvertIntoDouble(a.completionTime!);
       double timevalB = Sorting.timeConvertIntoDouble(b.completionTime!);
       return timevalA.compareTo(timevalB);
     });
-    return toDoList;
+    return reminderList;
   }
 
-  static List<ToDo> sortGivenTodoListAccordtingToDateTime(List<ToDo> toDoList) {
-    toDoList.sort((a, b) {
+  static List<ReminderModel> sortGivenTodoListAccordtingToDateTime(
+      List<ReminderModel> reminderList) {
+    reminderList.sort((a, b) {
       DateTime aDate =
           Dates.getDateTimeFromDateAndTime(a.date!, a.completionTime!);
       DateTime bDate =
@@ -32,7 +34,7 @@ class Sorting {
 
       return aDate.compareTo(bDate);
     });
-    return toDoList;
+    return reminderList;
   }
 
   static double timeConvertIntoDouble(String a) {

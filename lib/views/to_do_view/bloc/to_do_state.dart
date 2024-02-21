@@ -16,8 +16,8 @@ class ToDoShowErrorMsgActionState extends ToDoActionState {
 final class ToDoInitial extends ToDoState {}
 
 class ToDoListLoadedSuccessState extends ToDoState {
-  final List<ToDo> todoPendingItems;
-  final List<ToDo> todoCompletedItems;
+  final List<ToDoModel> todoPendingItems;
+  final List<ToDoModel> todoCompletedItems;
 
   ToDoListLoadedSuccessState(
     this.todoPendingItems,

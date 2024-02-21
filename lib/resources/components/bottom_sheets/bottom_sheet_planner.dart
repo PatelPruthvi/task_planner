@@ -8,6 +8,7 @@ import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dar
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
+import 'package:task_planner/views/task_template/ui/task_template_ui.dart';
 import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
 import '../../../utils/fonts/font_size.dart';
 import '../../../views/planner_view/bloc/task_plan_bloc.dart';
@@ -16,13 +17,8 @@ class BottomSheets {
   static getBottomSheetForToDoList(
       {required BuildContext context,
       required TextEditingController controller,
-      required TextEditingController timeC,
-      required TimeOfDay? pickedTime,
       required GlobalKey<FormState> formKey,
       required ToDoBloc toDoBloc,
-      required String initialDropdownVal,
-      required String initialReminderValue,
-      required String initialRepeatVal,
       required Function() onPressed,
       required String buttonLabel}) {
     showModalBottomSheet(
@@ -43,139 +39,94 @@ class BottomSheets {
                 return Form(
                     key: formKey,
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text("To Do Task",
-                                  style: FontSize.getMEdiumBlackFontstyle(
-                                      context)),
-                              getTextField(
-                                  context, () => null, controller, "Add Task"),
-                              getTimeRetrieverTextField(
-                                  context: context,
-                                  controller: timeC,
-                                  labelText: "Completion Time"),
-                              Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Category",
-                                              style: FontSize
-                                                      .getTextFieldTitleStyle(
-                                                          context)
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                          SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20),
-                                          CategoryDropDownList(
-                                              categoryVal: initialDropdownVal),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Repeat",
-                                              style: FontSize
-                                                      .getTextFieldTitleStyle(
-                                                          context)
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                          Dimensions.getSmallerSizedBox(
-                                              context),
-                                          RepeatDropdown(
-                                              repeatInitialValue:
-                                                  initialRepeatVal)
-                                        ],
-                                      ),
-                                    ],
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("Reminder",
-                                        style: FontSize.getTextFieldTitleStyle(
-                                                context)
-                                            .copyWith(
-                                                fontWeight: FontWeight.w600)),
-                                    Dimensions.getSmallerSizedBox(context),
-                                    Expanded(
-                                      child: ReminderDropdown(
-                                          reminderValue: initialReminderValue),
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text("To Do Task",
+                                      style: FontSize.getMEdiumBlackFontstyle(
+                                          context)),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 20),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: getTextField(
+                                              context,
+                                              () => null,
+                                              controller,
+                                              "Add Task"),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TaskTemplateScreen(
+                                                            toDoBloc: toDoBloc),
+                                                  ));
+                                            },
+                                            icon: const Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Icon(Icons.paste_outlined),
+                                            ))
+                                      ],
                                     ),
-                                    Dimensions.getSmallerSizedBox(context),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              )),
+                          Container(
+                            color: Theme.of(context).primaryColor,
+                            child: IntrinsicHeight(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: InkWell(
+                                    onTap: onPressed,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(buttonLabel,
+                                          textAlign: TextAlign.center,
+                                          style: FontSize
+                                              .getBottomSheetButtonTextStyle(
+                                                  context)),
+                                    ),
+                                  )),
+                                  VerticalDivider(
+                                    thickness: 3,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                  Expanded(
+                                      child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Cancel",
+                                          textAlign: TextAlign.center,
+                                          style: FontSize
+                                              .getBottomSheetButtonTextStyle(
+                                                  context)),
+                                    ),
+                                  )),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          color: Theme.of(context).primaryColor,
-                          child: IntrinsicHeight(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: InkWell(
-                                  onTap: onPressed,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(buttonLabel,
-                                        textAlign: TextAlign.center,
-                                        style: FontSize
-                                            .getBottomSheetButtonTextStyle(
-                                                context)),
-                                  ),
-                                )),
-                                VerticalDivider(
-                                  thickness: 3,
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                ),
-                                Expanded(
-                                    child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("Cancel",
-                                        textAlign: TextAlign.center,
-                                        style: FontSize
-                                            .getBottomSheetButtonTextStyle(
-                                                context)),
-                                  ),
-                                )),
-                              ],
                             ),
                           ),
-                        ),
-                      ],
-                    ));
+                        ]));
               }),
             )).then((value) {
       controller.clear();
-      timeC.clear();
     });
   }
 

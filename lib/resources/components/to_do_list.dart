@@ -1,35 +1,31 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 import 'package:task_planner/models/to_do_model.dart';
 import 'package:task_planner/resources/components/bottom_sheets/bottom_sheet_planner.dart';
-import 'package:task_planner/resources/components/dialog_box/dialog_box.dart';
-
 import '../../utils/colors/app_colors.dart';
 import '../../utils/fonts/font_size.dart';
 import '../../views/to_do_view/bloc/to_do_bloc.dart';
 
 // ignore: must_be_immutable
 class ToDoListView extends StatelessWidget {
-  List<ToDo> todoItems;
+  List<ToDoModel> reminderItems;
   final ToDoBloc toDoBloc;
   ToDoListView({
     Key? key,
-    required this.todoItems,
+    required this.reminderItems,
     required this.toDoBloc,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     TextEditingController nameC = TextEditingController();
-    TextEditingController timeC = TextEditingController();
-    TimeOfDay timeOfDay = TimeOfDay.now();
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: todoItems.length,
+        itemCount: reminderItems.length,
         itemBuilder: (context, index) {
           return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -41,7 +37,7 @@ class ToDoListView extends StatelessWidget {
                     //drag to delete functionality
                     // dismissible: DismissiblePane(onDismissed: () {
                     //   toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
-                    //       todoItem: todoItems[index]));
+                    //       todoItem: reminderItems[index]));
                     // }),
                     children: [
                       SlidableAction(
@@ -49,17 +45,8 @@ class ToDoListView extends StatelessWidget {
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10)),
                         onPressed: (context) {
-                          if (todoItems[index].repeat == "Never") {
-                            toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
-                                todoItem: todoItems[index]));
-                          } else {
-                            DialogBoxes.getAlertDialogForTaskDeletion(
-                                context: context,
-                                todoItem: todoItems[index],
-                                todoBloc: toDoBloc);
-                          }
-                          // toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
-                          //     todoItem: todoItems[index]));
+                          toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
+                              todoItem: reminderItems[index]));
                         },
                         backgroundColor: AppColors.kredColor,
                         foregroundColor: AppColors.kwhiteColor,
@@ -68,24 +55,18 @@ class ToDoListView extends StatelessWidget {
                     ]),
                 child: InkWell(
                   onLongPress: () {
-                    nameC.text = todoItems[index].title!;
-                    timeC.text = todoItems[index].completionTime!;
+                    nameC.text = reminderItems[index].title!;
+
                     BottomSheets.getBottomSheetForToDoList(
                         context: context,
                         controller: nameC,
-                        timeC: timeC,
-                        pickedTime: timeOfDay,
                         formKey: formKey,
                         toDoBloc: toDoBloc,
-                        initialDropdownVal: todoItems[index].category!,
-                        initialReminderValue: todoItems[index].reminder!,
-                        initialRepeatVal: todoItems[index].repeat!,
                         onPressed: () {
                           if (formKey.currentState?.validate() == true) {
                             toDoBloc.add(ToDoIthItemUpdateClickedEvent(
                               title: nameC.text,
-                              time: timeC.text,
-                              todoItem: todoItems[index],
+                              todoItem: reminderItems[index],
                             ));
                           }
                         },
@@ -93,30 +74,25 @@ class ToDoListView extends StatelessWidget {
                   },
                   child: ListTile(
                     leading: Checkbox(
-                      value: todoItems[index].isCompleted,
+                      value: reminderItems[index].isCompleted,
                       checkColor: AppColors.kwhiteColor,
                       activeColor: Theme.of(context).primaryColor,
                       side: BorderSide(
                           color: Theme.of(context).listTileTheme.textColor!,
                           width: 2),
                       onChanged: (value) {
-                        if (todoItems[index].repeat == "Never") {
-                          toDoBloc.add(ToDoIthItemCheckBoxClickedEvent(
-                              todoItem: todoItems[index]));
-                        } else {
-                          DialogBoxes.getAlertDialogForRepeatTaskCompletion(
-                              context: context,
-                              todoItem: todoItems[index],
-                              todoBloc: toDoBloc);
-                        }
+                        toDoBloc.add(ToDoIthItemCheckBoxClickedEvent(
+                            todoItem: reminderItems[index]));
                       },
                     ),
-                    title: Text(
-                      todoItems[index].title.toString(),
-                      style: FontSize.getToDoItemTileTextStyle(context),
+                    title: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 0),
+                      child: Text(
+                        reminderItems[index].title.toString(),
+                        style: FontSize.getToDoItemTileTextStyle(context),
+                      ),
                     ),
-                    subtitle: Text(todoItems[index].category ?? ""),
-                    trailing: Text(todoItems[index].completionTime ?? " "),
                   ),
                 ),
               ));

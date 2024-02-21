@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:task_planner/models/to_do_model.dart';
+import 'package:task_planner/models/reminder_model.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
@@ -61,12 +61,12 @@ class _CategoryViewState extends State<CategoryView> {
               case ReminderLoadedSuccessState:
                 final successState = state as ReminderLoadedSuccessState;
                 List<bool> isVisible =
-                    List.filled(successState.todoItems.length, true);
+                    List.filled(successState.reminderItems.length, true);
                 return Scaffold(
                   backgroundColor: Colors.transparent,
                   body: StatefulBuilder(builder: (context, setState) {
                     return ListView.builder(
-                      itemCount: successState.todoItems.length,
+                      itemCount: successState.reminderItems.length,
                       itemBuilder: (context, index) {
                         return Column(
                             mainAxisSize: MainAxisSize.min,
@@ -86,7 +86,7 @@ class _CategoryViewState extends State<CategoryView> {
                                     children: [
                                       Text(
                                           Dates.getDateInMdy(successState
-                                              .todoItems[index][0].date!),
+                                              .reminderItems[index][0].date!),
                                           style: TextStyle(
                                               fontSize: FontSize
                                                   .getTaskPlannerDescriptionFontSize(
@@ -103,11 +103,12 @@ class _CategoryViewState extends State<CategoryView> {
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          successState.todoItems[index].length,
+                                      itemCount: successState
+                                          .reminderItems[index].length,
                                       itemBuilder: (context, i) {
-                                        ToDo todoItem =
-                                            successState.todoItems[index][i];
+                                        ReminderModel reminderItem =
+                                            successState.reminderItems[index]
+                                                [i];
 
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -120,7 +121,7 @@ class _CategoryViewState extends State<CategoryView> {
                                                 //drag to delete functionality
                                                 // dismissible: DismissiblePane(onDismissed: () {
                                                 //   toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
-                                                //       todoItem: todoItems[index]));
+                                                //       reminderItem: reminderItems[index]));
                                                 // }),
                                                 children: [
                                                   SlidableAction(
@@ -134,19 +135,20 @@ class _CategoryViewState extends State<CategoryView> {
                                                                       .circular(
                                                                           10)),
                                                       onPressed: (context) {
-                                                        if (todoItem.repeat ==
+                                                        if (reminderItem
+                                                                .repeat ==
                                                             "Never") {
                                                           widget.reminderBloc.add(
                                                               ReminderDeleteItemPressedEvent(
-                                                                  todoItem:
-                                                                      todoItem,
+                                                                  reminderItem:
+                                                                      reminderItem,
                                                                   category: widget
                                                                       .category));
                                                         } else {
                                                           DialogBoxes.getAlertDialogForTaskDeletion(
                                                               context: context,
-                                                              todoItem:
-                                                                  todoItem,
+                                                              reminderItem:
+                                                                  reminderItem,
                                                               reminderBloc: widget
                                                                   .reminderBloc,
                                                               category: widget
@@ -162,12 +164,13 @@ class _CategoryViewState extends State<CategoryView> {
                                             child: InkWell(
                                               onLongPress: () {
                                                 todoController.text =
-                                                    todoItem.title ?? " ";
-                                                timeC.text =
-                                                    todoItem.completionTime ??
-                                                        "00:00";
-                                                dateC.text = todoItem.date ??
-                                                    "0000-00-00";
+                                                    reminderItem.title ?? " ";
+                                                timeC.text = reminderItem
+                                                        .completionTime ??
+                                                    "00:00";
+                                                dateC.text =
+                                                    reminderItem.date ??
+                                                        "0000-00-00";
                                                 BottomSheets
                                                     .getBottomSheetForDateWiseTodo(
                                                   context: context,
@@ -176,18 +179,18 @@ class _CategoryViewState extends State<CategoryView> {
                                                   dateC: dateC,
                                                   pickedTime: Dates
                                                       .getTimeInTimeOfDayFormat(
-                                                          todoItem
+                                                          reminderItem
                                                               .completionTime!),
                                                   dateTime: DateTime.now(),
                                                   formKey: formKey,
                                                   reminderBloc:
                                                       widget.reminderBloc,
                                                   initialDropdownVal:
-                                                      todoItem.category!,
+                                                      reminderItem.category!,
                                                   initialReminderValue:
-                                                      todoItem.reminder!,
+                                                      reminderItem.reminder!,
                                                   initialRepeatVal:
-                                                      todoItem.repeat!,
+                                                      reminderItem.repeat!,
                                                   onPressed: () {
                                                     widget.reminderBloc.add(
                                                         ReminderIthItemUpdateClickedEvent(
@@ -195,7 +198,8 @@ class _CategoryViewState extends State<CategoryView> {
                                                                 todoController
                                                                     .text,
                                                             time: timeC.text,
-                                                            todoItem: todoItem,
+                                                            reminderItem:
+                                                                reminderItem,
                                                             category:
                                                                 widget.category,
                                                             dateTime:
@@ -215,34 +219,33 @@ class _CategoryViewState extends State<CategoryView> {
                                                     activeColor:
                                                         Theme.of(context)
                                                             .primaryColor,
-                                                    value:
-                                                        todoItem.isCompleted!,
+                                                    value: reminderItem
+                                                        .isCompleted!,
                                                     onChanged: (val) {
-                                                      if (todoItem.repeat ==
+                                                      if (reminderItem.repeat ==
                                                           "Never") {
                                                         widget.reminderBloc.add(
                                                             ReminderIthItemCheckBoxClickedEvent(
-                                                                todoItem:
-                                                                    todoItem,
+                                                                reminderItem:
+                                                                    reminderItem,
                                                                 category: widget
                                                                     .category));
                                                       } else {
-                                                        DialogBoxes
-                                                            .getAlertDialogForRepeatTaskCompletion(
-                                                                context:
-                                                                    context,
-                                                                todoItem:
-                                                                    todoItem,
-                                                                reminderBloc: widget
-                                                                    .reminderBloc,
-                                                                category: widget
-                                                                    .category);
+                                                        DialogBoxes.getAlertDialogForRepeatTaskCompletion(
+                                                            context: context,
+                                                            reminderItem:
+                                                                reminderItem,
+                                                            reminderBloc: widget
+                                                                .reminderBloc,
+                                                            category: widget
+                                                                .category);
                                                       }
                                                     }),
                                                 title: Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
-                                                  child: Text(todoItem.title!),
+                                                  child:
+                                                      Text(reminderItem.title!),
                                                 ),
                                                 subtitle: Padding(
                                                   padding:
@@ -260,7 +263,7 @@ class _CategoryViewState extends State<CategoryView> {
                                                             children: [
                                                               const Icon(Icons
                                                                   .timer_outlined),
-                                                              Text(todoItem
+                                                              Text(reminderItem
                                                                   .completionTime!)
                                                             ],
                                                           ),
@@ -273,15 +276,15 @@ class _CategoryViewState extends State<CategoryView> {
                                                             children: [
                                                               const Icon(
                                                                   Icons.repeat),
-                                                              Text(todoItem
+                                                              Text(reminderItem
                                                                   .repeat!)
                                                             ],
                                                           ),
                                                         ),
                                                       ]),
                                                 ),
-                                                trailing:
-                                                    Text(todoItem.category!),
+                                                trailing: Text(
+                                                    reminderItem.category!),
                                               ),
                                             ),
                                           ),

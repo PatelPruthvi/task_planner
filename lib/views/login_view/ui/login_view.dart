@@ -22,7 +22,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   int selectedIndex = 0; // default index
   final LoginBloc loginBloc = LoginBloc();
-  int pageCount = 0; //default counts
+  int pageCount = 2; //default counts
   late final PageController _pageController;
 
   @override
@@ -108,7 +108,7 @@ class _LoginViewState extends State<LoginView> {
                   ],
                 ),
                 Expanded(
-                  child: Stack(children: [
+                  child: Stack(fit: StackFit.expand, children: [
                     PageView(
                       controller: _pageController,
                       onPageChanged: (value) {
@@ -123,7 +123,9 @@ class _LoginViewState extends State<LoginView> {
                             children: [
                               Expanded(
                                 child: Image.network(successState.imgUrls[i],
-                                    width: Dimensions.getScreenWidth(context),
+                                    height: Dimensions.getScreenHeight(context),
+                                    width:
+                                        Dimensions.getScreenWidth(context) - 10,
                                     fit: BoxFit.fill, loadingBuilder:
                                         (context, child, loadingProgress) {
                                   if (loadingProgress == null) {
@@ -149,7 +151,8 @@ class _LoginViewState extends State<LoginView> {
                                   Dimensions.getScreenHeight(context) * 0.65,
                               child: Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 8, 16, 8.0),
                                   child: Text(
                                     "Welcome to Task Planner! Dive into productivity and organization. Let's start planning together. Welcome aboard!",
                                     // textAlign: TextAlign.justify,

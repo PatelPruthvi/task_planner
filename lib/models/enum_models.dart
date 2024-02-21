@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_planner/models/to_do_model.dart';
+import 'package:task_planner/models/reminder_model.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 
 List<String> categories = ["None", "Work", "Personal", "Wishlist", "Birthday"];
@@ -19,6 +19,31 @@ List<String> repeats = [
   "Weekly",
   "Monthly",
   "Annually"
+];
+List<String> defaultTemplateIcon = [
+  "🚰",
+  "🧘🏻‍♂️",
+  "📘",
+  "🌌",
+  "🧡",
+  "🧋",
+  "👪🏻",
+  "💊",
+  "😊",
+  "🛒"
+];
+
+List<String> defaultTemplates = [
+  "Drink water, keep healthy",
+  "Go exercise",
+  "Keep reading",
+  "Go to bed early",
+  "Be grateful for what you have",
+  "Take a break",
+  "Keep in touch with family",
+  "Take pill reminder",
+  "Practice smiling and be happy",
+  "Go shopping"
 ];
 
 enum Category { none, work, personal, wishlist, birthday }
@@ -72,12 +97,12 @@ class Models {
     }
   }
 
-  static ToDo getExactDateTimeOfrepeat(ToDo todoItem) {
-    ToDo repeatTaskItem = todoItem;
+  static ReminderModel getExactDateTimeOfrepeat(ReminderModel reminderItem) {
+    ReminderModel repeatTaskItem = reminderItem;
 
     DateTime exactRepeatTime = Dates.getDateTimeFromDateAndTime(
-        todoItem.date!, todoItem.completionTime!);
-    switch (todoItem.repeat) {
+        reminderItem.date!, reminderItem.completionTime!);
+    switch (reminderItem.repeat) {
       case "Never":
         return repeatTaskItem;
       case "Hourly":

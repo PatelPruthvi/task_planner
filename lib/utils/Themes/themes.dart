@@ -22,7 +22,7 @@ class Themes {
           centerTitle: false,
           backgroundColor: AppColors.kblue600,
           actionsIconTheme: const IconThemeData(color: AppColors.kwhiteColor),
-          iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
+          iconTheme: const IconThemeData(color: AppColors.kscreenColor),
           elevation: 0.0,
           titleSpacing: 1.3,
           titleTextStyle: TextStyle(

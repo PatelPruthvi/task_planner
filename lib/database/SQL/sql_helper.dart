@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqlite_api.dart';
 import 'package:task_planner/models/task_planner_model.dart';
+import 'package:task_planner/models/reminder_model.dart';
 import 'package:task_planner/models/to_do_model.dart';
 
 import '../../models/enum_models.dart';
@@ -19,19 +20,20 @@ class SQLHelper {
         if (kDebugMode) {
           print("Creating a table...");
         }
-        await ToDoSQLhelper.createTable(db);
+        await ReminderSQLHelper.createTable(db);
+        await ToDoSQLHelper.createTable(db);
         await TaskPlannerHelper.createTable(db);
       },
     );
   }
 }
 
-class ToDoSQLhelper {
-  static const todoTableName = "ToDoList";
+class ReminderSQLHelper {
+  static const reminderTableName = "ReminderTable";
   //creating a table to store data
   static Future<void> createTable(sql.Database database) async {
     await database.execute("""
-        CREATE TABLE $todoTableName( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+        CREATE TABLE $reminderTableName( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
         title TEXT,
         date TEXT,
         isCompleted BOOL,
@@ -43,21 +45,128 @@ class ToDoSQLhelper {
   }
 
   // to add a new item to db, conflict algo -> if conflict arises what would be the reaction
-  static Future<int> createItem(ToDo todoItem) async {
+  static Future<int> createItem(ReminderModel reminderItem) async {
     final db = await SQLHelper.db();
-    final data = todoItem.toJson();
-    int id = await db.insert(todoTableName, data,
+    final data = reminderItem.toJson();
+    int id = await db.insert(reminderTableName, data,
         conflictAlgorithm: ConflictAlgorithm.replace);
     DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
-        todoItem.date!, todoItem.completionTime!);
+        reminderItem.date!, reminderItem.completionTime!);
     String body = "Reminder - ";
     body = body + DateFormat("d MMM, hh:mm").format(notifDateTime);
     await NotificationService().scheduleNotif(
         id: id,
-        title: todoItem.title,
+        title: reminderItem.title,
         body: body,
-        scheduledNotifDateTime:
-            Models.getExactDateTimeForNotif(notifDateTime, todoItem.reminder!));
+        scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+            notifDateTime, reminderItem.reminder!));
+    return id;
+  }
+
+  static Future<List<Map<String, dynamic>>> getAllToDoItems() async {
+    final db = await SQLHelper.db();
+    return db.query(reminderTableName);
+  }
+
+  // the listview will be decoded by this
+  static Future<List<Map<String, dynamic>>> getListByDay(String date) async {
+    final db = await SQLHelper.db();
+    return db.query(reminderTableName, where: "date=?", whereArgs: [date]);
+  }
+
+  static Future<List<Map<String, dynamic>>> getListByCategory(
+      String category) async {
+    final db = await SQLHelper.db();
+    return db
+        .query(reminderTableName, where: "category=?", whereArgs: [category]);
+  }
+
+  static Future<void> updateItem(ReminderModel reminderItem) async {
+    final db = await SQLHelper.db();
+    final data = reminderItem.toJson();
+    await db.update(reminderTableName, data,
+        where: "id=?", whereArgs: [reminderItem.id]);
+    await NotificationService()
+        .cancelNotif(id: reminderItem.id!)
+        .onError((error, stackTrace) => null);
+    DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
+        reminderItem.date!, reminderItem.completionTime!);
+    String body = "Reminder - ";
+    body = body + DateFormat("d MMM, hh:mm").format(notifDateTime);
+    await NotificationService()
+        .scheduleNotif(
+            id: reminderItem.id!,
+            title: reminderItem.title,
+            body: body,
+            scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+                notifDateTime, reminderItem.reminder!))
+        .onError((error, stackTrace) => null);
+  }
+
+  static Future<void> updateCheckBoxItem(ReminderModel reminderItem) async {
+    final db = await SQLHelper.db();
+    final data = reminderItem.toJson();
+
+    await db.update(reminderTableName, data,
+        where: "id=?", whereArgs: [reminderItem.id]);
+    if (reminderItem.isCompleted == true) {
+      await NotificationService()
+          .cancelNotif(id: reminderItem.id!)
+          .then((value) async {
+        if (reminderItem.repeat != "Never") {
+          await ReminderSQLHelper.deleteItem(reminderItem);
+
+          await ReminderSQLHelper.createItem(
+              Models.getExactDateTimeOfrepeat(reminderItem));
+        }
+      }).onError((error, stackTrace) => null);
+    } else {
+      DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
+          reminderItem.date!, reminderItem.completionTime!);
+      String body = "Reminder - ";
+      body = body + DateFormat("d MMM, hh:mm").format(notifDateTime);
+      await NotificationService()
+          .scheduleNotif(
+              id: reminderItem.id!,
+              title: reminderItem.title,
+              body: body,
+              scheduledNotifDateTime: Models.getExactDateTimeForNotif(
+                  notifDateTime, reminderItem.reminder!))
+          .onError((error, stackTrace) {});
+    }
+  }
+
+  static Future<void> deleteItem(ReminderModel reminderItem) async {
+    final db = await SQLHelper.db();
+
+    try {
+      await db.delete(reminderTableName,
+          where: "id=?", whereArgs: [reminderItem.id]);
+      await NotificationService().cancelNotif(id: reminderItem.id!);
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
+class ToDoSQLHelper {
+  static const todoTableName = "ToDoTable";
+  //creating a table to store data
+  static Future<void> createTable(sql.Database database) async {
+    await database.execute("""
+        CREATE TABLE $todoTableName( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+        title TEXT,
+        date TEXT,
+        isCompleted BOOL
+        )""");
+  }
+
+  // to add a new item to db, conflict algo -> if conflict arises what would be the reaction
+  static Future<int> createItem(ToDoModel todoItem) async {
+    final db = await SQLHelper.db();
+    final data = todoItem.toJson();
+    int id = await db.insert(todoTableName, data,
+        conflictAlgorithm: ConflictAlgorithm.replace);
     return id;
   }
 
@@ -72,73 +181,26 @@ class ToDoSQLhelper {
     return db.query(todoTableName, where: "date=?", whereArgs: [date]);
   }
 
-  static Future<List<Map<String, dynamic>>> getListByCategory(
-      String category) async {
-    final db = await SQLHelper.db();
-    return db.query(todoTableName, where: "category=?", whereArgs: [category]);
-  }
-
-  static Future<void> updateItem(ToDo todoItem) async {
+  static Future<void> updateItem(ToDoModel todoItem) async {
     final db = await SQLHelper.db();
     final data = todoItem.toJson();
     await db
         .update(todoTableName, data, where: "id=?", whereArgs: [todoItem.id]);
-    await NotificationService()
-        .cancelNotif(id: todoItem.id!)
-        .onError((error, stackTrace) => null);
-    DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
-        todoItem.date!, todoItem.completionTime!);
-    String body = "Reminder - ";
-    body = body + DateFormat("d MMM, hh:mm").format(notifDateTime);
-    await NotificationService()
-        .scheduleNotif(
-            id: todoItem.id!,
-            title: todoItem.title,
-            body: body,
-            scheduledNotifDateTime: Models.getExactDateTimeForNotif(
-                notifDateTime, todoItem.reminder!))
-        .onError((error, stackTrace) => null);
   }
 
-  static Future<void> updateCheckBoxItem(ToDo todoItem) async {
+  static Future<void> updateCheckBoxItem(ToDoModel todoItem) async {
     final db = await SQLHelper.db();
     final data = todoItem.toJson();
 
     await db
         .update(todoTableName, data, where: "id=?", whereArgs: [todoItem.id]);
-    if (todoItem.isCompleted == true) {
-      await NotificationService()
-          .cancelNotif(id: todoItem.id!)
-          .then((value) async {
-        if (todoItem.repeat != "Never") {
-          await ToDoSQLhelper.deleteItem(todoItem);
-
-          await ToDoSQLhelper.createItem(
-              Models.getExactDateTimeOfrepeat(todoItem));
-        }
-      }).onError((error, stackTrace) => null);
-    } else {
-      DateTime notifDateTime = Dates.getDateTimeFromDateAndTime(
-          todoItem.date!, todoItem.completionTime!);
-      String body = "Reminder - ";
-      body = body + DateFormat("d MMM, hh:mm").format(notifDateTime);
-      await NotificationService()
-          .scheduleNotif(
-              id: todoItem.id!,
-              title: todoItem.title,
-              body: body,
-              scheduledNotifDateTime: Models.getExactDateTimeForNotif(
-                  notifDateTime, todoItem.reminder!))
-          .onError((error, stackTrace) {});
-    }
   }
 
-  static Future<void> deleteItem(ToDo toDoItem) async {
+  static Future<void> deleteItem(ToDoModel todoItem) async {
     final db = await SQLHelper.db();
 
     try {
-      await db.delete(todoTableName, where: "id=?", whereArgs: [toDoItem.id]);
-      await NotificationService().cancelNotif(id: toDoItem.id!);
+      await db.delete(todoTableName, where: "id=?", whereArgs: [todoItem.id]);
     } catch (e) {
       rethrow;
     }

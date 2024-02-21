@@ -8,35 +8,26 @@ class ToDoInitialEvent extends ToDoEvent {}
 
 class ToDoAddTaskClickedEvent extends ToDoEvent {
   final String title;
-  final String category;
-  final String completionTime;
-  final String reminderTime;
-  final String repeat;
 
-  ToDoAddTaskClickedEvent(this.title, this.category, this.completionTime,
-      this.reminderTime, this.repeat);
+  ToDoAddTaskClickedEvent(this.title);
 }
 
 class ToDoIthItemUpdateClickedEvent extends ToDoEvent {
   final String title;
-  final String time;
-  final ToDo todoItem;
 
-  ToDoIthItemUpdateClickedEvent({
-    required this.title,
-    required this.time,
-    required this.todoItem,
-  });
+  final ToDoModel todoItem;
+
+  ToDoIthItemUpdateClickedEvent({required this.title, required this.todoItem});
 }
 
 class ToDoIthItemCheckBoxClickedEvent extends ToDoEvent {
-  final ToDo todoItem;
+  final ToDoModel todoItem;
 
   ToDoIthItemCheckBoxClickedEvent({required this.todoItem});
 }
 
 class ToDoIthItemDeletedButtonClickedEvent extends ToDoEvent {
-  final ToDo todoItem;
+  final ToDoModel todoItem;
 
   ToDoIthItemDeletedButtonClickedEvent({required this.todoItem});
 }

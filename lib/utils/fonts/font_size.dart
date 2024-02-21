@@ -23,7 +23,7 @@ class FontSize {
   static getButtonTextStyle(BuildContext context) => TextStyle(
       color: AppColors.kwhiteColor,
       fontSize: FontSize.getTaskPlannerDescriptionFontSize(context));
-  static getToDoItemTileTextStyle(BuildContext context) => TextStyle(
+  static TextStyle getToDoItemTileTextStyle(BuildContext context) => TextStyle(
       color: Theme.of(context).listTileTheme.textColor,
       fontWeight: FontWeight.w500,
       fontSize: FontSize.getMediumFontSize(context));
