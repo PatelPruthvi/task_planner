@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_planner/utils/fonts/font_size.dart';
 import '../../../models/enum_models.dart';
 
 String repeatValue = "Never";
@@ -34,8 +35,7 @@ class _RepeatDropdownState extends State<RepeatDropdown> {
                 value: val,
                 child: Text(
                   val,
-                  style: TextStyle(
-                      color: Theme.of(context).listTileTheme.textColor),
+                  style: FontDecors.getDropdownTextStyle(context),
                 ));
           }).toList(),
           onChanged: (val) {

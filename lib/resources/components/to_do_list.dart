@@ -90,7 +90,7 @@ class ToDoListView extends StatelessWidget {
                           vertical: 20.0, horizontal: 0),
                       child: Text(
                         reminderItems[index].title.toString(),
-                        style: FontSize.getToDoItemTileTextStyle(context),
+                        style: FontDecors.getToDoItemTileTextStyle(context),
                       ),
                     ),
                   ),

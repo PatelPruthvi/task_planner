@@ -28,9 +28,7 @@ class SettingsPageButton extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
                 child: Text(text,
-                    style: TextStyle(
-                        fontSize: FontSize.getMediumFontSize(context),
-                        color: Theme.of(context).listTileTheme.textColor))),
+                    style: FontDecors.getToDoItemTileTextStyle(context))),
             Icon(Icons.arrow_forward_ios,
                 color: Theme.of(context).listTileTheme.textColor),
           ],

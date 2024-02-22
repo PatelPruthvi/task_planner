@@ -21,19 +21,19 @@ class Themes {
       appBarTheme: AppBarTheme(
           centerTitle: false,
           backgroundColor: AppColors.kblue600,
-          actionsIconTheme: const IconThemeData(color: AppColors.kwhiteColor),
+          actionsIconTheme: const IconThemeData(color: AppColors.kscreenColor),
           iconTheme: const IconThemeData(color: AppColors.kscreenColor),
           elevation: 0.0,
           titleSpacing: 1.3,
           titleTextStyle: TextStyle(
               color: AppColors.kscreenColor,
-              fontSize: FontSize.getAppBarTitleFontSize(context),
+              fontSize: FontDecors.getAppBarTitleFontSize(context),
               fontFamily: GoogleFonts.comfortaa().fontFamily,
               fontWeight: FontWeight.bold)),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: TextStyle(
             color: AppColors.kblackColor,
-            fontSize: FontSize.getTaskPlannerDescriptionFontSize(context)),
+            fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context)),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(color: AppColors.kblackColor)),
@@ -46,7 +46,7 @@ class Themes {
       ),
       listTileTheme: ListTileThemeData(
           tileColor: AppColors.kwhiteColor,
-          titleTextStyle: FontSize.getToDoItemTileTextStyle(context),
+          titleTextStyle: FontDecors.getToDoItemTileTextStyle(context),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           textColor: AppColors.kblackColor,
@@ -58,11 +58,14 @@ class Themes {
           showDragHandle: true,
           backgroundColor: AppColors.kscreenColor),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        type: BottomNavigationBarType.shifting,
         backgroundColor: AppColors.kscreenColor,
         selectedItemColor: AppColors.kblue600,
         unselectedItemColor: AppColors.kGreyColor,
-        unselectedLabelStyle: FontSize.getBottomTextStyle(context),
-        selectedLabelStyle: FontSize.getBottomSelectedStyle(context),
+        unselectedLabelStyle:
+            FontDecors.getBottomNavBarUnSelectedTextStyle(context),
+        selectedLabelStyle:
+            FontDecors.getBottomNavBarSelectedTextStyle(context),
       ),
       colorScheme: const ColorScheme.light(
           primary: AppColors.kblue600,
@@ -81,19 +84,19 @@ class Themes {
           centerTitle: false,
           backgroundColor: AppColors.kmediumBlueColor,
           iconTheme: const IconThemeData(color: AppColors.kblackColor),
-          actionsIconTheme: const IconThemeData(color: AppColors.kwhiteColor),
+          actionsIconTheme: const IconThemeData(color: AppColors.kscreenColor),
           elevation: 0.0,
           titleSpacing: 1.3,
           titleTextStyle: TextStyle(
               // color: AppColors.kblackColor,
               color: AppColors.kscreenColor,
-              fontSize: FontSize.getAppBarTitleFontSize(context),
+              fontSize: FontDecors.getAppBarTitleFontSize(context),
               fontFamily: GoogleFonts.comfortaa().fontFamily,
               fontWeight: FontWeight.bold)),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: TextStyle(
             color: AppColors.kwhiteColor,
-            fontSize: FontSize.getTaskPlannerDescriptionFontSize(context)),
+            fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context)),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(color: AppColors.kwhiteColor)),
@@ -106,7 +109,7 @@ class Themes {
       ),
       listTileTheme: ListTileThemeData(
         tileColor: AppColors.kblackColor,
-        titleTextStyle: FontSize.getToDoItemTileTextStyle(context),
+        titleTextStyle: FontDecors.getToDoItemTileTextStyle(context),
         textColor: AppColors.kwhiteColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         iconColor: AppColors.kwhiteColor,
@@ -114,11 +117,14 @@ class Themes {
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: AppColors.kmediumBlueColor),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        type: BottomNavigationBarType.fixed,
         backgroundColor: AppColors.kblackColor,
         selectedItemColor: AppColors.kmediumBlueColor,
         unselectedItemColor: AppColors.kscreenColor,
-        unselectedLabelStyle: FontSize.getBottomTextStyle(context),
-        selectedLabelStyle: FontSize.getBottomSelectedStyle(context),
+        unselectedLabelStyle:
+            FontDecors.getBottomNavBarUnSelectedTextStyle(context),
+        selectedLabelStyle:
+            FontDecors.getBottomNavBarSelectedTextStyle(context),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
           dragHandleColor: AppColors.kscreenColor,

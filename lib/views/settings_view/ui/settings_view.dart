@@ -60,13 +60,9 @@ class _SettingScreenState extends State<SettingScreen> {
                       const Icon(Icons.dark_mode),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Text(
-                          "Dark Theme",
-                          style: TextStyle(
-                              fontSize: FontSize.getMediumFontSize(context),
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).listTileTheme.textColor),
-                        ),
+                        child: Text("Dark Theme",
+                            style:
+                                FontDecors.getToDoItemTileTextStyle(context)),
                       ),
                       Switch.adaptive(
                         value: AdaptiveTheme.of(context).mode.isDark,

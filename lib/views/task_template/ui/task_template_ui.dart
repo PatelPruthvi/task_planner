@@ -31,7 +31,7 @@ class TaskTemplateScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10)),
               leading: Text(
                 defaultTemplateIcon[index],
-                style: FontSize.getToDoItemTileTextStyle(context),
+                style: FontDecors.getToDoItemTileTextStyle(context),
               ),
               title: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -45,8 +45,10 @@ class TaskTemplateScreen extends StatelessWidget {
                   },
                   child: Text(
                     "ADD",
-                    style: FontSize.getToDoItemTileTextStyle(context).copyWith(
-                        color: Theme.of(context).appBarTheme.backgroundColor),
+                    style: FontDecors.getToDoItemTileTextStyle(context)
+                        .copyWith(
+                            color:
+                                Theme.of(context).appBarTheme.backgroundColor),
                   )),
             ),
           );

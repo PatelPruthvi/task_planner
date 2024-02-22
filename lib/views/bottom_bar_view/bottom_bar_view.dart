@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/planner_view/ui/planner_view.dart';
 import 'package:task_planner/views/reminders_view/ui/reminder_view.dart';
 import 'package:task_planner/views/settings_view/ui/settings_view.dart';
@@ -33,7 +34,10 @@ class _BottomBarViewState extends State<BottomBarView> {
       body: widgets.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        selectedLabelStyle:
+            FontDecors.getBottomNavBarSelectedTextStyle(context),
+        unselectedLabelStyle:
+            FontDecors.getBottomNavBarUnSelectedTextStyle(context),
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.access_time_rounded), label: "Reminders"),

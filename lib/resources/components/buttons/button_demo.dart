@@ -12,5 +12,6 @@ class Buttons {
                 borderRadius: BorderRadius.circular(10))),
           ),
           onPressed: onTap,
-          child: Text(labelText, style: FontSize.getButtonTextStyle(context)));
+          child:
+              Text(labelText, style: FontDecors.getButtonTextStyle(context)));
 }

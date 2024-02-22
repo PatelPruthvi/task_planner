@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_planner/utils/fonts/font_size.dart';
 import '../../../models/enum_models.dart';
 
 String dropDownValue = "None";
@@ -21,18 +22,6 @@ class _CategoryDropDownListState extends State<CategoryDropDownList> {
 
   @override
   Widget build(BuildContext context) {
-    // return DropdownMenu(
-    //   initialSelection: dropDownValue,
-    //   textStyle: TextStyle(color: Theme.of(context).listTileTheme.textColor),
-    //   dropdownMenuEntries: categories.map((val) {
-    //     return DropdownMenuEntry(value: val, label: val);
-    //   }).toList(),
-    //   onSelected: (value) {
-    //     setState(() {
-    //       dropDownValue = value!;
-    //     });
-    //   },
-    // );
     return Container(
       padding: const EdgeInsets.only(left: 8),
       child: DropdownButton(
@@ -46,8 +35,7 @@ class _CategoryDropDownListState extends State<CategoryDropDownList> {
                 value: val,
                 child: Text(
                   val,
-                  style: TextStyle(
-                      color: Theme.of(context).listTileTheme.textColor),
+                  style: FontDecors.getDropdownTextStyle(context),
                 ));
           }).toList(),
           onChanged: (val) {

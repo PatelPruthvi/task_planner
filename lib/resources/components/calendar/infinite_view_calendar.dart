@@ -65,7 +65,7 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(Dates.getDateTimeInMonthDayYearFormat(date),
-                            style: FontSize.getMediumWhiteFontStyle(context)),
+                            style: FontDecors.getMediumWhiteFontStyle(context)),
                         InkWell(
                           borderRadius: BorderRadius.circular(10),
                           onTap: () {
@@ -75,7 +75,8 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                           },
                           child: Text(
                               Dates.getDateTimeInMMMdFormat(Dates.today),
-                              style: FontSize.getMediumWhiteFontStyle(context)),
+                              style:
+                                  FontDecors.getMediumWhiteFontStyle(context)),
                         )
                       ],
                     ),
@@ -95,7 +96,8 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                             color: AppColors.kredColor),
                         dayNumStyle: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: FontSize.getAppBarTitleFontSize(context),
+                            fontSize:
+                                FontDecors.getAppBarTitleFontSize(context),
                             color: AppColors.kredColor),
                         decoration: BoxDecoration(
                             border: Border.all(color: AppColors.kredColor),
@@ -107,7 +109,8 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                             color: AppColors.kwhiteColor),
                         dayNumStyle: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: FontSize.getAppBarTitleFontSize(context),
+                            fontSize:
+                                FontDecors.getAppBarTitleFontSize(context),
                             color: AppColors.kwhiteColor),
                         decoration: BoxDecoration(
                             border: Border.all(
@@ -120,7 +123,8 @@ class _InfiniteCalendarState extends State<InfiniteCalendar> {
                             color: AppColors.kblackColor),
                         dayNumStyle: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: FontSize.getAppBarTitleFontSize(context),
+                            fontSize:
+                                FontDecors.getAppBarTitleFontSize(context),
                             color: AppColors.kblackColor),
                         decoration: BoxDecoration(
                             border: Border.all(

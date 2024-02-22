@@ -50,8 +50,9 @@ class BottomSheets {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text("To Do Task",
-                                      style: FontSize.getMEdiumBlackFontstyle(
-                                          context)),
+                                      style:
+                                          FontDecors.getBottomSheetTitleStyle(
+                                              context)),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0, vertical: 20),
@@ -95,9 +96,8 @@ class BottomSheets {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(buttonLabel,
                                           textAlign: TextAlign.center,
-                                          style: FontSize
-                                              .getBottomSheetButtonTextStyle(
-                                                  context)),
+                                          style: FontDecors.getButtonTextStyle(
+                                              context)),
                                     ),
                                   )),
                                   VerticalDivider(
@@ -114,9 +114,8 @@ class BottomSheets {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("Cancel",
                                           textAlign: TextAlign.center,
-                                          style: FontSize
-                                              .getBottomSheetButtonTextStyle(
-                                                  context)),
+                                          style: FontDecors.getButtonTextStyle(
+                                              context)),
                                     ),
                                   )),
                                 ],
@@ -175,13 +174,8 @@ class BottomSheets {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(bottomSheetTitle,
-                                  style: Theme.of(context)
-                                      .appBarTheme
-                                      .titleTextStyle!
-                                      .copyWith(
-                                          color:
-                                              Theme.of(context).iconTheme.color,
-                                          fontWeight: FontWeight.w600)),
+                                  style: FontDecors.getBottomSheetTitleStyle(
+                                      context)),
                             ),
                             getTextField(context, () {}, nameC, "Task Name"),
                             Row(
@@ -209,7 +203,7 @@ class BottomSheets {
                                     children: [
                                       Text("Color",
                                           style:
-                                              FontSize.getTextFieldTitleStyle(
+                                              FontDecors.getTextFieldTitleStyle(
                                                   context)),
                                       Dimensions.getSmallerSizedBox(context),
                                       ColorDropDownList(hexCode: hexColorCode),
@@ -219,7 +213,7 @@ class BottomSheets {
                                     children: [
                                       Text("Category",
                                           style:
-                                              FontSize.getTextFieldTitleStyle(
+                                              FontDecors.getTextFieldTitleStyle(
                                                   context)),
                                       Dimensions.getSmallerSizedBox(context),
                                       CategoryDropDownList(
@@ -241,8 +235,8 @@ class BottomSheets {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(buttonLabel,
-                                  style: FontSize.getBottomSheetButtonTextStyle(
-                                      context)),
+                                  style:
+                                      FontDecors.getButtonTextStyle(context)),
                             ),
                           ),
                         ),
@@ -275,8 +269,11 @@ class BottomSheets {
             autocorrect: false,
             onTap: onTap,
             cursorColor: Theme.of(context).primaryColor,
-            style: FontSize.getTextFieldTitleStyle(context),
-            decoration: InputDecoration(labelText: labelText)),
+            style: FontDecors.getTextFieldTitleStyle(context),
+            decoration: InputDecoration(
+              labelText: labelText,
+              labelStyle: FontDecors.getTextFieldTitleStyle(context),
+            )),
       );
 
   static Widget getTimeRetrieverTextField(
@@ -290,7 +287,7 @@ class BottomSheets {
           autocorrect: false,
           readOnly: true,
           cursorColor: Theme.of(context).primaryColor,
-          style: FontSize.getTextFieldTitleStyle(context),
+          style: FontDecors.getTextFieldTitleStyle(context),
           onTap: () async {
             TimeOfDay? pickedStartTime = await showTimePicker(
               context: context,
@@ -308,7 +305,10 @@ class BottomSheets {
             }
             return null;
           },
-          decoration: InputDecoration(labelText: labelText)),
+          decoration: InputDecoration(
+            labelText: labelText,
+            labelStyle: FontDecors.getTextFieldTitleStyle(context),
+          )),
     );
   }
 
@@ -352,9 +352,9 @@ class BottomSheets {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("To Do Task",
-                                style:
-                                    FontSize.getMEdiumBlackFontstyle(context)),
+                            Text("Reminder Task",
+                                style: FontDecors.getBottomSheetTitleStyle(
+                                    context)),
                             getTextField(
                                 context, () => null, controller, "Add Task"),
                             Row(
@@ -368,8 +368,9 @@ class BottomSheets {
                                         readOnly: true,
                                         cursorColor:
                                             Theme.of(context).primaryColor,
-                                        style: FontSize.getTextFieldTitleStyle(
-                                            context),
+                                        style:
+                                            FontDecors.getTextFieldTitleStyle(
+                                                context),
                                         onTap: () async {
                                           dateTime = await showDatePicker(
                                             context: context,
@@ -394,8 +395,11 @@ class BottomSheets {
                                           }
                                           return null;
                                         },
-                                        decoration: const InputDecoration(
-                                            labelText: "Add Date")),
+                                        decoration: InputDecoration(
+                                            labelText: "Add Date",
+                                            labelStyle: FontDecors
+                                                .getTextFieldTitleStyle(
+                                                    context))),
                                   ),
                                 ),
                                 Expanded(
@@ -417,12 +421,9 @@ class BottomSheets {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text("Category",
-                                            style:
-                                                FontSize.getTextFieldTitleStyle(
-                                                        context)
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w600)),
+                                            style: FontDecors
+                                                .getTextFieldTitleStyle(
+                                                    context)),
                                         Dimensions.getSmallerSizedBox(context),
                                         CategoryDropDownList(
                                             categoryVal: initialDropdownVal),
@@ -433,12 +434,9 @@ class BottomSheets {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text("Repeat",
-                                            style:
-                                                FontSize.getTextFieldTitleStyle(
-                                                        context)
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w600)),
+                                            style: FontDecors
+                                                .getTextFieldTitleStyle(
+                                                    context)),
                                         Dimensions.getSmallerSizedBox(context),
                                         RepeatDropdown(
                                             repeatInitialValue:
@@ -454,10 +452,8 @@ class BottomSheets {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Reminder",
-                                      style: FontSize.getTextFieldTitleStyle(
-                                              context)
-                                          .copyWith(
-                                              fontWeight: FontWeight.w600)),
+                                      style: FontDecors.getTextFieldTitleStyle(
+                                          context)),
                                   Dimensions.getSmallerSizedBox(context),
                                   Expanded(
                                     child: ReminderDropdown(
@@ -484,9 +480,8 @@ class BottomSheets {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(buttonLabel,
                                       textAlign: TextAlign.center,
-                                      style: FontSize
-                                          .getBottomSheetButtonTextStyle(
-                                              context)),
+                                      style: FontDecors.getButtonTextStyle(
+                                          context)),
                                 ),
                               )),
                               VerticalDivider(
@@ -503,24 +498,14 @@ class BottomSheets {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text("Cancel",
                                       textAlign: TextAlign.center,
-                                      style: FontSize
-                                          .getBottomSheetButtonTextStyle(
-                                              context)),
+                                      style: FontDecors.getButtonTextStyle(
+                                          context)),
                                 ),
                               )),
                             ],
                           ),
                         ),
-                      ),
-                      // const SizedBox(height: 10),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-                      //     Buttons.getRectangleButton(context,
-                      //         () => Navigator.of(context).pop(), "Cancel"),
-                      //     elevatedButton
-                      //   ],
-                      // ),
+                      )
                     ],
                   ),
                 );

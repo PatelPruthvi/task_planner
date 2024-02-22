@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_planner/utils/fonts/font_size.dart';
 import '../../../models/enum_models.dart';
 
 String reminderVal = Models.getReminder(Reminder.sameTime);
@@ -35,12 +36,9 @@ class _ReminderDropdownState extends State<ReminderDropdown> {
             return DropdownMenuItem(
                 value: val,
                 child: Center(
-                  child: Text(
-                    val,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: Theme.of(context).listTileTheme.textColor),
-                  ),
+                  child: Text(val,
+                      textAlign: TextAlign.left,
+                      style: FontDecors.getDropdownTextStyle(context)),
                 ));
           }).toList(),
           onChanged: (val) {

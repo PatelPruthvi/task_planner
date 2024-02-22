@@ -55,7 +55,7 @@ class _CategoryViewState extends State<CategoryView> {
                 return Center(
                   child: Text(
                     "No Reminders Found...",
-                    style: FontSize.getToDoItemTileTextStyle(context),
+                    style: FontDecors.getToDoItemTileTextStyle(context),
                   ),
                 );
               case ReminderLoadedSuccessState:
@@ -87,10 +87,8 @@ class _CategoryViewState extends State<CategoryView> {
                                       Text(
                                           Dates.getDateInMdy(successState
                                               .reminderItems[index][0].date!),
-                                          style: TextStyle(
-                                              fontSize: FontSize
-                                                  .getTaskPlannerDescriptionFontSize(
-                                                      context))),
+                                          style: FontDecors.getDescFontStyle(
+                                              context)),
                                       Icon(isVisible[index]
                                           ? Icons.keyboard_arrow_down_outlined
                                           : Icons.keyboard_arrow_up_outlined),
@@ -244,8 +242,11 @@ class _CategoryViewState extends State<CategoryView> {
                                                 title: Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
-                                                  child:
-                                                      Text(reminderItem.title!),
+                                                  child: Text(
+                                                      reminderItem.title!,
+                                                      style: FontDecors
+                                                          .getReminderItemTitleTextStyle(
+                                                              context)),
                                                 ),
                                                 subtitle: Padding(
                                                   padding:
@@ -263,8 +264,13 @@ class _CategoryViewState extends State<CategoryView> {
                                                             children: [
                                                               const Icon(Icons
                                                                   .timer_outlined),
-                                                              Text(reminderItem
-                                                                  .completionTime!)
+                                                              Text(
+                                                                reminderItem
+                                                                    .completionTime!,
+                                                                style: FontDecors
+                                                                    .getDropdownTextStyle(
+                                                                        context),
+                                                              )
                                                             ],
                                                           ),
                                                         ),
@@ -276,15 +282,23 @@ class _CategoryViewState extends State<CategoryView> {
                                                             children: [
                                                               const Icon(
                                                                   Icons.repeat),
-                                                              Text(reminderItem
-                                                                  .repeat!)
+                                                              Text(
+                                                                reminderItem
+                                                                    .repeat!,
+                                                                style: FontDecors
+                                                                    .getDescFontStyle(
+                                                                        context),
+                                                              )
                                                             ],
                                                           ),
                                                         ),
                                                       ]),
                                                 ),
                                                 trailing: Text(
-                                                    reminderItem.category!),
+                                                    reminderItem.category!,
+                                                    style: FontDecors
+                                                        .getDescFontStyle(
+                                                            context)),
                                               ),
                                             ),
                                           ),

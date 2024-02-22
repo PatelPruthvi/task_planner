@@ -55,7 +55,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               "No Internet",
                               textAlign: TextAlign.center,
                               style:
-                                  FontSize.getPrimayColoredTitletext(context),
+                                  FontDecors.getBottomSheetTitleStyle(context),
                             ),
                             const Icon(Icons.lte_mobiledata,
                                 color: AppColors.kblue600),
@@ -64,7 +64,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         subtitle: Text(
                           "No connection, please check your internet connectivity. During initial setup, please ensure an internet connection for optimal functionality. After setup, the app operates seamlessly offline. Enjoy planning!",
                           textAlign: TextAlign.justify,
-                          style: FontSize.getToDoItemTileTextStyle(context),
+                          style: FontDecors.getToDoItemTileTextStyle(context),
                         )),
                   );
                 default:
@@ -280,7 +280,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                                 .center,
                                                         children: [
                                                           Text("Continue",
-                                                              style: FontSize
+                                                              style: FontDecors
                                                                   .getButtonTextStyle(
                                                                       context)),
                                                         ],

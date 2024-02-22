@@ -57,9 +57,10 @@ class _ReminderViewState extends State<ReminderView> {
                           backgroundColor: Theme.of(context).primaryColor,
                           unselectedBackgroundColor:
                               Theme.of(context).listTileTheme.tileColor,
-                          labelStyle: FontSize.getMediumWhiteFontStyle(context),
+                          labelStyle:
+                              FontDecors.getMediumWhiteFontStyle(context),
                           unselectedLabelStyle:
-                              FontSize.getToDoItemTileTextStyle(context),
+                              FontDecors.getToDoItemTileTextStyle(context),
                           tabs: [
                             const Tab(text: "All"),
                             Tab(text: Models.getCategory(Category.work)),

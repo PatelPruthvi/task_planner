@@ -106,7 +106,7 @@ class _PlannerViewState extends State<PlannerView> {
                           children: [
                             Center(
                                 child: Text("No Tasks Planned...",
-                                    style: FontSize.getToDoItemTileTextStyle(
+                                    style: FontDecors.getToDoItemTileTextStyle(
                                         context)))
                           ],
                         ),
@@ -129,7 +129,7 @@ class _PlannerViewState extends State<PlannerView> {
                                           .taskPlannerList[index].startTime
                                           .toString(),
                                       style:
-                                          FontSize.getDescFontStyle(context)),
+                                          FontDecors.getDescFontStyle(context)),
                                   Slidable(
                                     endActionPane: ActionPane(
                                         extentRatio: 0.2,
@@ -271,17 +271,9 @@ class _PlannerViewState extends State<PlannerView> {
                                                                   index]
                                                               .title
                                                               .toString(),
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .listTileTheme
-                                                                  .textColor,
-                                                              fontSize: FontSize
-                                                                  .getAppBarTitleFontSize(
-                                                                      context)),
+                                                          style: FontDecors
+                                                              .getPlannerTitleFontStyle(
+                                                                  context),
                                                         ),
                                                         Text(
                                                           successState
@@ -291,14 +283,9 @@ class _PlannerViewState extends State<PlannerView> {
                                                               .toString(),
                                                           textAlign:
                                                               TextAlign.left,
-                                                          style: TextStyle(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .listTileTheme
-                                                                  .textColor,
-                                                              fontSize: FontSize
-                                                                  .getTaskPlannerDescriptionFontSize(
-                                                                      context)),
+                                                          style: FontDecors
+                                                              .getDescFontStyle(
+                                                                  context),
                                                         )
                                                       ],
                                                     ),
@@ -313,7 +300,8 @@ class _PlannerViewState extends State<PlannerView> {
                                       successState
                                           .taskPlannerList[index].endTime
                                           .toString(),
-                                      style: FontSize.getDescFontStyle(context))
+                                      style:
+                                          FontDecors.getDescFontStyle(context))
                                 ],
                               ));
                         },
@@ -322,10 +310,7 @@ class _PlannerViewState extends State<PlannerView> {
                       return Container();
                   }
                 }),
-          ),
-          // SizedBox(
-          //     height: Dimensions.getTabBarViewHeight(context) * 0.95,
-          //     child: TaskPlanView(homeBloc: homeBloc, taskBloc: taskPlanBloc))
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(

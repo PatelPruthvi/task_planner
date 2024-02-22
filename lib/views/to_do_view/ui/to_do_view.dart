@@ -95,7 +95,8 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                           children: [
                             Text(
                               "No Pending Tasks...",
-                              style: FontSize.getToDoItemTileTextStyle(context),
+                              style:
+                                  FontDecors.getToDoItemTileTextStyle(context),
                             ),
                           ],
                         ),
@@ -122,8 +123,8 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text("COMPLETED TASKS",
-                                          style:
-                                              FontSize.getToDoItemTileTextStyle(
+                                          style: FontDecors
+                                              .getToDoItemTileTextStyle(
                                                   context)),
                                       Icon(
                                           areCompletedItemsVisible
