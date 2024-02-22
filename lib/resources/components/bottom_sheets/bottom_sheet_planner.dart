@@ -7,6 +7,7 @@ import 'package:task_planner/resources/components/drop_down/reminder_dropdown.da
 import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 import 'package:task_planner/utils/dimensions/dimensions.dart';
+
 import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
 import 'package:task_planner/views/task_template/ui/task_template_ui.dart';
 import 'package:task_planner/views/to_do_view/bloc/to_do_bloc.dart';
@@ -53,34 +54,34 @@ class BottomSheets {
                                       style:
                                           FontDecors.getBottomSheetTitleStyle(
                                               context)),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 20),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: getTextField(
-                                              context,
-                                              () => null,
-                                              controller,
-                                              "Add Task"),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        TaskTemplateScreen(
-                                                            toDoBloc: toDoBloc),
-                                                  ));
-                                            },
-                                            icon: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(Icons.paste_outlined),
-                                            ))
-                                      ],
-                                    ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: getTextField(context, () => null,
+                                            (value) {
+                                          if (formKey.currentState
+                                                  ?.validate() ==
+                                              true) {
+                                            toDoBloc.add(
+                                                ToDoAddTaskClickedEvent(value));
+                                          }
+                                        }, controller, "Add Task"),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TaskTemplateScreen(
+                                                          toDoBloc: toDoBloc),
+                                                ));
+                                          },
+                                          icon: const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Icon(Icons.paste_outlined),
+                                          ))
+                                    ],
                                   ),
                                 ],
                               )),
@@ -91,10 +92,12 @@ class BottomSheets {
                                 children: [
                                   Expanded(
                                       child: InkWell(
-                                    onTap: onPressed,
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text(buttonLabel,
+                                      child: Text("Cancel",
                                           textAlign: TextAlign.center,
                                           style: FontDecors.getButtonTextStyle(
                                               context)),
@@ -107,12 +110,10 @@ class BottomSheets {
                                   ),
                                   Expanded(
                                       child: InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
+                                    onTap: onPressed,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text("Cancel",
+                                      child: Text(buttonLabel,
                                           textAlign: TextAlign.center,
                                           style: FontDecors.getButtonTextStyle(
                                               context)),
@@ -136,6 +137,7 @@ class BottomSheets {
           required TextEditingController endTimeC,
           required TextEditingController descC,
           required GlobalKey<FormState> formKey,
+          required FocusNode titleFocusNode,
           required TimeOfDay? pickedStartTime,
           required TimeOfDay? pickedEndTime,
           required TaskPlanBloc taskPlanBloc,
@@ -177,7 +179,8 @@ class BottomSheets {
                                   style: FontDecors.getBottomSheetTitleStyle(
                                       context)),
                             ),
-                            getTextField(context, () {}, nameC, "Task Name"),
+                            getTextField(
+                                context, () {}, null, nameC, "Task Name"),
                             Row(
                               children: [
                                 Expanded(
@@ -192,7 +195,8 @@ class BottomSheets {
                                         labelText: "End Time"))
                               ],
                             ),
-                            getTextField(context, () {}, descC, "Description"),
+                            getTextField(
+                                context, () {}, null, descC, "Description"),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Row(
@@ -253,11 +257,17 @@ class BottomSheets {
         descC.clear();
       });
 
-  static Widget getTextField(BuildContext context, Function() onTap,
-          TextEditingController controller, String labelText) =>
+  static Widget getTextField(
+          BuildContext context,
+          Function() onTap,
+          Function(String)? onFieldSubmitted,
+          TextEditingController controller,
+          String labelText) =>
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextFormField(
+            autofocus: true,
+            onFieldSubmitted: onFieldSubmitted,
             validator: (value) {
               if (value == "" || value == "null" || value!.isEmpty) {
                 return "$labelText can not be empty";
@@ -319,6 +329,7 @@ class BottomSheets {
       required TextEditingController dateC,
       required TimeOfDay? pickedTime,
       required DateTime? dateTime,
+      required FocusNode titleFocusNode,
       required GlobalKey<FormState> formKey,
       required ReminderBloc reminderBloc,
       required String initialDropdownVal,
@@ -355,8 +366,8 @@ class BottomSheets {
                             Text("Reminder Task",
                                 style: FontDecors.getBottomSheetTitleStyle(
                                     context)),
-                            getTextField(
-                                context, () => null, controller, "Add Task"),
+                            getTextField(context, () => null, null, controller,
+                                "Add Task"),
                             Row(
                               children: [
                                 Expanded(
@@ -475,10 +486,12 @@ class BottomSheets {
                             children: [
                               Expanded(
                                   child: InkWell(
-                                onTap: onPressed,
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(buttonLabel,
+                                  child: Text("Cancel",
                                       textAlign: TextAlign.center,
                                       style: FontDecors.getButtonTextStyle(
                                           context)),
@@ -491,12 +504,10 @@ class BottomSheets {
                               ),
                               Expanded(
                                   child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
+                                onTap: onPressed,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("Cancel",
+                                  child: Text(buttonLabel,
                                       textAlign: TextAlign.center,
                                       style: FontDecors.getButtonTextStyle(
                                           context)),

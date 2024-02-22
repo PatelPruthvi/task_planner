@@ -36,4 +36,10 @@ class Utils {
       width: Dimensions.getScreenWidth(context) * 0.1,
     );
   }
+
+  static fieldFocusChange(
+      BuildContext context, FocusNode current, FocusNode next) {
+    current.unfocus();
+    FocusScope.of(context).requestFocus(next);
+  }
 }

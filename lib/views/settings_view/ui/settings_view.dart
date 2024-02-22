@@ -20,6 +20,7 @@ class _SettingScreenState extends State<SettingScreen> {
   final SettingsBloc settingBloc = SettingsBloc();
   @override
   Widget build(BuildContext context) {
+    bool isDark = AdaptiveTheme.of(context).mode.isDark;
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -48,34 +49,48 @@ class _SettingScreenState extends State<SettingScreen> {
             },
             child: Column(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).listTileTheme.tileColor,
-                      borderRadius: BorderRadius.circular(15)),
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      // const Icon(Icons.sunny),
-                      // const SizedBox(width: 10),
-                      const Icon(Icons.dark_mode),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text("Dark Theme",
-                            style:
-                                FontDecors.getToDoItemTileTextStyle(context)),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                  child: InkWell(
+                    onTap: () {
+                      isDark = !isDark;
+                      if (isDark) {
+                        AdaptiveTheme.of(context).setDark();
+                      } else {
+                        AdaptiveTheme.of(context).setLight();
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).listTileTheme.tileColor,
+                          borderRadius: BorderRadius.circular(15)),
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          // const Icon(Icons.sunny),
+                          // const SizedBox(width: 10),
+                          const Icon(Icons.dark_mode),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text("Dark Theme",
+                                style: FontDecors.getToDoItemTileTextStyle(
+                                    context)),
+                          ),
+                          Switch.adaptive(
+                            value: isDark,
+                            activeColor: Theme.of(context).primaryColor,
+                            onChanged: (value) {
+                              if (value) {
+                                AdaptiveTheme.of(context).setDark();
+                              } else {
+                                AdaptiveTheme.of(context).setLight();
+                              }
+                            },
+                          ),
+                        ],
                       ),
-                      Switch.adaptive(
-                        value: AdaptiveTheme.of(context).mode.isDark,
-                        activeColor: Theme.of(context).primaryColor,
-                        onChanged: (value) {
-                          if (value) {
-                            AdaptiveTheme.of(context).setDark();
-                          } else {
-                            AdaptiveTheme.of(context).setLight();
-                          }
-                        },
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 SettingsPageButton(

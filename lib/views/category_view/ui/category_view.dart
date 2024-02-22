@@ -33,6 +33,13 @@ class _CategoryViewState extends State<CategoryView> {
   TextEditingController dateC = TextEditingController();
   TimeOfDay timeOfDay = TimeOfDay.now();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  FocusNode titleFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    titleFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -66,7 +73,9 @@ class _CategoryViewState extends State<CategoryView> {
                   backgroundColor: Colors.transparent,
                   body: StatefulBuilder(builder: (context, setState) {
                     return ListView.builder(
+                      shrinkWrap: true,
                       itemCount: successState.reminderItems.length,
+                      addRepaintBoundaries: true,
                       itemBuilder: (context, index) {
                         return Column(
                             mainAxisSize: MainAxisSize.min,
@@ -112,14 +121,15 @@ class _CategoryViewState extends State<CategoryView> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 15.0, vertical: 5),
                                           child: Slidable(
-                                            key: ValueKey(2 + index),
+                                            key: UniqueKey(),
                                             endActionPane: ActionPane(
                                                 extentRatio: 0.2,
                                                 motion: const ScrollMotion(),
                                                 //drag to delete functionality
-                                                // dismissible: DismissiblePane(onDismissed: () {
-                                                //   toDoBloc.add(ToDoIthItemDeletedButtonClickedEvent(
-                                                //       reminderItem: reminderItems[index]));
+                                                // dismissible: DismissiblePane(
+                                                //     onDismissed: () {
+                                                //   // remind.add(ToDoIthItemDeletedButtonClickedEvent(
+                                                //   //     reminderItem: reminderItems[index]));
                                                 // }),
                                                 children: [
                                                   SlidableAction(
@@ -175,6 +185,8 @@ class _CategoryViewState extends State<CategoryView> {
                                                   controller: todoController,
                                                   timeC: timeC,
                                                   dateC: dateC,
+                                                  titleFocusNode:
+                                                      titleFocusNode,
                                                   pickedTime: Dates
                                                       .getTimeInTimeOfDayFormat(
                                                           reminderItem
@@ -244,6 +256,9 @@ class _CategoryViewState extends State<CategoryView> {
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
                                                       reminderItem.title!,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       style: FontDecors
                                                           .getReminderItemTitleTextStyle(
                                                               context)),
@@ -251,48 +266,50 @@ class _CategoryViewState extends State<CategoryView> {
                                                 subtitle: Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Expanded(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              const Icon(Icons
-                                                                  .timer_outlined),
-                                                              Text(
-                                                                reminderItem
-                                                                    .completionTime!,
-                                                                style: FontDecors
-                                                                    .getDropdownTextStyle(
-                                                                        context),
-                                                              )
-                                                            ],
+                                                  child: Expanded(
+                                                    child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                const Icon(Icons
+                                                                    .timer_outlined),
+                                                                Text(
+                                                                  reminderItem
+                                                                      .completionTime!,
+                                                                  style: FontDecors
+                                                                      .getDescFontStyle(
+                                                                          context),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              const Icon(
-                                                                  Icons.repeat),
-                                                              Text(
-                                                                reminderItem
-                                                                    .repeat!,
-                                                                style: FontDecors
-                                                                    .getDescFontStyle(
-                                                                        context),
-                                                              )
-                                                            ],
+                                                          Expanded(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                const Icon(Icons
+                                                                    .repeat),
+                                                                Text(
+                                                                  reminderItem
+                                                                      .repeat!,
+                                                                  style: FontDecors
+                                                                      .getDescFontStyle(
+                                                                          context),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ]),
+                                                        ]),
+                                                  ),
                                                 ),
                                                 trailing: Text(
                                                     reminderItem.category!,
@@ -334,6 +351,7 @@ class _CategoryViewState extends State<CategoryView> {
                       controller: todoController,
                       timeC: timeC,
                       dateC: dateC,
+                      titleFocusNode: titleFocusNode,
                       pickedTime: timeOfDay,
                       dateTime: Dates.today,
                       formKey: formKey,

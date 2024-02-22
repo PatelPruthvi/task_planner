@@ -30,6 +30,7 @@ class _PlannerViewState extends State<PlannerView> {
   TextEditingController descC = TextEditingController();
   TimeOfDay? pickedStartTime;
   TimeOfDay? pickedEndTime;
+  FocusNode titleFocusNode = FocusNode();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -84,232 +85,261 @@ class _PlannerViewState extends State<PlannerView> {
                   dateController: _dateTimelineController,
                   taskPlanBloc: taskPlanBloc)),
           Expanded(
-            child: BlocConsumer<TaskPlanBloc, TaskPlanState>(
-                bloc: taskPlanBloc,
-                buildWhen: (previous, current) =>
-                    current is! TaskPlanActionState,
-                listenWhen: (previous, current) =>
-                    current is TaskPlanActionState,
-                listener: (context, state) {
-                  if (state is TaskPlanCloseBottomSheetState) {
-                    Navigator.of(context).pop();
-                    taskPlanBloc.add(TaskPlanInitialEvent());
-                  }
-                },
-                builder: (context, state) {
-                  switch (state.runtimeType) {
-                    case TaskPlanListEmptystate:
-                      return SizedBox(
-                        height: Dimensions.getTabBarViewHeight(context) * 0.9,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Center(
-                                child: Text("No Tasks Planned...",
-                                    style: FontDecors.getToDoItemTileTextStyle(
-                                        context)))
-                          ],
-                        ),
-                      );
-                    case TaskPlanListLoadedSuccessState:
-                      final successState =
-                          state as TaskPlanListLoadedSuccessState;
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: successState.taskPlannerList.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 0, 8.0, 25),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      successState
-                                          .taskPlannerList[index].startTime
-                                          .toString(),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: BlocConsumer<TaskPlanBloc, TaskPlanState>(
+                  bloc: taskPlanBloc,
+                  buildWhen: (previous, current) =>
+                      current is! TaskPlanActionState,
+                  listenWhen: (previous, current) =>
+                      current is TaskPlanActionState,
+                  listener: (context, state) {
+                    if (state is TaskPlanCloseBottomSheetState) {
+                      Navigator.of(context).pop();
+                      taskPlanBloc.add(TaskPlanInitialEvent());
+                    }
+                  },
+                  builder: (context, state) {
+                    switch (state.runtimeType) {
+                      case TaskPlanListEmptystate:
+                        return SizedBox(
+                          height: Dimensions.getTabBarViewHeight(context) * 0.9,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: Text("No Tasks Planned...",
                                       style:
-                                          FontDecors.getDescFontStyle(context)),
-                                  Slidable(
-                                    endActionPane: ActionPane(
-                                        extentRatio: 0.2,
-                                        motion: const ScrollMotion(),
-                                        children: [
-                                          SlidableAction(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            onPressed: (context) {
-                                              taskPlanBloc.add(
-                                                  TaskPlanIthItemDeletedEvent(
-                                                      taskItem: successState
-                                                              .taskPlannerList[
-                                                          index]));
-                                            },
-                                            backgroundColor:
-                                                AppColors.kredColor,
-                                            foregroundColor:
-                                                AppColors.kwhiteColor,
-                                            icon: Icons.delete,
-                                          ),
-                                        ]),
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: InkWell(
-                                        onLongPress: () {
-                                          nameC.text = successState
-                                              .taskPlannerList[index].title!;
-                                          startTimeC.text = successState
-                                              .taskPlannerList[index]
-                                              .startTime!;
-                                          endTimeC.text = successState
-                                              .taskPlannerList[index].endTime!;
-                                          descC.text = successState
-                                              .taskPlannerList[index]
-                                              .description!;
-
-                                          BottomSheets.getBottomSheetForPlanner(
-                                              context: context,
-                                              nameC: nameC,
-                                              startTimeC: startTimeC,
-                                              endTimeC: endTimeC,
-                                              descC: descC,
-                                              formKey: formKey,
-                                              pickedStartTime: pickedStartTime,
-                                              pickedEndTime: pickedEndTime,
-                                              taskPlanBloc: taskPlanBloc,
-                                              onTap: () {
-                                                if (formKey.currentState
-                                                        ?.validate() ==
-                                                    true) {
-                                                  if (Dates.compareTimeOfDays(
-                                                          startTimeC.text,
-                                                          endTimeC.text) ==
-                                                      -1) //this function basically checks & validates that end time must be greater than start time
-                                                  {
-                                                    Utils.flushBarErrorMsg(
-                                                        "End time must be greater than start time",
-                                                        context);
-                                                  } else {
-                                                    taskPlanBloc.add(
-                                                        TaskPlanUpdateIthTaskEvent(
-                                                            taskItem: successState
-                                                                    .taskPlannerList[
-                                                                index],
-                                                            taskName:
-                                                                nameC.text,
-                                                            startTime:
-                                                                startTimeC.text,
-                                                            endtime:
-                                                                endTimeC.text,
-                                                            description:
-                                                                descC.text));
-                                                  }
-                                                }
-                                              },
-                                              buttonLabel: "Update",
-                                              bottomSheetTitle: "Update Task",
-                                              initialDropdownValue: successState
-                                                  .taskPlannerList[index]
-                                                  .category!,
-                                              hexColorCode: int.parse(
-                                                  successState
-                                                      .taskPlannerList[index]
-                                                      .hexColorCode!));
-                                        },
-                                        child: Container(
-                                            width: Dimensions
-                                                .getTaskPlannerTileWidth(
-                                                    context),
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .listTileTheme
-                                                  .tileColor,
+                                          FontDecors.getToDoItemTileTextStyle(
+                                              context)))
+                            ],
+                          ),
+                        );
+                      case TaskPlanListLoadedSuccessState:
+                        final successState =
+                            state as TaskPlanListLoadedSuccessState;
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: successState.taskPlannerList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(8, 0, 8.0, 25),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        successState
+                                            .taskPlannerList[index].startTime
+                                            .toString(),
+                                        style: FontDecors.getDescFontStyle(
+                                            context)),
+                                    Slidable(
+                                      endActionPane: ActionPane(
+                                          extentRatio: 0.2,
+                                          motion: const ScrollMotion(),
+                                          children: [
+                                            SlidableAction(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: Theme.of(context)
-                                                      .primaryColor),
+                                              onPressed: (context) {
+                                                taskPlanBloc.add(
+                                                    TaskPlanIthItemDeletedEvent(
+                                                        taskItem: successState
+                                                                .taskPlannerList[
+                                                            index]));
+                                              },
+                                              backgroundColor:
+                                                  AppColors.kredColor,
+                                              foregroundColor:
+                                                  AppColors.kwhiteColor,
+                                              icon: Icons.delete,
                                             ),
-                                            child: IntrinsicHeight(
-                                              child: Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Container(
-                                                      width: 5,
-                                                      decoration: ShapeDecoration(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          color: Color(int.parse(
-                                                              successState
-                                                                  .taskPlannerList[
-                                                                      index]
-                                                                  .hexColorCode!))),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                      child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          successState
-                                                              .taskPlannerList[
-                                                                  index]
-                                                              .title
-                                                              .toString(),
-                                                          style: FontDecors
-                                                              .getPlannerTitleFontStyle(
-                                                                  context),
-                                                        ),
-                                                        Text(
-                                                          successState
-                                                              .taskPlannerList[
-                                                                  index]
-                                                              .description
-                                                              .toString(),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: FontDecors
-                                                              .getDescFontStyle(
-                                                                  context),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )),
-                                                ],
+                                          ]),
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onLongPress: () {
+                                            nameC.text = successState
+                                                .taskPlannerList[index].title!;
+                                            startTimeC.text = successState
+                                                .taskPlannerList[index]
+                                                .startTime!;
+                                            endTimeC.text = successState
+                                                .taskPlannerList[index]
+                                                .endTime!;
+                                            descC.text = successState
+                                                .taskPlannerList[index]
+                                                .description!;
+
+                                            BottomSheets
+                                                .getBottomSheetForPlanner(
+                                                    context: context,
+                                                    nameC: nameC,
+                                                    startTimeC: startTimeC,
+                                                    endTimeC: endTimeC,
+                                                    titleFocusNode:
+                                                        titleFocusNode,
+                                                    descC: descC,
+                                                    formKey: formKey,
+                                                    pickedStartTime:
+                                                        pickedStartTime,
+                                                    pickedEndTime:
+                                                        pickedEndTime,
+                                                    taskPlanBloc: taskPlanBloc,
+                                                    onTap: () {
+                                                      if (formKey.currentState
+                                                              ?.validate() ==
+                                                          true) {
+                                                        if (Dates.compareTimeOfDays(
+                                                                startTimeC.text,
+                                                                endTimeC
+                                                                    .text) ==
+                                                            -1) //this function basically checks & validates that end time must be greater than start time
+                                                        {
+                                                          Utils.flushBarErrorMsg(
+                                                              "End time must be greater than start time",
+                                                              context);
+                                                        } else {
+                                                          taskPlanBloc.add(
+                                                              TaskPlanUpdateIthTaskEvent(
+                                                                  taskItem:
+                                                                      successState
+                                                                              .taskPlannerList[
+                                                                          index],
+                                                                  taskName:
+                                                                      nameC
+                                                                          .text,
+                                                                  startTime:
+                                                                      startTimeC
+                                                                          .text,
+                                                                  endtime:
+                                                                      endTimeC
+                                                                          .text,
+                                                                  description:
+                                                                      descC
+                                                                          .text));
+                                                        }
+                                                      }
+                                                    },
+                                                    buttonLabel: "Update",
+                                                    bottomSheetTitle:
+                                                        "Update Task",
+                                                    initialDropdownValue:
+                                                        successState
+                                                            .taskPlannerList[
+                                                                index]
+                                                            .category!,
+                                                    hexColorCode: int.parse(
+                                                        successState
+                                                            .taskPlannerList[
+                                                                index]
+                                                            .hexColorCode!));
+                                          },
+                                          child: Container(
+                                              width: Dimensions
+                                                  .getTaskPlannerTileWidth(
+                                                      context),
+                                              decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .listTileTheme
+                                                    .tileColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
                                               ),
-                                            )),
+                                              child: IntrinsicHeight(
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Container(
+                                                        width: 5,
+                                                        decoration: ShapeDecoration(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
+                                                            color: Color(int.parse(
+                                                                successState
+                                                                    .taskPlannerList[
+                                                                        index]
+                                                                    .hexColorCode!))),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                        child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            successState
+                                                                .taskPlannerList[
+                                                                    index]
+                                                                .title
+                                                                .toString(),
+                                                            maxLines: 2,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: FontDecors
+                                                                .getPlannerTitleFontStyle(
+                                                                    context),
+                                                          ),
+                                                          Text(
+                                                            successState
+                                                                .taskPlannerList[
+                                                                    index]
+                                                                .description
+                                                                .toString(),
+                                                            maxLines: 4,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: FontDecors
+                                                                .getDescFontStyle(
+                                                                    context),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )),
+                                                  ],
+                                                ),
+                                              )),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Text(
-                                      successState
-                                          .taskPlannerList[index].endTime
-                                          .toString(),
-                                      style:
-                                          FontDecors.getDescFontStyle(context))
-                                ],
-                              ));
-                        },
-                      );
-                    default:
-                      return Container();
-                  }
-                }),
+                                    Text(
+                                        successState
+                                            .taskPlannerList[index].endTime
+                                            .toString(),
+                                        style: FontDecors.getDescFontStyle(
+                                            context))
+                                  ],
+                                ));
+                          },
+                        );
+                      default:
+                        return Container();
+                    }
+                  }),
+            ),
           )
         ],
       ),
@@ -323,6 +353,7 @@ class _PlannerViewState extends State<PlannerView> {
                 endTimeC: endTimeC,
                 descC: descC,
                 formKey: formKey,
+                titleFocusNode: titleFocusNode,
                 pickedStartTime: pickedStartTime,
                 pickedEndTime: pickedEndTime,
                 taskPlanBloc: taskPlanBloc,

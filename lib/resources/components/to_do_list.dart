@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_planner/models/to_do_model.dart';
@@ -25,12 +26,12 @@ class ToDoListView extends StatelessWidget {
     return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
+        addRepaintBoundaries: true,
         itemCount: reminderItems.length,
         itemBuilder: (context, index) {
           return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Slidable(
-                key: const ValueKey(0),
                 endActionPane: ActionPane(
                     extentRatio: 0.2,
                     motion: const ScrollMotion(),
@@ -90,6 +91,8 @@ class ToDoListView extends StatelessWidget {
                           vertical: 20.0, horizontal: 0),
                       child: Text(
                         reminderItems[index].title.toString(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: FontDecors.getToDoItemTileTextStyle(context),
                       ),
                     ),

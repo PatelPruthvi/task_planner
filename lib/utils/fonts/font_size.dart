@@ -39,7 +39,7 @@ class FontDecors {
   static TextStyle getDropdownTextStyle(BuildContext context) => TextStyle(
       color: Theme.of(context).listTileTheme.textColor,
       fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context),
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w200,
       fontFamily: GoogleFonts.raleway().fontFamily,
       letterSpacing: 1.2);
   //used in selected bottom bar label style
@@ -47,7 +47,7 @@ class FontDecors {
       TextStyle(
           color: Theme.of(context).primaryColor,
           letterSpacing: 1.2,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w900,
           fontFamily: GoogleFonts.raleway().fontFamily,
           fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context));
   //used in unselected bottom bar label style
@@ -55,7 +55,7 @@ class FontDecors {
       TextStyle(
           color: Theme.of(context).primaryColorLight,
           fontFamily: GoogleFonts.raleway().fontFamily,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w100,
           letterSpacing: 1.2,
           fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context));
   //used in button's label text
@@ -89,6 +89,7 @@ class FontDecors {
   //used in infinite view calendar's header builder (ex. Feb 22, 2024 & Feb, 22)
   static TextStyle getMediumWhiteFontStyle(BuildContext context) => TextStyle(
       fontSize: FontDecors.getMediumFontSize(context),
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w700,
+      fontFamily: GoogleFonts.raleway().fontFamily,
       color: Theme.of(context).appBarTheme.titleTextStyle!.color);
 }
