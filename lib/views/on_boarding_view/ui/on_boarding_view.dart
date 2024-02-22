@@ -3,7 +3,6 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_planner/AppUrls/app_url.dart';
-import 'package:task_planner/resources/components/dialog_box/dialog_box.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
@@ -87,6 +86,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       buildWhen: (previous, current) =>
                           current is! LoginActionState,
                       builder: (context, state) {
+                        int i = 0;
                         switch (state.runtimeType) {
                           case LoginLoadingState:
                             return const Center(
@@ -95,7 +95,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           case LoginLoadedSuccessState:
                             final successState =
                                 state as LoginLoadedSuccessState;
-                            pageCount = successState.imgUrls.length + 1;
+                            pageCount = successState.imgUrls.length;
                             return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -163,8 +163,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                           });
                                         },
                                         children: [
-                                          for (int i = 0;
-                                              i < successState.imgUrls.length;
+                                          for (i = 0;
+                                              i <
+                                                  successState.imgUrls.length -
+                                                      1;
                                               i++)
                                             Column(
                                               mainAxisSize: MainAxisSize.min,
@@ -207,33 +209,60 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                 ),
                                               ],
                                             ),
-                                          Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                SizedBox(
-                                                    height: Dimensions
-                                                            .getScreenHeight(
-                                                                context) *
-                                                        0.65,
-                                                    child: Center(
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .fromLTRB(
-                                                                16, 8, 16, 8.0),
-                                                        child: Text(
-                                                          "Welcome to Task Planner! Dive into productivity and organization. Let's start planning together. Welcome aboard!",
-                                                          // textAlign: TextAlign.justify,
-                                                          style: FontSize
-                                                              .getPrimayColoredTitletext(
-                                                                  context),
-                                                        ),
-                                                      ),
-                                                    )),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          40, 0, 40, 40),
+                                          Stack(
+                                            children: [
+                                              Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Expanded(
+                                                    child: Image.network(
+                                                        successState.imgUrls[i],
+                                                        height:
+                                                            Dimensions.getScreenHeight(
+                                                                context),
+                                                        width:
+                                                            Dimensions.getScreenWidth(
+                                                                    context) -
+                                                                10,
+                                                        fit: BoxFit.fill,
+                                                        loadingBuilder: (context,
+                                                            child,
+                                                            loadingProgress) {
+                                                      if (loadingProgress ==
+                                                          null) {
+                                                        return child;
+                                                      } else {
+                                                        return const Center(
+                                                            child:
+                                                                CircularProgressIndicator());
+                                                      }
+                                                    }, errorBuilder: (context,
+                                                            error, stackTrace) {
+                                                      return Image.asset(
+                                                        AppUrls
+                                                            .image1stBoardingPage,
+                                                        height: Dimensions
+                                                            .getTabBarViewHeight(
+                                                                context),
+                                                        width: Dimensions
+                                                            .getScreenWidth(
+                                                                context),
+                                                      );
+                                                    }),
+                                                  ),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    40,
+                                                    0,
+                                                    40,
+                                                    Dimensions.getScreenHeight(
+                                                            context) *
+                                                        0.2),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
                                                   child: ElevatedButton(
                                                       onPressed: () {
                                                         widget.loginBloc.add(
@@ -256,8 +285,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                                       context)),
                                                         ],
                                                       )),
-                                                )
-                                              ])
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ],
                                       ),
                                       Positioned(
