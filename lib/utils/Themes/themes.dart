@@ -31,6 +31,9 @@ class Themes {
               fontFamily: GoogleFonts.comfortaa().fontFamily,
               fontWeight: FontWeight.bold)),
       inputDecorationTheme: InputDecorationTheme(
+        floatingLabelStyle: TextStyle(
+            color: AppColors.kblackColor,
+            fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context)),
         labelStyle: TextStyle(
             color: AppColors.kblackColor,
             fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context)),
@@ -94,6 +97,9 @@ class Themes {
               fontFamily: GoogleFonts.comfortaa().fontFamily,
               fontWeight: FontWeight.bold)),
       inputDecorationTheme: InputDecorationTheme(
+        floatingLabelStyle: TextStyle(
+            color: AppColors.kwhiteColor,
+            fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context)),
         labelStyle: TextStyle(
             color: AppColors.kwhiteColor,
             fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context)),
