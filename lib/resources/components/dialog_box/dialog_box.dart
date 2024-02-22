@@ -4,6 +4,28 @@ import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
 
 class DialogBoxes {
+  static getDialogBoxForInternetConnection(BuildContext context) {
+    return showAdaptiveDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog.adaptive(
+            icon: const Icon(Icons.network_check),
+            title: const Text("No Internet", textAlign: TextAlign.center),
+            content: const Text(
+              "No connection, please check your internet connectivity.During initial setup, please ensure an internet connection for optimal functionality. After setup, the app operates seamlessly offline. Enjoy planning!",
+              textAlign: TextAlign.justify,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Okay!")),
+            ],
+          );
+        });
+  }
+
   static getAlertDialogForTaskDeletion(
       {required BuildContext context,
       required ReminderModel reminderItem,

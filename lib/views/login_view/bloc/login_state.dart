@@ -16,6 +16,8 @@ class LoginLoadedSuccessState extends LoginState {
 
 class LoginNavigateToHomePageActionState extends LoginActionState {}
 
+class LoginNavigateToOnBoardingPageActionState extends LoginActionState {}
+
 class LoginShowErrorMsgActionState extends LoginActionState {
   final String error;
   LoginShowErrorMsgActionState({required this.error});
@@ -23,4 +25,4 @@ class LoginShowErrorMsgActionState extends LoginActionState {
 
 class LoginLoadingState extends LoginState {}
 
-class LoginLoadingFailedState extends LoginState {}
+class LoginInternetDialogBoxActionState extends LoginActionState {}

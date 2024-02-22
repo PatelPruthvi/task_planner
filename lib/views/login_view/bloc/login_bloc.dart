@@ -12,6 +12,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitial()) {
     on<LoginInitialEvent>(loginInitialEvent);
     on<LoginButtonPressedEvent>(loginButtonPressedEvent);
+    on<LoginOnBoardingInitialEvent>(loginOnBoardingInitialEvent);
+    on<LoginInternetNotConnectedEvent>(loginInternetNotConnectedEvent);
   }
 
   FutureOr<void> loginInitialEvent(
@@ -22,15 +24,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (val) {
       emit(LoginNavigateToHomePageActionState());
     } else {
-      await FirebaseHelper.getFirebaseImageLinkAsList().then((value) {
-        if (value.isNotEmpty) {
-          emit(LoginLoadedSuccessState(imgUrls: value));
-        } else {
-          emit(LoginLoadingFailedState());
-        }
-      }).onError((error, stackTrace) {
-        emit(LoginLoadingFailedState());
-      });
+      emit(LoginNavigateToOnBoardingPageActionState());
     }
   }
 
@@ -42,14 +36,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       return null;
     });
     emit(LoginNavigateToHomePageActionState());
+  }
+
+  FutureOr<void> loginOnBoardingInitialEvent(
+      LoginOnBoardingInitialEvent event, Emitter<LoginState> emit) async {
     await FirebaseHelper.getFirebaseImageLinkAsList().then((value) {
       if (value.isNotEmpty) {
         emit(LoginLoadedSuccessState(imgUrls: value));
-      } else {
-        emit(LoginLoadingFailedState());
       }
-    }).onError((error, stackTrace) {
-      emit(LoginLoadingFailedState());
-    });
+    }).onError((error, stackTrace) {});
+  }
+
+  FutureOr<void> loginInternetNotConnectedEvent(
+      LoginInternetNotConnectedEvent event, Emitter<LoginState> emit) {
+    emit(LoginInternetDialogBoxActionState());
   }
 }

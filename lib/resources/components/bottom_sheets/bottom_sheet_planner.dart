@@ -270,6 +270,7 @@ class BottomSheets {
               }
               return null;
             },
+            textCapitalization: TextCapitalization.sentences,
             controller: controller,
             autocorrect: false,
             onTap: onTap,
