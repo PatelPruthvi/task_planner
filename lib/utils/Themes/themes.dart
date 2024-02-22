@@ -12,7 +12,7 @@ class Themes {
   static getLightModeTheme(BuildContext context) => ThemeData(
       brightness: Brightness.light,
       iconTheme: const IconThemeData(color: AppColors.kblackColor),
-      primaryColor: AppColors.kblue600,
+      primaryColor: AppColors.kmaroonColor,
       primaryColorLight:
           AppColors.kGreyColor, //used for bottombar unselectedlabelcolor
       primaryColorDark: AppColors.klightModeTileColor,
@@ -20,7 +20,7 @@ class Themes {
       scaffoldBackgroundColor: AppColors.kscreenColor,
       appBarTheme: AppBarTheme(
           centerTitle: false,
-          backgroundColor: AppColors.kblue600,
+          backgroundColor: AppColors.kmaroonColor,
           actionsIconTheme: const IconThemeData(color: AppColors.kscreenColor),
           iconTheme: const IconThemeData(color: AppColors.kscreenColor),
           elevation: 0.0,
@@ -52,7 +52,7 @@ class Themes {
           textColor: AppColors.kblackColor,
           iconColor: AppColors.kblackColor),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: AppColors.kblue600),
+          backgroundColor: AppColors.kmaroonColor),
       bottomSheetTheme: BottomSheetThemeData(
           dragHandleColor: AppColors.kGreyColor,
           showDragHandle: true,
@@ -60,7 +60,7 @@ class Themes {
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         type: BottomNavigationBarType.shifting,
         backgroundColor: AppColors.kscreenColor,
-        selectedItemColor: AppColors.kblue600,
+        selectedItemColor: AppColors.kmaroonColor,
         unselectedItemColor: AppColors.kGreyColor,
         unselectedLabelStyle:
             FontDecors.getBottomNavBarUnSelectedTextStyle(context),
@@ -68,8 +68,8 @@ class Themes {
             FontDecors.getBottomNavBarSelectedTextStyle(context),
       ),
       colorScheme: const ColorScheme.light(
-          primary: AppColors.kblue600,
-          secondary: AppColors.kblue600,
+          primary: AppColors.kmaroonColor,
+          secondary: AppColors.kmaroonColor,
           onSecondary: AppColors.kwhiteColor));
 
   static getDarkModeTheme(BuildContext context) => ThemeData(
@@ -78,11 +78,11 @@ class Themes {
       scaffoldBackgroundColor: AppColors.kGreycanvasColor,
       primaryColorLight: AppColors.kscreenColor, //used for buttons
       primaryColorDark: AppColors.kdarkModeTileColor,
-      primaryColor: AppColors.kmediumBlueColor,
+      primaryColor: AppColors.kdarkModeMaroonColor,
       iconTheme: const IconThemeData(color: AppColors.kwhiteColor),
       appBarTheme: AppBarTheme(
           centerTitle: false,
-          backgroundColor: AppColors.kmediumBlueColor,
+          backgroundColor: AppColors.kdarkModeMaroonColor,
           iconTheme: const IconThemeData(color: AppColors.kblackColor),
           actionsIconTheme: const IconThemeData(color: AppColors.kscreenColor),
           elevation: 0.0,
@@ -115,11 +115,11 @@ class Themes {
         iconColor: AppColors.kwhiteColor,
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: AppColors.kmediumBlueColor),
+          backgroundColor: AppColors.kdarkModeMaroonColor),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
         backgroundColor: AppColors.kblackColor,
-        selectedItemColor: AppColors.kmediumBlueColor,
+        selectedItemColor: AppColors.kdarkModeMaroonColor,
         unselectedItemColor: AppColors.kscreenColor,
         unselectedLabelStyle:
             FontDecors.getBottomNavBarUnSelectedTextStyle(context),
@@ -132,7 +132,7 @@ class Themes {
           backgroundColor: AppColors.kGreycanvasColor),
       colorScheme: ColorScheme.dark(
           surfaceTint: Theme.of(context).scaffoldBackgroundColor,
-          primary: AppColors.kmediumBlueColor,
-          secondary: AppColors.kmediumBlueColor,
+          primary: AppColors.kdarkModeMaroonColor,
+          secondary: AppColors.kdarkModeMaroonColor,
           onSecondary: AppColors.kwhiteColor));
 }

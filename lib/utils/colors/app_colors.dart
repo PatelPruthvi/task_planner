@@ -1,32 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // static const mainColor = Color(0xFF7743db);
-  static const kMainAppColor = Color.fromRGBO(253, 240, 209, 1);
   static const kcalendarTileColor = Color.fromARGB(255, 1, 59, 52);
   static const kscreenColor = Color(0xffede4d8);
-  // Color.fromRGBO(226, 227, 246, 1);
-  static const kmainColor = kblue600;
-  static const Color kblue600 = Color(0xFF561C24);
-  //  Color.fromRGBO(38, 44, 107, 1);
-  static const Color klightBlueColor = Color.fromRGBO(39, 161, 217, 1);
-  static const Color kmediumBlueColor = Color(0xFF6d2932);
-  // Color.fromRGBO(0, 122, 255, 1);
-
+  static const Color kmaroonColor = Color(0xFF561C24);
+  static const Color kdarkModeMaroonColor = Color(0xFF6d2932);
   static const Color kdarkModeTileColor = Color(0xFF561C24);
-  // Color.fromARGB(255, 139, 95, 100);
-  // Color.fromRGBO(130, 183, 239, 1);
   static const Color klightModeTileColor = Color(0xFF9B3C48);
-  // Color.fromARGB(255, 150, 9, 23);
-  // Color.fromRGBO(32, 29, 65, 1);
   static const Color kredColor = Color.fromRGBO(255, 7, 7, 1);
   static const Color kblackColor = Colors.black;
   static const Color kGreycanvasColor = Color.fromARGB(255, 19, 17, 17);
   static Color kGreyColor = Colors.grey.shade700;
   static const Color kwhiteColor = Colors.white;
-  static const Color kdarkBlue1 = Color.fromRGBO(32, 29, 65, .65);
-  static const Color kdarkBlue2 = Color.fromRGBO(32, 29, 65, 1);
-  static const Color korangeColor = Colors.orange;
 }
 
 List<int> appHexColorCodes = [

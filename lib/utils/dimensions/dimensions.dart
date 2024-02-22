@@ -27,7 +27,7 @@ class Dimensions {
       MediaQuery.of(context).size.height * 0.35;
   static double getPlannerBottomSheetHeight(BuildContext context) =>
       MediaQuery.of(context).size.height * 0.7;
-  static getSliderWidth(BuildContext context) =>
+  static double getSliderWidth(BuildContext context) =>
       MediaQuery.of(context).size.width / 5;
 
   static SizedBox getSmallerSizedBox(BuildContext context) =>

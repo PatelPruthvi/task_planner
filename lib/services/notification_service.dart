@@ -35,7 +35,7 @@ class NotificationService {
   notifDetails() {
     return const NotificationDetails(
         android: AndroidNotificationDetails('channelId', 'channelName',
-            color: AppColors.kblue600,
+            color: AppColors.kmaroonColor,
             colorized: true,
             importance: Importance.max),
         iOS: DarwinNotificationDetails());

@@ -50,7 +50,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             const Icon(Icons.network_check,
-                                color: AppColors.kblue600),
+                                color: AppColors.kmaroonColor),
                             Text(
                               "No Internet",
                               textAlign: TextAlign.center,
@@ -58,7 +58,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                   FontDecors.getBottomSheetTitleStyle(context),
                             ),
                             const Icon(Icons.lte_mobiledata,
-                                color: AppColors.kblue600),
+                                color: AppColors.kmaroonColor),
                           ],
                         ),
                         subtitle: Text(
