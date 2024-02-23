@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../colors/app_colors.dart';
 import '../fonts/font_size.dart';
 
@@ -28,7 +27,7 @@ class Themes {
           titleTextStyle: TextStyle(
               color: AppColors.kscreenColor,
               fontSize: FontDecors.getAppBarTitleFontSize(context),
-              fontFamily: GoogleFonts.comfortaa().fontFamily,
+              fontFamily: 'Comfortaa',
               fontWeight: FontWeight.bold)),
       inputDecorationTheme: InputDecorationTheme(
         floatingLabelStyle: TextStyle(
@@ -94,7 +93,7 @@ class Themes {
               // color: AppColors.kblackColor,
               color: AppColors.kscreenColor,
               fontSize: FontDecors.getAppBarTitleFontSize(context),
-              fontFamily: GoogleFonts.comfortaa().fontFamily,
+              fontFamily: 'Comfortaa',
               fontWeight: FontWeight.bold)),
       inputDecorationTheme: InputDecorationTheme(
         floatingLabelStyle: TextStyle(

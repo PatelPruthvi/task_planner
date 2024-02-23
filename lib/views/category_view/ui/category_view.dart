@@ -266,50 +266,48 @@ class _CategoryViewState extends State<CategoryView> {
                                                 subtitle: Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
-                                                  child: Expanded(
-                                                    child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Expanded(
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                const Icon(Icons
-                                                                    .timer_outlined),
-                                                                Text(
-                                                                  reminderItem
-                                                                      .completionTime!,
-                                                                  style: FontDecors
-                                                                      .getDescFontStyle(
-                                                                          context),
-                                                                )
-                                                              ],
-                                                            ),
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              const Icon(Icons
+                                                                  .timer_outlined),
+                                                              Text(
+                                                                reminderItem
+                                                                    .completionTime!,
+                                                                style: FontDecors
+                                                                    .getDescFontStyle(
+                                                                        context),
+                                                              )
+                                                            ],
                                                           ),
-                                                          Expanded(
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                const Icon(Icons
-                                                                    .repeat),
-                                                                Text(
-                                                                  reminderItem
-                                                                      .repeat!,
-                                                                  style: FontDecors
-                                                                      .getDescFontStyle(
-                                                                          context),
-                                                                )
-                                                              ],
-                                                            ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              const Icon(
+                                                                  Icons.repeat),
+                                                              Text(
+                                                                reminderItem
+                                                                    .repeat!,
+                                                                style: FontDecors
+                                                                    .getDescFontStyle(
+                                                                        context),
+                                                              )
+                                                            ],
                                                           ),
-                                                        ]),
-                                                  ),
+                                                        ),
+                                                      ]),
                                                 ),
                                                 trailing: Text(
                                                     reminderItem.category!,
