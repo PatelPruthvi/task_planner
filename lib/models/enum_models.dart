@@ -22,7 +22,7 @@ List<String> repeats = [
 ];
 List<String> defaultTemplateIcon = [
   "🚰",
-  "🧘🏻‍♂️",
+  "🏋️‍♂️",
   "📘",
   "🌌",
   "🧡",
@@ -30,7 +30,11 @@ List<String> defaultTemplateIcon = [
   "👪🏻",
   "💊",
   "😊",
-  "🛒"
+  "🛒",
+  "🧘🏻‍♂️",
+  "🎧",
+  "🛁",
+  "🚶‍♂️"
 ];
 
 List<String> defaultTemplates = [
@@ -43,7 +47,11 @@ List<String> defaultTemplates = [
   "Keep in touch with family",
   "Take pill reminder",
   "Practice smiling and be happy",
-  "Go shopping"
+  "Go shopping",
+  "Meditate for 10 minutes",
+  "Listen to a podcast or audiobook",
+  "Indulge in a relaxing bath",
+  "Take a mindful walk"
 ];
 
 enum Category { none, work, personal, wishlist, birthday }
