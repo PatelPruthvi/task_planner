@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_planner/AppUrls/app_url.dart';
+import 'package:task_planner/utils/dimensions/dimensions.dart';
 
 import 'package:task_planner/utils/widgets/utils.dart';
 import 'package:task_planner/views/bottom_bar_view/bottom_bar_view.dart';
@@ -34,7 +35,8 @@ class _LoginViewState extends State<LoginView> {
         bloc: loginBloc,
         buildWhen: (previous, current) => current is! LoginActionState,
         builder: (context, state) {
-          return Image.asset(AppUrls.imageLogoPath);
+          return Image.asset(AppUrls.imageLogoPath,
+              width: Dimensions.getScreenWidth(context) * 0.3);
         },
         listenWhen: (previous, current) => current is LoginActionState,
         listener: (context, state) {
