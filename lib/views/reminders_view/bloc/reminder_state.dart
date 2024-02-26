@@ -7,8 +7,10 @@ final class ReminderInitial extends ReminderState {}
 
 class ReminderLoadedSuccessState extends ReminderState {
   final List<List<ReminderModel>> reminderItems;
+  final List<bool> isVisible;
 
-  ReminderLoadedSuccessState({required this.reminderItems});
+  ReminderLoadedSuccessState(
+      {required this.isVisible, required this.reminderItems});
 }
 
 class ReminderEmptyLoadedState extends ReminderState {}

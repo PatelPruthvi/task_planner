@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_planner/models/reminder_model.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
+import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
 import 'package:task_planner/views/reminders_view/bloc/reminder_bloc.dart';
 import '../../../models/enum_models.dart';
@@ -67,8 +68,6 @@ class _CategoryViewState extends State<CategoryView> {
                 );
               case ReminderLoadedSuccessState:
                 final successState = state as ReminderLoadedSuccessState;
-                List<bool> isVisible =
-                    List.filled(successState.reminderItems.length, true);
                 return Scaffold(
                   backgroundColor: Colors.transparent,
                   body: StatefulBuilder(builder: (context, setState) {
@@ -86,7 +85,8 @@ class _CategoryViewState extends State<CategoryView> {
                                 child: InkWell(
                                   onTap: () {
                                     setState(() {
-                                      isVisible[index] = !isVisible[index];
+                                      successState.isVisible[index] =
+                                          !successState.isVisible[index];
                                     });
                                   },
                                   child: Row(
@@ -98,14 +98,14 @@ class _CategoryViewState extends State<CategoryView> {
                                               .reminderItems[index][0].date!),
                                           style: FontDecors.getDescFontStyle(
                                               context)),
-                                      Icon(isVisible[index]
+                                      Icon(successState.isVisible[index]
                                           ? Icons.keyboard_arrow_down_outlined
                                           : Icons.keyboard_arrow_up_outlined),
                                     ],
                                   ),
                                 ),
                               ),
-                              isVisible[index]
+                              successState.isVisible[index]
                                   ? ListView.builder(
                                       shrinkWrap: true,
                                       physics:
@@ -218,103 +218,261 @@ class _CategoryViewState extends State<CategoryView> {
                                                   buttonLabel: "Update",
                                                 );
                                               },
-                                              child: ListTile(
-                                                leading: Checkbox(
-                                                    side: BorderSide(
-                                                      color: Theme.of(context)
-                                                          .listTileTheme
-                                                          .textColor!,
-                                                      width: 2,
-                                                    ),
-                                                    activeColor:
-                                                        Theme.of(context)
-                                                            .primaryColor,
-                                                    value: reminderItem
-                                                        .isCompleted!,
-                                                    onChanged: (val) {
-                                                      if (reminderItem.repeat ==
-                                                          "Never") {
-                                                        widget.reminderBloc.add(
-                                                            ReminderIthItemCheckBoxClickedEvent(
-                                                                reminderItem:
-                                                                    reminderItem,
-                                                                category: widget
-                                                                    .category));
-                                                      } else {
-                                                        DialogBoxes.getAlertDialogForRepeatTaskCompletion(
-                                                            context: context,
-                                                            reminderItem:
-                                                                reminderItem,
-                                                            reminderBloc: widget
-                                                                .reminderBloc,
-                                                            category: widget
-                                                                .category);
-                                                      }
-                                                    }),
-                                                title: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                      reminderItem.title!,
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: FontDecors
-                                                          .getReminderItemTitleTextStyle(
-                                                              context)),
-                                                ),
-                                                subtitle: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: Theme.of(context)
+                                                        .canvasColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        5, 7, 7, 7),
+                                                child: IntrinsicHeight(
                                                   child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Expanded(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              const Icon(Icons
-                                                                  .timer_outlined),
-                                                              Text(
-                                                                reminderItem
-                                                                    .completionTime!,
-                                                                style: FontDecors
-                                                                    .getDescFontStyle(
-                                                                        context),
-                                                              )
-                                                            ],
+                                                    children: [
+                                                      Checkbox(
+                                                          side: BorderSide(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .listTileTheme
+                                                                .textColor!,
+                                                            width: 2,
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              const Icon(
-                                                                  Icons.repeat),
-                                                              Text(
-                                                                reminderItem
-                                                                    .repeat!,
-                                                                style: FontDecors
-                                                                    .getDescFontStyle(
-                                                                        context),
-                                                              )
-                                                            ],
+                                                          activeColor:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          value: reminderItem
+                                                              .isCompleted!,
+                                                          onChanged: (val) {
+                                                            if (reminderItem
+                                                                    .repeat ==
+                                                                "Never") {
+                                                              widget
+                                                                  .reminderBloc
+                                                                  .add(ReminderIthItemCheckBoxClickedEvent(
+                                                                      reminderItem:
+                                                                          reminderItem,
+                                                                      category:
+                                                                          widget
+                                                                              .category));
+                                                            } else {
+                                                              DialogBoxes.getAlertDialogForRepeatTaskCompletion(
+                                                                  context:
+                                                                      context,
+                                                                  reminderItem:
+                                                                      reminderItem,
+                                                                  reminderBloc:
+                                                                      widget
+                                                                          .reminderBloc,
+                                                                  category: widget
+                                                                      .category);
+                                                            }
+                                                          }),
+                                                      Expanded(
+                                                          child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .fromLTRB(
+                                                                    0, 8, 0, 8),
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    left: Dimensions.getSmallerSizedBox(
+                                                                            context)
+                                                                        .width!),
+                                                                child: Text(
+                                                                    reminderItem
+                                                                        .title!,
+                                                                    maxLines: 2,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: FontDecors
+                                                                        .getReminderItemTitleTextStyle(
+                                                                            context)),
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ]),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .fromLTRB(
+                                                                    0, 4, 0, 8),
+                                                            child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Expanded(
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceEvenly,
+                                                                      children: [
+                                                                        const Icon(
+                                                                            Icons.timer_outlined),
+                                                                        Text(
+                                                                          reminderItem
+                                                                              .completionTime!,
+                                                                          style:
+                                                                              FontDecors.getDescFontStyle(context),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceEvenly,
+                                                                      children: [
+                                                                        const Icon(
+                                                                            Icons.repeat),
+                                                                        Text(
+                                                                          reminderItem
+                                                                              .repeat!,
+                                                                          style:
+                                                                              FontDecors.getDescFontStyle(context),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ]),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                      Container(
+                                                          width: 2,
+                                                          color: AppColors
+                                                              .kscreenColor),
+                                                      Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          RotatedBox(
+                                                            quarterTurns: -1,
+                                                            child: Text(
+                                                              reminderItem
+                                                                  .category!,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                trailing: Text(
-                                                    reminderItem.category!,
-                                                    style: FontDecors
-                                                        .getDescFontStyle(
-                                                            context)),
                                               ),
+                                              // ListTile(
+                                              //   leading: Checkbox(
+                                              //       side: BorderSide(
+                                              //         color: Theme.of(context)
+                                              //             .listTileTheme
+                                              //             .textColor!,
+                                              //         width: 2,
+                                              //       ),
+                                              //       activeColor:
+                                              //           Theme.of(context)
+                                              //               .primaryColor,
+                                              //       value: reminderItem
+                                              //           .isCompleted!,
+                                              //       onChanged: (val) {
+                                              //         if (reminderItem.repeat ==
+                                              //             "Never") {
+                                              //           widget.reminderBloc.add(
+                                              //               ReminderIthItemCheckBoxClickedEvent(
+                                              //                   reminderItem:
+                                              //                       reminderItem,
+                                              //                   category: widget
+                                              //                       .category));
+                                              //         } else {
+                                              //           DialogBoxes.getAlertDialogForRepeatTaskCompletion(
+                                              //               context: context,
+                                              //               reminderItem:
+                                              //                   reminderItem,
+                                              //               reminderBloc: widget
+                                              //                   .reminderBloc,
+                                              //               category: widget
+                                              //                   .category);
+                                              //         }
+                                              //       }),
+                                              //   title: Padding(
+                                              //     padding:
+                                              //         const EdgeInsets.fromLTRB(
+                                              //             0, 8, 0, 8),
+                                              //     child: Text(
+                                              //         reminderItem.title!,
+                                              //         maxLines: 2,
+                                              //         overflow:
+                                              //             TextOverflow.ellipsis,
+                                              //         style: FontDecors
+                                              //             .getReminderItemTitleTextStyle(
+                                              //                 context)),
+                                              //   ),
+                                              //   subtitle: Padding(
+                                              //     padding:
+                                              //         const EdgeInsets.fromLTRB(
+                                              //             0, 4, 0, 8),
+                                              //     child: Row(
+                                              //         mainAxisAlignment:
+                                              //             MainAxisAlignment
+                                              //                 .start,
+                                              //         children: [
+                                              //           Expanded(
+                                              //             child: Row(
+                                              //               mainAxisAlignment:
+                                              //                   MainAxisAlignment
+                                              //                       .spaceEvenly,
+                                              //               children: [
+                                              //                 const Icon(Icons
+                                              //                     .timer_outlined),
+                                              //                 Text(
+                                              //                   reminderItem
+                                              //                       .completionTime!,
+                                              //                   style: FontDecors
+                                              //                       .getDescFontStyle(
+                                              //                           context),
+                                              //                 )
+                                              //               ],
+                                              //             ),
+                                              //           ),
+                                              //           Expanded(
+                                              //             child: Row(
+                                              //               mainAxisAlignment:
+                                              //                   MainAxisAlignment
+                                              //                       .spaceEvenly,
+                                              //               children: [
+                                              //                 const Icon(
+                                              //                     Icons.repeat),
+                                              //                 Text(
+                                              //                   reminderItem
+                                              //                       .repeat!,
+                                              //                   style: FontDecors
+                                              //                       .getDescFontStyle(
+                                              //                           context),
+                                              //                 )
+                                              //               ],
+                                              //             ),
+                                              //           ),
+                                              //         ]),
+                                              //   ),
+                                              //   trailing: Text(
+                                              //       reminderItem.category!,
+                                              //       style: FontDecors
+                                              //           .getDescFontStyle(
+                                              //               context)),
+                                              // ),
                                             ),
                                           ),
                                         );

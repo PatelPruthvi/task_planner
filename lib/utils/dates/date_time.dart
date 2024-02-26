@@ -18,7 +18,7 @@ class Dates {
     return DateFormat("MMM d").format(date);
   }
 
-  static int compareTimeOfDays(timeA, String timeB) {
+  static int compareTimeOfDays(String timeA, String timeB) {
     TimeOfDay a = getTimeInTimeOfDayFormat(timeA);
     TimeOfDay b = getTimeInTimeOfDayFormat(timeB);
     if (a.hour < b.hour) {

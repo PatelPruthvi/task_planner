@@ -9,6 +9,7 @@ import 'package:task_planner/resources/algorithm/sort_algo.dart';
 import 'package:task_planner/resources/components/drop_down/category_drop_down.dart';
 import 'package:task_planner/resources/components/drop_down/reminder_dropdown.dart';
 import 'package:task_planner/resources/components/drop_down/repeat_drop_down.dart';
+import 'package:task_planner/utils/dates/date_time.dart';
 
 part 'reminder_event.dart';
 part 'reminder_state.dart';
@@ -31,7 +32,9 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
     if (reminderItems.isEmpty) {
       emit(ReminderEmptyLoadedState());
     } else {
-      emit(ReminderLoadedSuccessState(reminderItems: reminderItems));
+      List<bool> isVisible = getVisibleStatus(reminderItems);
+      emit(ReminderLoadedSuccessState(
+          isVisible: isVisible, reminderItems: reminderItems));
     }
   }
 
@@ -43,7 +46,9 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
     if (reminderItems.isEmpty) {
       emit(ReminderEmptyLoadedState());
     } else {
-      emit(ReminderLoadedSuccessState(reminderItems: reminderItems));
+      List<bool> isVisible = getVisibleStatus(reminderItems);
+      emit(ReminderLoadedSuccessState(
+          isVisible: isVisible, reminderItems: reminderItems));
     }
   }
 
@@ -87,7 +92,9 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       if (reminderItems.isEmpty) {
         emit(ReminderEmptyLoadedState());
       } else {
-        emit(ReminderLoadedSuccessState(reminderItems: reminderItems));
+        List<bool> isVisible = getVisibleStatus(reminderItems);
+        emit(ReminderLoadedSuccessState(
+            isVisible: isVisible, reminderItems: reminderItems));
       }
     }).onError((error, stackTrace) {});
   }
@@ -138,7 +145,9 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       //   },
       // );
 
-      emit(ReminderLoadedSuccessState(reminderItems: reminderItems));
+      List<bool> isVisible = getVisibleStatus(reminderItems);
+      emit(ReminderLoadedSuccessState(
+          isVisible: isVisible, reminderItems: reminderItems));
     }).onError((error, stackTrace) {});
   }
 
@@ -191,5 +200,21 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
     );
 
     return reminders;
+  }
+
+  List<bool> getVisibleStatus(List<List<ReminderModel>> reminderItems) {
+    List<bool> isVisible = List.filled(reminderItems.length, true);
+    for (int i = 0; i < reminderItems.length; i++) {
+      if (reminderItems[i].isNotEmpty) {
+        if (Dates.today
+                .toString()
+                .substring(0, 10)
+                .compareTo(reminderItems[i][0].date!) ==
+            1) {
+          isVisible[i] = false;
+        }
+      }
+    }
+    return isVisible;
   }
 }
