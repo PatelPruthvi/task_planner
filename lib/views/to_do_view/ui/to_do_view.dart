@@ -166,21 +166,35 @@ class _ToDoWidgetState extends State<ToDoWidget> {
           //     child: ToDoScreen(homeBloc: homeBloc, toDoBloc: toDoBloc))
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add_outlined, color: AppColors.kwhiteColor),
-          onPressed: () {
-            BottomSheets.getBottomSheetForToDoList(
-                context: context,
-                controller: todoController,
-                formKey: formKey,
-                toDoBloc: toDoBloc,
-                onPressed: () {
-                  if (formKey.currentState?.validate() == true) {
-                    toDoBloc.add(ToDoAddTaskClickedEvent(todoController.text));
-                  }
-                },
-                buttonLabel: "Done");
-          }),
+      floatingActionButton: BlocBuilder<ToDoBloc, ToDoState>(
+        bloc: toDoBloc,
+        buildWhen: (previous, current) => current is! ToDoActionState,
+        builder: (context, state) {
+          DateTime selected = InfiniteCalendar.getSelectedDateTime();
+
+          return Dates.getFormattedDate(Dates.today)
+                      .compareTo(Dates.getFormattedDate(selected)) !=
+                  1
+              ? FloatingActionButton(
+                  child: const Icon(Icons.add_outlined,
+                      color: AppColors.kwhiteColor),
+                  onPressed: () {
+                    BottomSheets.getBottomSheetForToDoList(
+                        context: context,
+                        controller: todoController,
+                        formKey: formKey,
+                        toDoBloc: toDoBloc,
+                        onPressed: () {
+                          if (formKey.currentState?.validate() == true) {
+                            toDoBloc.add(
+                                ToDoAddTaskClickedEvent(todoController.text));
+                          }
+                        },
+                        buttonLabel: "Done");
+                  })
+              : Container();
+        },
+      ),
     );
   }
 }

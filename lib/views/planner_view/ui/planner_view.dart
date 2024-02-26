@@ -343,42 +343,57 @@ class _PlannerViewState extends State<PlannerView> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add_outlined, color: AppColors.kwhiteColor),
-          onPressed: () {
-            BottomSheets.getBottomSheetForPlanner(
-                context: context,
-                nameC: nameC,
-                startTimeC: startTimeC,
-                endTimeC: endTimeC,
-                descC: descC,
-                formKey: formKey,
-                titleFocusNode: titleFocusNode,
-                pickedStartTime: pickedStartTime,
-                pickedEndTime: pickedEndTime,
-                taskPlanBloc: taskPlanBloc,
-                onTap: () {
-                  if (formKey.currentState?.validate() == true) {
-                    if (Dates.compareTimeOfDays(
-                            startTimeC.text, endTimeC.text) ==
-                        -1) //this function basically checks & validates that end time must be greater than start time
-                    {
-                      Utils.flushBarErrorMsg(
-                          "End time must be greater than start time", context);
-                    } else {
-                      taskPlanBloc.add(TaskPlanAddTaskClickedEvent(
-                          taskName: nameC.text,
-                          startTime: startTimeC.text,
-                          endtime: endTimeC.text,
-                          description: descC.text));
-                    }
-                  }
-                },
-                buttonLabel: "Add",
-                bottomSheetTitle: "Add Task",
-                initialDropdownValue: "None",
-                hexColorCode: AppHexVals.orange);
-          }),
+      //if the selected date is less than current date then no add button will be displayed
+      floatingActionButton: BlocBuilder<TaskPlanBloc, TaskPlanState>(
+        bloc: taskPlanBloc,
+        buildWhen: (previous, current) => current is! TaskPlanActionState,
+        builder: (context, state) {
+          DateTime selected = InfiniteCalendar.getSelectedDateTime();
+
+          return Dates.getFormattedDate(Dates.today)
+                      .compareTo(Dates.getFormattedDate(selected)) !=
+                  1
+              ? FloatingActionButton(
+                  child: const Icon(Icons.add_outlined,
+                      color: AppColors.kwhiteColor),
+                  onPressed: () {
+                    BottomSheets.getBottomSheetForPlanner(
+                        context: context,
+                        nameC: nameC,
+                        startTimeC: startTimeC,
+                        endTimeC: endTimeC,
+                        descC: descC,
+                        formKey: formKey,
+                        titleFocusNode: titleFocusNode,
+                        pickedStartTime: pickedStartTime,
+                        pickedEndTime: pickedEndTime,
+                        taskPlanBloc: taskPlanBloc,
+                        onTap: () {
+                          if (formKey.currentState?.validate() == true) {
+                            if (Dates.compareTimeOfDays(
+                                    startTimeC.text, endTimeC.text) ==
+                                -1) //this function basically checks & validates that end time must be greater than start time
+                            {
+                              Utils.flushBarErrorMsg(
+                                  "End time must be greater than start time",
+                                  context);
+                            } else {
+                              taskPlanBloc.add(TaskPlanAddTaskClickedEvent(
+                                  taskName: nameC.text,
+                                  startTime: startTimeC.text,
+                                  endtime: endTimeC.text,
+                                  description: descC.text));
+                            }
+                          }
+                        },
+                        buttonLabel: "Add",
+                        bottomSheetTitle: "Add Task",
+                        initialDropdownValue: "None",
+                        hexColorCode: AppHexVals.orange);
+                  })
+              : Container();
+        },
+      ),
     );
   }
 }

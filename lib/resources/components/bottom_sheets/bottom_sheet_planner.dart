@@ -388,7 +388,7 @@ class BottomSheets {
                                             initialDate: dateC.text != ""
                                                 ? DateTime.parse(dateC.text)
                                                 : DateTime.now(),
-                                            firstDate: Dates.startDay,
+                                            firstDate: Dates.today,
                                             lastDate: Dates.endDay,
                                           );
 
