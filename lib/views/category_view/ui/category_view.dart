@@ -71,317 +71,323 @@ class _CategoryViewState extends State<CategoryView> {
                 return Scaffold(
                   backgroundColor: Colors.transparent,
                   body: StatefulBuilder(builder: (context, setState) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: successState.reminderItems.length,
-                      addRepaintBoundaries: true,
-                      itemBuilder: (context, index) {
-                        return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      successState.isVisible[index] =
-                                          !successState.isVisible[index];
-                                    });
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                          Dates.getDateInMdy(successState
-                                              .reminderItems[index][0].date!),
-                                          style: FontDecors.getDescFontStyle(
-                                              context)),
-                                      Icon(successState.isVisible[index]
-                                          ? Icons.keyboard_arrow_down_outlined
-                                          : Icons.keyboard_arrow_up_outlined),
-                                    ],
+                    return SlidableAutoCloseBehavior(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: successState.reminderItems.length,
+                        addRepaintBoundaries: true,
+                        itemBuilder: (context, index) {
+                          return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        successState.isVisible[index] =
+                                            !successState.isVisible[index];
+                                      });
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                            Dates.getDateInMdy(successState
+                                                .reminderItems[index][0].date!),
+                                            style: FontDecors.getDescFontStyle(
+                                                context)),
+                                        Icon(successState.isVisible[index]
+                                            ? Icons.keyboard_arrow_down_outlined
+                                            : Icons.keyboard_arrow_up_outlined),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              successState.isVisible[index]
-                                  ? ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: successState
-                                          .reminderItems[index].length,
-                                      itemBuilder: (context, i) {
-                                        ReminderModel reminderItem =
-                                            successState.reminderItems[index]
-                                                [i];
+                                successState.isVisible[index]
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: successState
+                                            .reminderItems[index].length,
+                                        itemBuilder: (context, i) {
+                                          ReminderModel reminderItem =
+                                              successState.reminderItems[index]
+                                                  [i];
 
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15.0, vertical: 5),
-                                          child: Slidable(
-                                            key: UniqueKey(),
-                                            endActionPane: ActionPane(
-                                                extentRatio: 0.2,
-                                                motion: const ScrollMotion(),
-                                                //drag to delete functionality
-                                                // dismissible: DismissiblePane(
-                                                //     onDismissed: () {
-                                                //   // remind.add(ToDoIthItemDeletedButtonClickedEvent(
-                                                //   //     reminderItem: reminderItems[index]));
-                                                // }),
-                                                children: [
-                                                  SlidableAction(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .only(
-                                                              topRight: Radius
-                                                                  .circular(10),
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          10)),
-                                                      onPressed: (context) {
-                                                        if (reminderItem
-                                                                .repeat ==
-                                                            "Never") {
-                                                          widget.reminderBloc.add(
-                                                              ReminderDeleteItemPressedEvent(
-                                                                  reminderItem:
-                                                                      reminderItem,
-                                                                  category: widget
-                                                                      .category));
-                                                        } else {
-                                                          DialogBoxes.getAlertDialogForTaskDeletion(
-                                                              context: context,
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15.0, vertical: 5),
+                                            child: Slidable(
+                                              key: UniqueKey(),
+                                              endActionPane: ActionPane(
+                                                  extentRatio: 0.2,
+                                                  motion: const ScrollMotion(),
+                                                  //drag to delete functionality
+                                                  // dismissible: DismissiblePane(
+                                                  //     onDismissed: () {
+                                                  //   // remind.add(ToDoIthItemDeletedButtonClickedEvent(
+                                                  //   //     reminderItem: reminderItems[index]));
+                                                  // }),
+                                                  children: [
+                                                    SlidableAction(
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                .only(
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        10),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        10)),
+                                                        onPressed: (context) {
+                                                          if (reminderItem
+                                                                  .repeat ==
+                                                              "Never") {
+                                                            widget.reminderBloc.add(
+                                                                ReminderDeleteItemPressedEvent(
+                                                                    reminderItem:
+                                                                        reminderItem,
+                                                                    category: widget
+                                                                        .category));
+                                                          } else {
+                                                            DialogBoxes.getAlertDialogForTaskDeletion(
+                                                                context:
+                                                                    context,
+                                                                reminderItem:
+                                                                    reminderItem,
+                                                                reminderBloc: widget
+                                                                    .reminderBloc,
+                                                                category: widget
+                                                                    .category);
+                                                          }
+                                                        },
+                                                        backgroundColor:
+                                                            AppColors.kredColor,
+                                                        foregroundColor:
+                                                            AppColors
+                                                                .kwhiteColor,
+                                                        icon: Icons.delete)
+                                                  ]),
+                                              child: InkWell(
+                                                onLongPress: () {
+                                                  todoController.text =
+                                                      reminderItem.title ?? " ";
+                                                  timeC.text = reminderItem
+                                                          .completionTime ??
+                                                      "00:00";
+                                                  dateC.text =
+                                                      reminderItem.date ??
+                                                          "0000-00-00";
+                                                  BottomSheets
+                                                      .getBottomSheetForDateWiseTodo(
+                                                    context: context,
+                                                    controller: todoController,
+                                                    timeC: timeC,
+                                                    dateC: dateC,
+                                                    titleFocusNode:
+                                                        titleFocusNode,
+                                                    pickedTime: Dates
+                                                        .getTimeInTimeOfDayFormat(
+                                                            reminderItem
+                                                                .completionTime!),
+                                                    dateTime: DateTime.now(),
+                                                    formKey: formKey,
+                                                    reminderBloc:
+                                                        widget.reminderBloc,
+                                                    initialDropdownVal:
+                                                        reminderItem.category!,
+                                                    initialReminderValue:
+                                                        reminderItem.reminder!,
+                                                    initialRepeatVal:
+                                                        reminderItem.repeat!,
+                                                    onPressed: () {
+                                                      widget.reminderBloc.add(
+                                                          ReminderIthItemUpdateClickedEvent(
+                                                              title:
+                                                                  todoController
+                                                                      .text,
+                                                              time: timeC.text,
                                                               reminderItem:
                                                                   reminderItem,
-                                                              reminderBloc: widget
-                                                                  .reminderBloc,
                                                               category: widget
-                                                                  .category);
-                                                        }
-                                                      },
-                                                      backgroundColor:
-                                                          AppColors.kredColor,
-                                                      foregroundColor:
-                                                          AppColors.kwhiteColor,
-                                                      icon: Icons.delete)
-                                                ]),
-                                            child: InkWell(
-                                              onLongPress: () {
-                                                todoController.text =
-                                                    reminderItem.title ?? " ";
-                                                timeC.text = reminderItem
-                                                        .completionTime ??
-                                                    "00:00";
-                                                dateC.text =
-                                                    reminderItem.date ??
-                                                        "0000-00-00";
-                                                BottomSheets
-                                                    .getBottomSheetForDateWiseTodo(
-                                                  context: context,
-                                                  controller: todoController,
-                                                  timeC: timeC,
-                                                  dateC: dateC,
-                                                  titleFocusNode:
-                                                      titleFocusNode,
-                                                  pickedTime: Dates
-                                                      .getTimeInTimeOfDayFormat(
-                                                          reminderItem
-                                                              .completionTime!),
-                                                  dateTime: DateTime.now(),
-                                                  formKey: formKey,
-                                                  reminderBloc:
-                                                      widget.reminderBloc,
-                                                  initialDropdownVal:
-                                                      reminderItem.category!,
-                                                  initialReminderValue:
-                                                      reminderItem.reminder!,
-                                                  initialRepeatVal:
-                                                      reminderItem.repeat!,
-                                                  onPressed: () {
-                                                    widget.reminderBloc.add(
-                                                        ReminderIthItemUpdateClickedEvent(
-                                                            title:
-                                                                todoController
-                                                                    .text,
-                                                            time: timeC.text,
-                                                            reminderItem:
-                                                                reminderItem,
-                                                            category:
-                                                                widget.category,
-                                                            dateTime:
-                                                                dateC.text));
-                                                  },
-                                                  buttonLabel: "Update",
-                                                );
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: Theme.of(context)
-                                                        .canvasColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        5, 7, 7, 7),
-                                                child: IntrinsicHeight(
-                                                  child: Row(
-                                                    children: [
-                                                      Checkbox(
-                                                          side: BorderSide(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .listTileTheme
-                                                                .textColor!,
-                                                            width: 2,
-                                                          ),
-                                                          activeColor:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
-                                                          value: reminderItem
-                                                              .isCompleted!,
-                                                          onChanged: (val) {
-                                                            if (reminderItem
-                                                                    .repeat ==
-                                                                "Never") {
-                                                              widget
-                                                                  .reminderBloc
-                                                                  .add(ReminderIthItemCheckBoxClickedEvent(
-                                                                      reminderItem:
-                                                                          reminderItem,
-                                                                      category:
-                                                                          widget
-                                                                              .category));
-                                                            } else {
-                                                              DialogBoxes.getAlertDialogForRepeatTaskCompletion(
-                                                                  context:
-                                                                      context,
-                                                                  reminderItem:
-                                                                      reminderItem,
-                                                                  reminderBloc:
-                                                                      widget
-                                                                          .reminderBloc,
-                                                                  category: widget
-                                                                      .category);
-                                                            }
-                                                          }),
-                                                      Expanded(
-                                                          child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    0, 8, 0, 8),
-                                                            child: Align(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .topLeft,
-                                                              child: Padding(
-                                                                padding: EdgeInsets.only(
-                                                                    left: Dimensions.getSmallerSizedBox(
-                                                                            context)
-                                                                        .width!),
-                                                                child: Text(
-                                                                    reminderItem
-                                                                        .title!,
-                                                                    maxLines: 2,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style: FontDecors
-                                                                        .getReminderItemTitleTextStyle(
-                                                                            context)),
+                                                                  .category,
+                                                              dateTime:
+                                                                  dateC.text));
+                                                    },
+                                                    buttonLabel: "Update",
+                                                  );
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Theme.of(context)
+                                                          .canvasColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          5, 7, 7, 7),
+                                                  child: IntrinsicHeight(
+                                                    child: Row(
+                                                      children: [
+                                                        Checkbox(
+                                                            side: BorderSide(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .listTileTheme
+                                                                  .textColor!,
+                                                              width: 2,
+                                                            ),
+                                                            activeColor: Theme
+                                                                    .of(context)
+                                                                .primaryColor,
+                                                            value: reminderItem
+                                                                .isCompleted!,
+                                                            onChanged: (val) {
+                                                              if (reminderItem
+                                                                      .repeat ==
+                                                                  "Never") {
+                                                                widget.reminderBloc.add(ReminderIthItemCheckBoxClickedEvent(
+                                                                    reminderItem:
+                                                                        reminderItem,
+                                                                    category: widget
+                                                                        .category));
+                                                              } else {
+                                                                DialogBoxes.getAlertDialogForRepeatTaskCompletion(
+                                                                    context:
+                                                                        context,
+                                                                    reminderItem:
+                                                                        reminderItem,
+                                                                    reminderBloc:
+                                                                        widget
+                                                                            .reminderBloc,
+                                                                    category: widget
+                                                                        .category);
+                                                              }
+                                                            }),
+                                                        Expanded(
+                                                            child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      0,
+                                                                      8,
+                                                                      0,
+                                                                      8),
+                                                              child: Align(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topLeft,
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      left: Dimensions.getSmallerSizedBox(
+                                                                              context)
+                                                                          .width!),
+                                                                  child: Text(
+                                                                      reminderItem
+                                                                          .title!,
+                                                                      maxLines:
+                                                                          2,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: FontDecors
+                                                                          .getReminderItemTitleTextStyle(
+                                                                              context)),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    0, 4, 0, 8),
-                                                            child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Expanded(
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceEvenly,
-                                                                      children: [
-                                                                        const Icon(
-                                                                            Icons.timer_outlined),
-                                                                        Text(
-                                                                          reminderItem
-                                                                              .completionTime!,
-                                                                          style:
-                                                                              FontDecors.getDescFontStyle(context),
-                                                                        )
-                                                                      ],
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      0,
+                                                                      4,
+                                                                      0,
+                                                                      8),
+                                                              child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceEvenly,
+                                                                        children: [
+                                                                          const Icon(
+                                                                              Icons.timer_outlined),
+                                                                          Text(
+                                                                            reminderItem.completionTime!,
+                                                                            style:
+                                                                                FontDecors.getDescFontStyle(context),
+                                                                          )
+                                                                        ],
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceEvenly,
-                                                                      children: [
-                                                                        const Icon(
-                                                                            Icons.repeat),
-                                                                        Text(
-                                                                          reminderItem
-                                                                              .repeat!,
-                                                                          style:
-                                                                              FontDecors.getDescFontStyle(context),
-                                                                        )
-                                                                      ],
+                                                                    Expanded(
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceEvenly,
+                                                                        children: [
+                                                                          const Icon(
+                                                                              Icons.repeat),
+                                                                          Text(
+                                                                            reminderItem.repeat!,
+                                                                            style:
+                                                                                FontDecors.getDescFontStyle(context),
+                                                                          )
+                                                                        ],
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ]),
-                                                          ),
-                                                        ],
-                                                      )),
-                                                      Container(
-                                                          width: 2,
-                                                          color: AppColors
-                                                              .kscreenColor),
-                                                      Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          RotatedBox(
-                                                            quarterTurns: -1,
-                                                            child: Text(
-                                                              reminderItem
-                                                                  .category!,
+                                                                  ]),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                          ],
+                                                        )),
+                                                        Container(
+                                                            width: 2,
+                                                            color: AppColors
+                                                                .kscreenColor),
+                                                        Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            RotatedBox(
+                                                              quarterTurns: -1,
+                                                              child: Text(
+                                                                reminderItem
+                                                                    .category!,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  : Container(),
-                            ]);
-                      },
+                                          );
+                                        },
+                                      )
+                                    : Container(),
+                              ]);
+                        },
+                      ),
                     );
                   }),
                 );

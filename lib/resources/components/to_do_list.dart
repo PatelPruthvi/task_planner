@@ -32,6 +32,7 @@ class ToDoListView extends StatelessWidget {
           return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Slidable(
+                key: UniqueKey(),
                 endActionPane: ActionPane(
                     extentRatio: 0.2,
                     motion: const ScrollMotion(),

@@ -1,6 +1,7 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_planner/resources/components/calendar/infinite_view_calendar.dart';
 import 'package:task_planner/resources/components/to_do_list.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
@@ -103,46 +104,49 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                       ));
                     case ToDoListLoadedSuccessState:
                       final successState = state as ToDoListLoadedSuccessState;
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ToDoListView(
-                              reminderItems: successState.todoPendingItems,
-                              toDoBloc: toDoBloc),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    areCompletedItemsVisible =
-                                        !areCompletedItemsVisible;
-                                  });
-                                },
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("COMPLETED TASKS",
-                                          style: FontDecors
-                                              .getToDoItemTileTextStyle(
-                                                  context)),
-                                      Icon(
-                                          areCompletedItemsVisible
-                                              ? Icons.keyboard_arrow_up_outlined
-                                              : Icons
-                                                  .keyboard_arrow_down_outlined,
-                                          color: Theme.of(context)
-                                              .listTileTheme
-                                              .textColor)
-                                    ])),
-                          ),
-                          areCompletedItemsVisible
-                              ? ToDoListView(
-                                  reminderItems:
-                                      successState.todoCompletedItems,
-                                  toDoBloc: toDoBloc)
-                              : Container(),
-                        ],
+                      return SlidableAutoCloseBehavior(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ToDoListView(
+                                reminderItems: successState.todoPendingItems,
+                                toDoBloc: toDoBloc),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      areCompletedItemsVisible =
+                                          !areCompletedItemsVisible;
+                                    });
+                                  },
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("COMPLETED TASKS",
+                                            style: FontDecors
+                                                .getToDoItemTileTextStyle(
+                                                    context)),
+                                        Icon(
+                                            areCompletedItemsVisible
+                                                ? Icons
+                                                    .keyboard_arrow_up_outlined
+                                                : Icons
+                                                    .keyboard_arrow_down_outlined,
+                                            color: Theme.of(context)
+                                                .listTileTheme
+                                                .textColor)
+                                      ])),
+                            ),
+                            areCompletedItemsVisible
+                                ? ToDoListView(
+                                    reminderItems:
+                                        successState.todoCompletedItems,
+                                    toDoBloc: toDoBloc)
+                                : Container(),
+                          ],
+                        ),
                       );
                     default:
                       return Container();
