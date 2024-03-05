@@ -36,7 +36,8 @@ class _LoginViewState extends State<LoginView> {
         buildWhen: (previous, current) => current is! LoginActionState,
         builder: (context, state) {
           return Image.asset(AppUrls.imageLogoPath,
-              width: Dimensions.getScreenWidth(context) * 0.3);
+              width: Dimensions.getScreenWidth(context) * 0.3,
+              fit: BoxFit.fill);
         },
         listenWhen: (previous, current) => current is LoginActionState,
         listener: (context, state) {

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:task_planner/exceptions/app_exceptions.dart';
-import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
@@ -16,7 +15,7 @@ class NotificationService {
           .requestNotificationsPermission();
     }
     AndroidInitializationSettings androidInitializationSettings =
-        const AndroidInitializationSettings('ic_notif_cream');
+        const AndroidInitializationSettings('ic_notif_dark');
     var initializationSettingIos = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
@@ -35,8 +34,6 @@ class NotificationService {
   notifDetails() {
     return const NotificationDetails(
         android: AndroidNotificationDetails('channelId', 'channelName',
-            color: AppColors.kmaroonColor,
-            colorized: true,
             importance: Importance.max),
         iOS: DarwinNotificationDetails());
   }
@@ -59,6 +56,8 @@ class NotificationService {
           body,
           tz.TZDateTime.from(scheduledNotifDateTime, tz.local),
           await notifDetails(),
+          androidAllowWhileIdle: true,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime);
     } else {
