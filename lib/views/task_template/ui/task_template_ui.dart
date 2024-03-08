@@ -15,7 +15,6 @@ class TaskTemplateScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Task Templates")),
       body: ListView.builder(
-        reverse: true,
         itemCount: defaultTemplates.length,
         itemBuilder: (context, index) {
           return Padding(

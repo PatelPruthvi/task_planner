@@ -41,7 +41,7 @@ List<String> defaultTemplateIcon = [
   "🎧",
   "🛁",
   "🚶‍♂️"
-];
+].reversed.toList();
 
 List<String> defaultTemplates = [
   "Drink water, keep healthy",
@@ -58,7 +58,7 @@ List<String> defaultTemplates = [
   "Listen to a podcast or audiobook",
   "Indulge in a relaxing bath",
   "Take a mindful walk"
-];
+].reversed.toList();
 
 enum Category { none, work, personal, wishlist, birthday }
 
