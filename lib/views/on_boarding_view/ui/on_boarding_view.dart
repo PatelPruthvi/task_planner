@@ -2,7 +2,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:task_planner/AppUrls/app_url.dart';
+import 'package:task_planner/models/enum_models.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
@@ -34,42 +36,55 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   @override
   Widget build(BuildContext context) {
     Connectivity connectivity = Connectivity();
-    return Scaffold(
-      body: StreamBuilder<ConnectivityResult>(
-        stream: connectivity.onConnectivityChanged,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.active:
-              final state = snapshot.data;
-              switch (state) {
-                case ConnectivityResult.none:
-                  return Center(
-                    child: ListTile(
-                        tileColor: Colors.transparent,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Icon(Icons.network_check,
-                                color: AppColors.kmaroonColor),
-                            Text(
-                              "No Internet",
-                              textAlign: TextAlign.center,
-                              style:
-                                  FontDecors.getBottomSheetTitleStyle(context),
-                            ),
-                            const Icon(Icons.lte_mobiledata,
-                                color: AppColors.kmaroonColor),
-                          ],
+    return StreamBuilder<ConnectivityResult>(
+      stream: connectivity.onConnectivityChanged,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            final state = snapshot.data;
+            switch (state) {
+              case ConnectivityResult.none:
+                return Scaffold(
+                  body: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Icon(Icons.network_check,
+                                  color: AppColors.kmaroonColor),
+                              Text(
+                                "No Internet",
+                                textAlign: TextAlign.center,
+                                style: FontDecors.getBottomSheetTitleStyle(
+                                    context),
+                              ),
+                              const Icon(Icons.lte_mobiledata,
+                                  color: AppColors.kmaroonColor),
+                            ],
+                          ),
                         ),
-                        subtitle: Text(
-                          "No connection, please check your internet connectivity. During initial setup, please ensure an internet connection for optimal functionality. After setup, the app operates seamlessly offline. Enjoy planning!",
-                          textAlign: TextAlign.justify,
-                          style: FontDecors.getToDoItemTileTextStyle(context),
-                        )),
-                  );
-                default:
-                  widget.loginBloc.add(LoginOnBoardingInitialEvent());
-                  return BlocConsumer<LoginBloc, LoginState>(
+                        Lottie.asset(AppUrls.noInternetAnim),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "No connection, please check your internet connectivity. During initial setup, please ensure an internet connection for optimal functionality. After setup, the app operates seamlessly offline. Enjoy planning!",
+                            textAlign: TextAlign.justify,
+                            style: FontDecors.getToDoItemTileTextStyle(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              default:
+                widget.loginBloc.add(LoginOnBoardingInitialEvent());
+                return Scaffold(
+                  body: BlocConsumer<LoginBloc, LoginState>(
                       bloc: widget.loginBloc,
                       listenWhen: (previous, current) =>
                           current is LoginActionState,
@@ -102,7 +117,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                   AppBar(
                                     backgroundColor: Colors.transparent,
                                     toolbarHeight:
-                                        Dimensions.getAppBarHeight(context),
+                                        Dimensions.getAppBarHeight(context) *
+                                            1.5,
                                     title: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 16.0),
@@ -145,7 +161,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                       .titleTextStyle!
                                                       .copyWith(
                                                           fontWeight:
-                                                              FontWeight.w500,
+                                                              FontWeight.w900,
                                                           color: Theme.of(
                                                                   context)
                                                               .primaryColor)))
@@ -175,12 +191,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                   child: Image.network(
                                                       successState.imgUrls[i],
                                                       height:
-                                                          Dimensions.getScreenHeight(
-                                                              context),
+                                                          Dimensions
+                                                              .getScreenHeight(
+                                                                  context),
                                                       width:
                                                           Dimensions.getScreenWidth(
-                                                                  context) -
-                                                              10,
+                                                              context),
                                                       fit: BoxFit.fill,
                                                       loadingBuilder: (context,
                                                           child,
@@ -189,9 +205,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                         null) {
                                                       return child;
                                                     } else {
-                                                      return const Center(
-                                                          child:
-                                                              CircularProgressIndicator());
+                                                      return Image.asset(
+                                                          onboardingImagePaths[
+                                                              selectedIndex],
+                                                          fit: BoxFit.fill,
+                                                          height: Dimensions
+                                                              .getScreenHeight(
+                                                                  context),
+                                                          width: Dimensions
+                                                              .getScreenWidth(
+                                                                  context));
                                                     }
                                                   }, errorBuilder: (context,
                                                           error, stackTrace) {
@@ -209,66 +232,38 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                 ),
                                               ],
                                             ),
-                                          Stack(
-                                            children: [
-                                              Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Expanded(
-                                                    child: Image.network(
-                                                        successState.imgUrls[i],
-                                                        height:
-                                                            Dimensions.getScreenHeight(
-                                                                context),
-                                                        width:
-                                                            Dimensions.getScreenWidth(
-                                                                    context) -
-                                                                10,
-                                                        fit: BoxFit.fill,
-                                                        loadingBuilder: (context,
-                                                            child,
-                                                            loadingProgress) {
-                                                      if (loadingProgress ==
-                                                          null) {
-                                                        return child;
-                                                      } else {
-                                                        return const Center(
-                                                            child:
-                                                                CircularProgressIndicator());
-                                                      }
-                                                    }, errorBuilder: (context,
-                                                            error, stackTrace) {
-                                                      return Image.asset(
-                                                        AppUrls
-                                                            .image1stBoardingPage,
-                                                        height: Dimensions
-                                                            .getTabBarViewHeight(
-                                                                context),
-                                                        width: Dimensions
-                                                            .getScreenWidth(
-                                                                context),
-                                                      );
-                                                    }),
-                                                  ),
-                                                ],
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    40,
-                                                    0,
-                                                    40,
-                                                    Dimensions.getScreenHeight(
-                                                            context) *
-                                                        0.2),
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
+                                          Padding(
+                                            padding: const EdgeInsets.all(18.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                    "Welcome to Task Planner! Dive into productivity and organization. Let's start planning together!",
+                                                    style: FontDecors
+                                                        .getBottomSheetTitleStyle(
+                                                            context)),
+                                                Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      40,
+                                                      0,
+                                                      40,
+                                                      Dimensions
+                                                              .getScreenHeight(
+                                                                  context) *
+                                                          0.1),
                                                   child: ElevatedButton(
                                                       onPressed: () {
                                                         widget.loginBloc.add(
                                                             LoginButtonPressedEvent());
                                                       },
                                                       style: ButtonStyle(
+                                                          shape: MaterialStatePropertyAll(
+                                                              RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10))),
                                                           backgroundColor:
                                                               MaterialStatePropertyAll(
                                                                   Theme.of(
@@ -286,8 +281,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                         ],
                                                       )),
                                                 ),
-                                              )
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -327,25 +322,60 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           default:
                             return Container();
                         }
-                      });
-              }
-            default:
-              return Container();
-          }
-        },
-      ),
-      floatingActionButton: selectedIndex < pageCount - 1
-          ? FloatingActionButton(
-              child: const Icon(Icons.arrow_forward),
-              onPressed: () {
-                setState(() {
-                  selectedIndex++;
-                });
-                _pageController.animateToPage(selectedIndex,
-                    duration: const Duration(microseconds: 200),
-                    curve: Curves.easeInOut);
-              })
-          : null,
+                      }),
+                  floatingActionButton: selectedIndex < pageCount - 1
+                      ? FloatingActionButton(
+                          child: const Icon(Icons.arrow_forward),
+                          onPressed: () {
+                            setState(() {
+                              selectedIndex++;
+                            });
+                            _pageController.animateToPage(selectedIndex,
+                                duration: const Duration(microseconds: 200),
+                                curve: Curves.easeInOut);
+                          })
+                      : null,
+                );
+            }
+          default:
+            return Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Icon(Icons.network_check,
+                              color: AppColors.kmaroonColor),
+                          Text(
+                            "No Internet",
+                            textAlign: TextAlign.center,
+                            style: FontDecors.getBottomSheetTitleStyle(context),
+                          ),
+                          const Icon(Icons.lte_mobiledata,
+                              color: AppColors.kmaroonColor),
+                        ],
+                      ),
+                    ),
+                    Lottie.asset(AppUrls.noInternetAnim),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        "No connection, please check your internet connectivity. During initial setup, please ensure an internet connection for optimal functionality. After setup, the app operates seamlessly offline. Enjoy planning!",
+                        textAlign: TextAlign.justify,
+                        style: FontDecors.getToDoItemTileTextStyle(context),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+        }
+      },
     );
   }
 }

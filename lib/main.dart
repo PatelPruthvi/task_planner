@@ -2,6 +2,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 import 'package:task_planner/services/notification_service.dart';
@@ -13,6 +14,7 @@ void main() async {
   await Firebase.initializeApp();
   await NotificationService().initNotifService();
   tz.initializeTimeZones();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final savedThemeMode = await AdaptiveTheme.getThemeMode();
   runApp(MyApp(savedThemeMode: savedThemeMode));
 }

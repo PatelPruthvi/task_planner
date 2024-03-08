@@ -33,8 +33,8 @@ class NotificationService {
 
   notifDetails() {
     return const NotificationDetails(
-        android: AndroidNotificationDetails('channelId', 'channelName',
-            importance: Importance.max),
+        android: AndroidNotificationDetails('channelId', 'TaskPlanner',
+            importance: Importance.max, priority: Priority.high),
         iOS: DarwinNotificationDetails());
   }
 

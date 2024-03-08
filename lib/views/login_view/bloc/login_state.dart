@@ -23,6 +23,8 @@ class LoginShowErrorMsgActionState extends LoginActionState {
   LoginShowErrorMsgActionState({required this.error});
 }
 
-class LoginLoadingState extends LoginState {}
+class LoginLoadingState extends LoginState {
+  LoginLoadingState();
+}
 
 class LoginInternetDialogBoxActionState extends LoginActionState {}

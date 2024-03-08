@@ -17,4 +17,7 @@ class AppUrls {
       "https://apps.agevole.in/taskplanner/privacy/";
   static const termsUrl = "https://apps.agevole.in/taskplanner/terms/";
   static const String image1stBoardingPage = "assets/images/TP1.jpg";
+  static const String image2ndBoardingPath = "assets/images/TP2.jpg";
+  static const String image3rdBoardingPath = "assets/images/TP3.jpg";
+  static const String noInternetAnim = "assets/animations/no_internet.json";
 }

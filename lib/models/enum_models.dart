@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:task_planner/AppUrls/app_url.dart';
 import 'package:task_planner/models/reminder_model.dart';
 import 'package:task_planner/utils/dates/date_time.dart';
 
 List<String> categories = ["None", "Work", "Personal", "Wishlist", "Birthday"];
+List<String> onboardingImagePaths = [
+  AppUrls.image1stBoardingPage,
+  AppUrls.image2ndBoardingPath,
+  AppUrls.image3rdBoardingPath
+];
 List<String> reminders = [
   "Same with due date",
   "5 minutes before",
