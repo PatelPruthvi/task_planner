@@ -236,13 +236,25 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                             padding: const EdgeInsets.all(18.0),
                                             child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Text(
-                                                    "Welcome to Task Planner! Dive into productivity and organization. Let's start planning together!",
-                                                    style: FontDecors
-                                                        .getBottomSheetTitleStyle(
-                                                            context)),
+                                                Expanded(
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                          "Welcome to Task Planner! Dive into productivity and organization. Let's start planning together!",
+                                                          style: FontDecors
+                                                              .getBottomSheetTitleStyle(
+                                                                  context)),
+                                                    ],
+                                                  ),
+                                                ),
                                                 Padding(
                                                   padding: EdgeInsets.fromLTRB(
                                                       40,
@@ -251,7 +263,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                       Dimensions
                                                               .getScreenHeight(
                                                                   context) *
-                                                          0.1),
+                                                          0.09),
                                                   child: ElevatedButton(
                                                       onPressed: () {
                                                         widget.loginBloc.add(
