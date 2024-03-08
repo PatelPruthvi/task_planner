@@ -233,7 +233,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                               ],
                                             ),
                                           Padding(
-                                            padding: const EdgeInsets.all(18.0),
+                                            padding: const EdgeInsets.all(28.0),
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -246,9 +246,21 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
-                                                          "Welcome to Task Planner! Dive into productivity and organization. Let's start planning together!",
+                                                          "Welcome to Task Planner!\n",
+                                                          style: FontDecors
+                                                                  .getBottomSheetTitleStyle(
+                                                                      context)
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w900)),
+                                                      Text(
+                                                          "Dive into productivity and organization. Let's start planning together!",
                                                           style: FontDecors
                                                               .getBottomSheetTitleStyle(
                                                                   context)),
@@ -275,7 +287,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                              10))),
+                                                                              12))),
                                                           backgroundColor:
                                                               MaterialStatePropertyAll(
                                                                   Theme.of(
@@ -286,10 +298,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Text("Continue",
-                                                              style: FontDecors
-                                                                  .getButtonTextStyle(
-                                                                      context)),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(12.0),
+                                                            child: Text(
+                                                                "Continue",
+                                                                style: FontDecors
+                                                                    .getButtonTextStyle(
+                                                                        context)),
+                                                          ),
                                                         ],
                                                       )),
                                                 ),
