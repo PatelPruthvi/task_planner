@@ -9,6 +9,11 @@ List<String> onboardingImagePaths = [
   AppUrls.image2ndBoardingPath,
   AppUrls.image3rdBoardingPath
 ];
+List<String> onboardingTitle = [
+  "ADD YOUR IMPORTANT TASK",
+  "NOW OUR RESPONSIBILITY TO REMIND YOU",
+  "WE CAN REMIND YOU EVERY LITTLE THING"
+];
 List<String> reminders = [
   "Same with due date",
   "5 minutes before",

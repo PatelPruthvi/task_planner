@@ -187,6 +187,21 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                             Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
+                                                SizedBox(
+                                                    height: Dimensions
+                                                            .getScreenHeight(
+                                                                context) *
+                                                        0.05),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      18.0),
+                                                  child: Text(
+                                                    onboardingTitle[i],
+                                                    style: FontDecors
+                                                        .getOnBoardingPageTitleTextStyle(
+                                                            context),
+                                                  ),
+                                                ),
                                                 Expanded(
                                                   child: Image.network(
                                                       successState.imgUrls[i],
@@ -219,15 +234,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                                   }, errorBuilder: (context,
                                                           error, stackTrace) {
                                                     return Image.asset(
-                                                      AppUrls
-                                                          .image1stBoardingPage,
-                                                      height: Dimensions
-                                                          .getTabBarViewHeight(
-                                                              context),
-                                                      width: Dimensions
-                                                          .getScreenWidth(
-                                                              context),
-                                                    );
+                                                        onboardingImagePaths[
+                                                            selectedIndex],
+                                                        fit: BoxFit.fill,
+                                                        height: Dimensions
+                                                            .getScreenHeight(
+                                                                context),
+                                                        width: Dimensions
+                                                            .getScreenWidth(
+                                                                context));
                                                   }),
                                                 ),
                                               ],

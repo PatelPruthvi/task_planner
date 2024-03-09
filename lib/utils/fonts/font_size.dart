@@ -15,6 +15,14 @@ class FontDecors {
 
 //----------------------------- FONT STYLES ---------------------------
 
+  //used in onboarding pages' title
+  static TextStyle getOnBoardingPageTitleTextStyle(BuildContext context) =>
+      TextStyle(
+          fontSize: Dimensions.getScreenWidth(context) * 0.073,
+          fontFamily: 'Comfortaa',
+          fontWeight: FontWeight.w900,
+          color: AppColors.kmaroonColor);
+
   //used in task planner's and reminder's description
   static TextStyle getDescFontStyle(BuildContext context) => TextStyle(
       fontSize: FontDecors.getTaskPlannerDescriptionFontSize(context),

@@ -13,7 +13,7 @@ class BottomBarView extends StatefulWidget {
 }
 
 class _BottomBarViewState extends State<BottomBarView> {
-  int selectedIndex = 1;
+  int selectedIndex = 0;
 
   void onBarChange(int index) {
     setState(() {

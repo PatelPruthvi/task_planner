@@ -195,7 +195,7 @@ class BottomSheets {
                                         labelText: "End Time"))
                               ],
                             ),
-                            getTextField(
+                            getDescriptionTextField(
                                 context, () {}, null, descC, "Description"),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -278,6 +278,36 @@ class BottomSheets {
             controller: controller,
             autocorrect: false,
             onTap: onTap,
+            cursorColor: Theme.of(context).primaryColor,
+            style: FontDecors.getTextFieldTitleStyle(context),
+            decoration: InputDecoration(
+              labelText: labelText,
+              labelStyle: FontDecors.getTextFieldTitleStyle(context),
+            )),
+      );
+  static Widget getDescriptionTextField(
+          BuildContext context,
+          Function() onTap,
+          Function(String)? onFieldSubmitted,
+          TextEditingController controller,
+          String labelText) =>
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+            autofocus: true,
+            onFieldSubmitted: onFieldSubmitted,
+            validator: (value) {
+              if (value == "" || value == "null" || value!.isEmpty) {
+                return "$labelText can not be empty";
+              }
+              return null;
+            },
+            textCapitalization: TextCapitalization.sentences,
+            controller: controller,
+            autocorrect: false,
+            onTap: onTap,
+            minLines: 1,
+            maxLines: 3,
             cursorColor: Theme.of(context).primaryColor,
             style: FontDecors.getTextFieldTitleStyle(context),
             decoration: InputDecoration(
