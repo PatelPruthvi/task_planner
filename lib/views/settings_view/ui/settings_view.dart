@@ -53,6 +53,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                   child: InkWell(
+                    borderRadius: BorderRadius.circular(15),
                     onTap: () {
                       isDark = !isDark;
                       if (isDark) {

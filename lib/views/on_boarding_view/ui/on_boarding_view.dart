@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:task_planner/AppUrls/app_url.dart';
-import 'package:task_planner/models/enum_models.dart';
+import 'package:task_planner/resources/components/on_boarding_page/on_boarding_class.dart';
 import 'package:task_planner/utils/colors/app_colors.dart';
 import 'package:task_planner/utils/dimensions/dimensions.dart';
 import 'package:task_planner/utils/fonts/font_size.dart';
@@ -23,7 +23,7 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   int selectedIndex = 0; // default index
-  int pageCount = 2; //default counts
+  int pageCount = 4; //default counts
   late final PageController _pageController;
 
   @override
@@ -101,7 +101,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       buildWhen: (previous, current) =>
                           current is! LoginActionState,
                       builder: (context, state) {
-                        int i = 0;
                         switch (state.runtimeType) {
                           case LoginLoadingState:
                             return const Center(
@@ -179,72 +178,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                           });
                                         },
                                         children: [
-                                          for (i = 0;
+                                          for (int i = 0;
                                               i < successState.imgUrls.length;
                                               i++)
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                SizedBox(
-                                                    height: Dimensions
-                                                            .getScreenHeight(
-                                                                context) *
-                                                        0.05),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      18.0),
-                                                  child: Text(
-                                                    onboardingTitle[i],
-                                                    style: FontDecors
-                                                        .getOnBoardingPageTitleTextStyle(
-                                                            context),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Image.network(
-                                                      successState.imgUrls[i],
-                                                      height:
-                                                          Dimensions
-                                                              .getScreenHeight(
-                                                                  context),
-                                                      width:
-                                                          Dimensions.getScreenWidth(
-                                                              context),
-                                                      fit: BoxFit.fill,
-                                                      loadingBuilder: (context,
-                                                          child,
-                                                          loadingProgress) {
-                                                    if (loadingProgress ==
-                                                        null) {
-                                                      return child;
-                                                    } else {
-                                                      return Image.asset(
-                                                          onboardingImagePaths[
-                                                              selectedIndex],
-                                                          fit: BoxFit.fill,
-                                                          height: Dimensions
-                                                              .getScreenHeight(
-                                                                  context),
-                                                          width: Dimensions
-                                                              .getScreenWidth(
-                                                                  context));
-                                                    }
-                                                  }, errorBuilder: (context,
-                                                          error, stackTrace) {
-                                                    return Image.asset(
-                                                        onboardingImagePaths[
-                                                            selectedIndex],
-                                                        fit: BoxFit.fill,
-                                                        height: Dimensions
-                                                            .getScreenHeight(
-                                                                context),
-                                                        width: Dimensions
-                                                            .getScreenWidth(
-                                                                context));
-                                                  }),
-                                                ),
-                                              ],
-                                            ),
+                                            OnBoardingScrollView(
+                                                i: i,
+                                                imgUrl:
+                                                    successState.imgUrls[i]),
                                           Padding(
                                             padding: const EdgeInsets.all(28.0),
                                             child: Column(
