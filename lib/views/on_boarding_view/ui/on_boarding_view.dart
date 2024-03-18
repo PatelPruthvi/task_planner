@@ -110,7 +110,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           case LoginLoadedSuccessState:
                             final successState =
                                 state as LoginLoadedSuccessState;
-                            pageCount = successState.imgUrls.length;
+                            pageCount = successState.imgUrls.length + 1;
                             return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -180,9 +180,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                         },
                                         children: [
                                           for (i = 0;
-                                              i <
-                                                  successState.imgUrls.length -
-                                                      1;
+                                              i < successState.imgUrls.length;
                                               i++)
                                             Column(
                                               mainAxisSize: MainAxisSize.min,
